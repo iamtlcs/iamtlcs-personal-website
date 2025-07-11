@@ -1,4 +1,5 @@
 import { Sparkles } from "lucide-react";
+import Image from "next/image";
 
 type Certification = {
     name: string;
@@ -133,9 +134,11 @@ const AboutSection = () => {
                                 )}
 
                                 <div className="relative w-32 h-32 flex items-center justify-center mb-4">
-                                    <img
+                                    <Image
                                         src={cert.image}
                                         alt={cert.name}
+                                        width={128}
+                                        height={128}
                                         className={`w-full h-full p-3 object-contain bg-white rounded-xl shadow-lg transition-all duration-500
               ${
                   isInProgress

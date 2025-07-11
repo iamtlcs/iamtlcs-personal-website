@@ -29,7 +29,6 @@ interface SkillCarouselProps {
 
 const SkillCarousel = ({ category, skills }: SkillCarouselProps) => {
     const [mounted, setMounted] = useState(false);
-    const [slidesPerView, setSlidesPerView] = useState(1); // Default value for SSR
 
     // Create a safe selector ID from category name
     const getSafeSelector = (category: string) => {
@@ -44,26 +43,6 @@ const SkillCarousel = ({ category, skills }: SkillCarouselProps) => {
 
     useEffect(() => {
         setMounted(true);
-
-        const handleResize = () => {
-            if (typeof window !== "undefined") {
-                if (window.innerWidth >= 1280) {
-                    setSlidesPerView(5);
-                } else if (window.innerWidth >= 1024) {
-                    setSlidesPerView(4);
-                } else if (window.innerWidth >= 768) {
-                    setSlidesPerView(3);
-                } else if (window.innerWidth >= 640) {
-                    setSlidesPerView(2);
-                } else {
-                    setSlidesPerView(1);
-                }
-            }
-        };
-
-        handleResize();
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
     }, []);
 
     // Don't render the swiper until after hydration

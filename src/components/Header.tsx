@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 interface HeaderProps {
     navigate: (page: string) => void;
     currentPage: string;
+    className?: string;
 }
 
 const navItems = [
@@ -17,7 +18,7 @@ const navItems = [
     { name: "Contact", id: "contact" },
 ];
 
-const Header = ({ navigate, currentPage }: HeaderProps) => {
+const Header = ({ navigate, currentPage, className }: HeaderProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const menuRef = useRef<HTMLUListElement>(null);
 
@@ -47,7 +48,7 @@ const Header = ({ navigate, currentPage }: HeaderProps) => {
     }, [isOpen]);
 
     return (
-        <header className="bg-gradient-to-r from-slate-700 via-blue-600 to-indigo-700 shadow-xl py-4 px-6 sticky top-0 z-50 rounded-b-2xl backdrop-blur-lg bg-opacity-90">
+        <header className={`bg-gradient-to-r from-slate-700 via-blue-600 to-indigo-700 shadow-xl py-4 px-6 sticky top-0 z-50 rounded-b-2xl backdrop-blur-lg bg-opacity-90 ${className || ''}`}>
             <nav className="container mx-auto flex justify-between items-center relative rounded-xl bg-opacity-10 px-4 py-2">
                 <button
                     className="text-2xl font-bold text-white hover:text-blue-300 transition-colors duration-300 cursor-pointer drop-shadow-lg bg-transparent border-none"
@@ -99,9 +100,7 @@ const Header = ({ navigate, currentPage }: HeaderProps) => {
                         }
                         py-4 md:flex md:opacity-100 md:pointer-events-auto absolute md:static bg-gradient-to-r from-slate-700 to-blue-600 md:bg-transparent w-11/12 md:w-auto left-1/2 md:left-0 -translate-x-1/2 md:translate-x-0 mt-2 md:mt-0 py-4 md:py-0 shadow-2xl md:shadow-none rounded-2xl md:rounded-xl backdrop-blur-lg z-40`}
                 >
-                    {navItems.map((item, idx) => {
-                        const isFirst = idx === 0;
-                        const isLast = idx === navItems.length - 1;
+                    {navItems.map((item) => {
                         return (
                             <li
                                 key={item.id}
