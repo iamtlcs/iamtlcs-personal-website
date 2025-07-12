@@ -15,29 +15,19 @@ const HongKongSection = () => {
       </div>
       <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16">
         <div className="md:w-1/2 md:pr-10 mb-10 md:mb-0 text-lg leading-relaxed text-gray-800 bg-white/80 rounded-xl shadow-lg p-8 border border-slate-200">
-          <p className="mb-6">
-            Born and raised in the vibrant city of{" "}
+            <p className="mb-6">
+            Growing up in the heart of{" "}
             <span className="font-semibold text-blue-600">
               Hong Kong
             </span>
-            , my perspective on design and efficiency is deeply
-            influenced by its unique blend of tradition and modernity.
-            The city&apos;s dynamic energy and compact, innovative
-            solutions have always inspired me.
-          </p>
-          <p className="mb-6">
-            From the bustling street markets to the serene hiking
-            trails, Hong Kong is a city of contrasts that has taught
-            me the value of adaptability and resilience. These
-            qualities are reflected in my approach to engineering,
-            where I strive to create flexible and robust solutions.
-          </p>
-          <p>
-            The neon-lit streets and the efficient public transport
-            system are constant reminders of how thoughtful design can
-            enhance daily life. I bring this appreciation for detail
-            and user experience into every project I undertake.
-          </p>
+            , I was immersed in a city where efficiency and reliability are essential for daily life. The fast-paced environment and robust urban infrastructure have shaped my mindset toward building systems that are dependable, scalable, and high-performing.
+            </p>
+            <p className="mb-6">
+            Navigating complex transport networks and witnessing seamless city operations taught me the value of well-architected backends and resilient infrastructure. These experiences drive my engineering approach—prioritizing efficiency, fault tolerance, and maintainability in every solution I design.
+            </p>
+            <p>
+            The iconic skyline, advanced public systems, and dynamic city life continue to inspire my focus on robust architecture and operational excellence. I strive to bring this spirit of efficiency and reliability into every backend, system, and infrastructure project I develop.
+            </p>
         </div>
         <div className="md:w-1/2 flex justify-center items-center">
           <div className="w-full max-w-lg bg-white/90 rounded-xl shadow-xl p-4 border border-slate-200 flex flex-col items-center">

@@ -1,12 +1,22 @@
+"use client";
+
 import { Mail } from "lucide-react";
+import { useState, useEffect } from "react";
 
 const ContactSection = () => {
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
     const handleDownloadCV = () => {
+        if (!isMounted) return;
         // Path to your uploaded CV PDF
         const cvUrl = "/Simon Cheung Tak Leung.pdf";
         const link = document.createElement("a");
         link.href = cvUrl;
-        link.setAttribute("download", "SIMON_CHEUNG_TAK_LEUNG_CV.pdf"); // Name of the downloaded file
+        link.setAttribute("download", "SIMON_CHEUNG_TAK_LEUNG_CV.pdf");
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -49,7 +59,7 @@ const ContactSection = () => {
                     </h3>
                     <div className="flex justify-center space-x-6">
                         <a
-                            href="https://github.com/iamtles"
+                            href="https://github.com/iamtlcs"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-gray-700 hover:text-blue-600 transition-colors duration-300 transform hover:scale-125"
@@ -57,7 +67,7 @@ const ContactSection = () => {
                             <i className="fab fa-github text-4xl"></i>
                         </a>
                         <a
-                            href="https://www.linkedin.com/in/iamtles"
+                            href="https://www.linkedin.com/in/iamtlcs"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-gray-700 hover:text-blue-600 transition-colors duration-300 transform hover:scale-125"

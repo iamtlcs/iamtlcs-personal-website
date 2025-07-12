@@ -20,10 +20,15 @@ const navItems = [
 
 const Header = ({ navigate, currentPage, className }: HeaderProps) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
     const menuRef = useRef<HTMLUListElement>(null);
 
     useEffect(() => {
-        if (!isOpen) return;
+        setIsMounted(true);
+    }, []);
+
+    useEffect(() => {
+        if (!isMounted || !isOpen) return;
         const handleClick = (e: MouseEvent) => {
             if (
                 menuRef.current &&
@@ -34,9 +39,10 @@ const Header = ({ navigate, currentPage, className }: HeaderProps) => {
         };
         document.addEventListener("mousedown", handleClick);
         return () => document.removeEventListener("mousedown", handleClick);
-    }, [isOpen]);
+    }, [isOpen, isMounted]);
 
     useEffect(() => {
+        if (!isMounted) return;
         if (isOpen) {
             document.body.style.overflow = "hidden";
         } else {
@@ -45,15 +51,23 @@ const Header = ({ navigate, currentPage, className }: HeaderProps) => {
         return () => {
             document.body.style.overflow = "";
         };
-    }, [isOpen]);
+    }, [isOpen, isMounted]);
 
     return (
-        <header className={`bg-gradient-to-r from-slate-700 via-blue-600 to-indigo-700 shadow-xl py-4 px-6 sticky top-0 z-50 rounded-b-2xl backdrop-blur-lg bg-opacity-90 ${className || ''}`}>
-            <nav className="container mx-auto flex justify-between items-center relative rounded-xl bg-opacity-10 px-4 py-2">
+        <header 
+            className={`bg-gradient-to-r from-slate-700 via-blue-600 to-indigo-700 shadow-xl py-4 px-6 sticky top-0 z-50 rounded-b-2xl backdrop-blur-lg bg-opacity-90 ${className || ''}`}
+            role="banner"
+            aria-label="Main site header"
+        >
+            <nav 
+                className="container mx-auto flex justify-between items-center relative rounded-xl bg-opacity-10 px-4 py-2"
+                role="navigation"
+                aria-label="Main navigation"
+            >
                 <button
                     className="text-2xl font-bold text-white hover:text-blue-300 transition-colors duration-300 cursor-pointer drop-shadow-lg bg-transparent border-none"
                     onClick={() => navigate("home")}
-                    aria-label="Go to Home"
+                    aria-label="Go to Home - Simon Cheung Tak Leung"
                 >
                     Simon Cheung Tak Leung
                 </button>
@@ -61,9 +75,9 @@ const Header = ({ navigate, currentPage, className }: HeaderProps) => {
                     <button
                         onClick={() => setIsOpen((open) => !open)}
                         className="text-white hover:text-blue-300 focus:outline-none"
-                        aria-label={isOpen ? "Close menu" : "Open menu"}
+                        aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
                         aria-expanded={isOpen}
-                        aria-controls="mobile-menu"
+                        aria-controls="mobile-navigation"
                     >
                         <svg
                             className="w-7 h-7"
@@ -91,7 +105,7 @@ const Header = ({ navigate, currentPage, className }: HeaderProps) => {
                 </div>
                 <ul
                     ref={menuRef}
-                    id="mobile-menu"
+                    id="mobile-navigation"
                     className={`transition-all duration-300 md:flex md:items-center md:space-x-6 flex-col md:flex-row
                         ${
                             isOpen

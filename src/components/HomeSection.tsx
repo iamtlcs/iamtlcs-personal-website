@@ -2,14 +2,18 @@ import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+import { FlaskConical, Inbox } from "lucide-react";
+
 interface HomeSectionProps {
     navigate: (page: string) => void;
 }
 
 const HomeSection = ({ navigate }: HomeSectionProps) => {
     return (
-        <section className="flex flex-col-reverse rounded-lg shadow-lg md:flex-row items-center justify-center min-h-[calc(100vh-160px)] py-16 px-8 md:px-16 gap-12 bg-gradient-to-br from-[#1a1a2e] via-[#23234b] to-[#2d2d44]">
-            {/* Left: Text Content */}
+        <section 
+            className="flex flex-col-reverse rounded-lg shadow-lg md:flex-row items-center justify-center min-h-[calc(100vh-160px)] py-16 px-8 md:px-16 gap-12 bg-gradient-to-br from-[#1a1a2e] via-[#23234b] to-[#2d2d44]"
+            aria-label="Hero section - Introduction"
+        >
             <div className="md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left space-y-8">
                 <h1 className="text-5xl md:text-7xl font-extrabold text-white leading-tight drop-shadow-2xl animate-slideInFromLeft">
                     Hi, I&apos;m{" "}
@@ -18,24 +22,31 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
                     </span>
                 </h1>
                 <p className="text-2xl md:text-3xl text-white/90 font-medium drop-shadow-lg animate-slideInFromLeft animation-delay-300 max-w-xl">
-                    A passionate <span className="text-blue-300 font-bold">Full Stack</span> &amp; <span className="text-cyan-400 font-bold">DevOps Engineer</span> building scalable and dynamic web experiences. ✨
+                    A passionate <span className="text-blue-300 font-bold">Full Stack</span> &amp; <span className="text-cyan-400 font-bold">DevOps Engineer</span> building scalable and dynamic web experiences.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 w-full animate-fadeIn animation-delay-600">
                     <button
                         onClick={() => navigate("projects")}
                         className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-700 text-white px-8 py-3 rounded-full text-lg font-semibold shadow-xl hover:from-blue-700 hover:to-indigo-800 hover:scale-105 hover:shadow-blue-500/30 transition-all duration-300"
+                        aria-label="View my projects and portfolio"
                     >
-                        🚀 View My Work
+                        <span>
+                            <FlaskConical className="inline-block w-5 h-5 mr-2" />
+                        </span>
+                        View My Work
                     </button>
                     <button
                         onClick={() => navigate("contact")}
                         className="flex-1 bg-white text-slate-700 border-2 border-white px-8 py-3 rounded-full text-lg font-semibold shadow-xl hover:bg-blue-300 hover:text-slate-900 hover:border-blue-300 hover:scale-105 transition-all duration-300"
+                        aria-label="Get in touch with me"
                     >
-                        📥 Get In Touch
+                        <span>
+                            <Inbox className="inline-block w-5 h-5 mr-2" />
+                        </span>
+                        Get In Touch
                     </button>
                 </div>
             </div>
-            {/* Right: Coin Flip Photo */}
             <div className="md:w-1/2 flex flex-col items-center justify-center relative animate-slideInFromRight">
                 <div className="relative flex flex-col items-center">
                     <CoinFlipPhoto />
