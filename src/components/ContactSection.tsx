@@ -12,10 +12,10 @@ const ContactSection = () => {
 
     const handleDownloadCV = () => {
         if (!isMounted) return;
-        // Path to your uploaded CV PDF
-        const cvUrl = "/Simon Cheung Tak Leung.pdf";
+        // Direct download link for Google Drive (ensure file is shared as "Anyone with the link")
+        const googleDriveDownloadUrl = "https://drive.google.com/uc?export=download&id=1x7Nfu0Xqjq6Sk-h57fwJirOWXWF6FnR4";
         const link = document.createElement("a");
-        link.href = cvUrl;
+        link.href = googleDriveDownloadUrl;
         link.setAttribute("download", "SIMON_CHEUNG_TAK_LEUNG_CV.pdf");
         document.body.appendChild(link);
         link.click();
@@ -73,6 +73,14 @@ const ContactSection = () => {
                             className="text-gray-700 hover:text-blue-600 transition-colors duration-300 transform hover:scale-125"
                         >
                             <i className="fab fa-linkedin text-4xl"></i>
+                        </a>
+                        <a
+                            href="https://discord.com/users/tahithchongluton"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gray-700 hover:text-blue-600 transition-colors duration-300 transform hover:scale-125"
+                        >
+                            <i className="fab fa-discord text-4xl"></i>
                         </a>
                     </div>
                 </div>
