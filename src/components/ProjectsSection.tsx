@@ -50,6 +50,16 @@ const ProjectsSection = () => {
             isGitHub: true,
         },
         {
+            title: "Making my own shell",
+            description: "Back to basics! A simple shell implementation in C. I use shell a lot, bash, zsh, ps, etc. But I want to know how it works under the hood, so I made my own shell. I take it as a step to get me out of my comfort zone.",
+            image: "/projects/MakeMyOwnShell.png",
+            demoLink: "",
+            githubLink: "https://github.com/iamtlcs/make-my-own-shell",
+            technologies: ["C", "Shell", "Unix", "Operating System"],
+            isSecret: false,
+            isGitHub: true,
+        },
+        {
             title: "State Machine Concurrency Control Data Processing Units",
             description:
                 "Designed and implemented scalable data processing pipelines with concurrency control using AWS Step Functions and Lambda. (Job-related project: Details are confidential, but maybe there will be a Medium article to go through what I did!)",
