@@ -548,16 +548,16 @@ const SkillsSection = () => {
                 image: "/skills/databases/Postgresql.png",
             },
             {
-                name: "Basic Networking",
+                name: "Networking Fundamentals",
                 icon: "fas fa-network-wired",
                 color: "text-gray-500",
-                description: "Networking protocols and concepts",
+                description: "Taken CCNA course on networking protocols and concepts",
             },
             {
-                name: "Basic Ethnical Hacking",
+                name: "Ethical Hacking",
                 icon: "fas fa-user-secret",
                 color: "text-black-500",
-                description: "Knowledge of security principles and practices",
+                description: "Knowledge of penetration testing and security principles",
             },
         ],
         "Languages": [

@@ -31,9 +31,9 @@ const certifications: Certification[] = [
         name: "eLearnSecurity Junior Penetration Tester",
         code: "eJPT",
         image: "/certs/eJPT.png",
-        link: "",
-        credId: "",
-        inProgress: true,
+        link: "https://certs.ine.com/1614ea62-93cf-478d-aad8-103fcb032584#acc.CWKE7QsS",
+        credId: "157743669",
+        inProgress: false,
     },
 ];
 
