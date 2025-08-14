@@ -35,6 +35,14 @@ const certifications: Certification[] = [
         credId: "157743669",
         inProgress: false,
     },
+    {
+      name: "Security Blue Team: Blue Team Level 1 (BTL1)",
+      code: "BTL1",
+      image: "/certs/BTL1.png",
+      link: "",
+      credId: "",
+      inProgress: true,
+    },
 ];
 
 const AboutSection = () => {
@@ -51,53 +59,56 @@ const AboutSection = () => {
             </h2>
             <div className="max-w-3xl mx-auto text-lg leading-relaxed text-gray-800 space-y-7">
                 <p>
-                  Hello! I&apos;m a backend, systems, and infrastructure engineer
-                  with a strong passion for building robust, scalable, and reliable
-                  platforms. My journey into technology began during my time at{" "}
-                  <span className="font-semibold text-blue-600">
-                    The Chinese University of Hong Kong
-                  </span>
-                  , where I earned a Bachelor of Science in Statistics (August
-                  2020 - July 2024) and developed a deep interest in distributed systems,
-                  automation, and cloud architecture.
+                    Hello! I&apos;m a backend, systems, and infrastructure
+                    engineer with a strong passion for building robust,
+                    scalable, and reliable platforms. My journey into technology
+                    began during my time at{" "}
+                    <span className="font-semibold text-blue-600">
+                        The Chinese University of Hong Kong
+                    </span>
+                    , where I earned a Bachelor of Science in Statistics (August
+                    2020 - July 2024) and developed a deep interest in
+                    distributed systems, automation, and cloud architecture.
                 </p>
                 <p>
-                  I specialize in architecting backend services, designing APIs, and
-                  managing cloud infrastructure. My expertise covers{" "}
-                  <span className="font-semibold text-slate-600">
-                    Node.js, Python, and Linux systems
-                  </span>
-                  , as well as cloud platforms like{" "}
-                  <span className="font-semibold text-blue-600">
-                    AWS and Azure
-                  </span>
-                  . I enjoy solving complex problems, automating workflows, and ensuring
-                  systems are secure and maintainable. While I&apos;m not a designer,
-                  I still love to code and occasionally build user interfaces to
-                  showcase my work—like this website.
+                    I specialize in architecting backend services, designing
+                    APIs, and managing cloud infrastructure. My expertise covers{" "}
+                    <span className="font-semibold text-slate-600">
+                        Node.js, Python, and Linux systems
+                    </span>
+                    , as well as cloud platforms like{" "}
+                    <span className="font-semibold text-blue-600">
+                        AWS and Azure
+                    </span>
+                    . I enjoy solving complex problems, automating workflows,
+                    and ensuring systems are secure and maintainable. While
+                    I&apos;m not a designer, I still love to code and
+                    occasionally build user interfaces to showcase my work—like
+                    this website.
                 </p>
                 <p>
-                  Outside of coding, I&apos;m always exploring new technologies in
-                  DevOps, cloud, and backend engineering to keep my skills sharp.
-                  You can find more about my professional journey and connect with me on{" "}
-                  <a
-                    href="https://www.linkedin.com/in/iamtlcs"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-indigo-600 hover:underline font-semibold transition-colors duration-300"
-                  >
-                    LinkedIn
-                  </a>{" "}
-                  and{" "}
-                  <a
-                    href="https://github.com/iamtlcs"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-indigo-600 hover:underline font-semibold transition-colors duration-300"
-                  >
-                    GitHub
-                  </a>
-                  .
+                    Outside of coding, I&apos;m always exploring new
+                    technologies in DevOps, cloud, and backend engineering to
+                    keep my skills sharp. You can find more about my
+                    professional journey and connect with me on{" "}
+                    <a
+                        href="https://www.linkedin.com/in/iamtlcs"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-indigo-600 hover:underline font-semibold transition-colors duration-300"
+                    >
+                        LinkedIn
+                    </a>{" "}
+                    and{" "}
+                    <a
+                        href="https://github.com/iamtlcs"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-indigo-600 hover:underline font-semibold transition-colors duration-300"
+                    >
+                        GitHub
+                    </a>
+                    .
                 </p>
                 <p>
                     This website is a testament to my commitment to frontend
