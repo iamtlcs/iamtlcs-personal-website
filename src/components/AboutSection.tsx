@@ -36,12 +36,20 @@ const certifications: Certification[] = [
         inProgress: false,
     },
     {
-      name: "Security Blue Team: Blue Team Level 1 (BTL1)",
-      code: "BTL1",
-      image: "/certs/BTL1.png",
-      link: "",
-      credId: "",
-      inProgress: true,
+        name: "Security Blue Team: Blue Team Level 1 (BTL1)",
+        code: "BTL1",
+        image: "/certs/BTL1.png",
+        link: "https://www.credly.com/badges/0859bf60-47d8-4b93-b08a-7ce821253765/public_url",
+        credId: "0859bf60-47d8-4b93-b08a-7ce821253765",
+        inProgress: false,
+    },
+    {
+        name: "Certified Kubernetes Administrator (CKA)",
+        code: "CKA",
+        image: "/certs/CKA.png",
+        link: "",
+        credId: "",
+        inProgress: true,
     },
 ];
 
@@ -59,13 +67,19 @@ const AboutSection = () => {
             </h2>
             <div className="max-w-3xl mx-auto text-lg leading-relaxed text-gray-800 space-y-7">
                 <p>
-                    Hello! I&apos;m a backend, systems, and infrastructure
-                    engineer with a strong passion for building robust,
-                    scalable, and reliable platforms. My journey into technology
-                    began during my time at{" "}
-                    <span className="font-semibold text-blue-600">
+                    What&apos;s up guys! This is Simon, and I&apos;m a
+                    backend-focused, DevOps, and Systems Engineer with a strong
+                    passion for building robust, engineer with a strong passion
+                    for building robust, scalable, and reliable platforms. My
+                    journey into technology began during my time at{" "}
+                    <a
+                        href="https://www.cuhk.edu.hk/english/index.html"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold text-blue-600 hover:text-indigo-600 hover:underline transition-colors duration-300"
+                    >
                         The Chinese University of Hong Kong
-                    </span>
+                    </a>
                     , where I earned a Bachelor of Science in Statistics (August
                     2020 - July 2024) and developed a deep interest in
                     distributed systems, automation, and cloud architecture.
@@ -81,10 +95,7 @@ const AboutSection = () => {
                         AWS and Azure
                     </span>
                     . I enjoy solving complex problems, automating workflows,
-                    and ensuring systems are secure and maintainable. While
-                    I&apos;m not a designer, I still love to code and
-                    occasionally build user interfaces to showcase my work—like
-                    this website.
+                    and ensuring systems are secure and maintainable.
                 </p>
                 <p>
                     Outside of coding, I&apos;m always exploring new
@@ -111,9 +122,9 @@ const AboutSection = () => {
                     .
                 </p>
                 <p>
-                    This website is a testament to my commitment to frontend
-                    excellence, showcasing my ability to build engaging and
-                    responsive user interfaces from scratch.
+                    While I&apos;m not a designer, I still love to code and
+                    occasionally build user interfaces to showcase my work—like
+                    this website.
                 </p>
             </div>
             <div className="mt-14">
@@ -259,7 +270,7 @@ const AboutSection = () => {
                 </div>
             </div>
             <p className="text-sm text-gray-500 mt-12 text-right pr-2">
-                Last updated: July 2025
+                Last updated: December 2025
             </p>
             <style>{`
         .metallic-shine {
