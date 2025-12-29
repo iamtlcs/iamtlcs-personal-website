@@ -1,4 +1,5 @@
 import { Puzzle } from "lucide-react";
+import SpotifyWidget from "./SpotifyWidget";
 
 const HobbiesSection = () => {
     const hobbies = [
@@ -78,6 +79,19 @@ const HobbiesSection = () => {
                     balanced:
                 </p>
             </div>
+
+            {/* Spotify Now Playing Widget */}
+            <div className="max-w-2xl mx-auto mb-12">
+                <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
+                    <span className="text-green-500">♫</span>
+                    Currently Listening
+                </h3>
+                <SpotifyWidget />
+                <p className="text-xs text-center text-slate-500 dark:text-slate-400 mt-2 font-mono">
+                    💡 Real-time integration with Spotify API
+                </p>
+            </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
                 {hobbies.map((hobby, index) => (
                     <div
