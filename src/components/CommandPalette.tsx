@@ -69,8 +69,10 @@ export default function CommandPalette({ navigate }: CommandPaletteProps) {
     
     const commands: { [key: string]: () => void } = {
       'home': () => navigate('home'),
-      'about': () => navigate('about'),
       'skills': () => navigate('skills'),
+      'skills-track': () => navigate('skills'),
+      'racetrack': () => navigate('skills'),
+      'f1': () => navigate('skills'),
       'projects': () => navigate('projects'),
       'architecture': () => navigate('architecture'),
       'hongkong': () => navigate('hongkong'),
@@ -156,11 +158,8 @@ export default function CommandPalette({ navigate }: CommandPaletteProps) {
                     <CommandItem icon={Home} onSelect={() => handleCommand('home')}>
                       goto home
                     </CommandItem>
-                    <CommandItem icon={User} onSelect={() => handleCommand('about')}>
-                      goto about
-                    </CommandItem>
-                    <CommandItem icon={Wrench} onSelect={() => handleCommand('skills')}>
-                      goto skills
+                    <CommandItem icon={Terminal} onSelect={() => handleCommand('skills')}>
+                      goto skills-track (F1 🏎️)
                     </CommandItem>
                     <CommandItem icon={Briefcase} onSelect={() => handleCommand('projects')}>
                       goto projects

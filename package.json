@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.5.0",
+    "@types/three": "^0.182.0",
     "cmdk": "^1.1.1",
     "country-flag-icons": "^1.5.19",
     "framer-motion": "^12.23.3",
@@ -18,7 +21,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-error-boundary": "^6.0.0",
-    "swiper": "^11.2.10"
+    "swiper": "^11.2.10",
+    "three": "^0.182.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

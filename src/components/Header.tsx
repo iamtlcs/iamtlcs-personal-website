@@ -13,8 +13,7 @@ interface HeaderProps {
 
 const navItems = [
     { name: "Home", id: "home" },
-    { name: "About", id: "about" },
-    { name: "Skills", id: "skills" },
+    { name: "Skills Track", id: "skills" },
     { name: "Projects", id: "projects" },
     { name: "Architecture", id: "architecture" },
     { name: "Origin", id: "hongkong" },

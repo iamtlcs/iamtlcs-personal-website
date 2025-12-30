@@ -4,8 +4,7 @@ import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import SystemStatusFooter from '@/components/SystemStatusFooter';
 import HomeSection from '@/components/HomeSection';
-import AboutSection from '@/components/AboutSection';
-import SkillsSection from '@/components/SkillsSection';
+import F1RaceTrackSkills from '@/components/F1RaceTrackSkills';
 import ProjectsSection from '@/components/ProjectsSection';
 import HongKongSection from '@/components/HongKongSection';
 import HobbiesSection from '@/components/HobbiesSection';
@@ -52,8 +51,7 @@ export default function Home() {
               <main className="container mx-auto p-4 md:p-8 flex-1">
                 <PageTransition pageKey={currentPage}>
                   {currentPage === 'home' && <HomeSection navigate={navigate} />}
-                  {currentPage === 'about' && <AboutSection />}
-                  {currentPage === 'skills' && <SkillsSection />}
+                  {currentPage === 'skills' && <F1RaceTrackSkills />}
                   {currentPage === 'projects' && <ProjectsSection />}
                   {currentPage === 'architecture' && <ArchitectureShowcase />}
                   {currentPage === 'hongkong' && <HongKongSection />}
