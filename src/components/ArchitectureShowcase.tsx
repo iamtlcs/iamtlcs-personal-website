@@ -3,8 +3,10 @@
 import MermaidDiagram, { sampleArchitectures } from './MermaidDiagram';
 import { motion } from 'framer-motion';
 import { Layers, Network, GitBranch } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function ArchitectureShowcase() {
+  const { t } = useLanguage();
   return (
     <section className="py-16 px-4 bg-gradient-to-br from-white via-slate-50 to-gray-100 dark:from-slate-900 dark:via-slate-800 dark:to-blue-950 rounded-2xl shadow-2xl mb-8 border border-slate-300 dark:border-slate-700">
       <div className="max-w-6xl mx-auto">
@@ -17,12 +19,11 @@ export default function ArchitectureShowcase() {
           <div className="flex items-center gap-3 mb-4">
             <Layers className="w-10 h-10 text-blue-600 dark:text-blue-400" />
             <h2 className="text-4xl font-extrabold bg-gradient-to-r from-slate-700 via-blue-600 to-indigo-600 dark:from-blue-400 dark:via-cyan-400 dark:to-indigo-400 bg-clip-text text-transparent">
-              System Architecture
+              {t.architecture.title}
             </h2>
           </div>
           <p className="text-center text-slate-600 dark:text-slate-400 max-w-2xl">
-            Visual representations of complex systems I&apos;ve designed and implemented.
-            These diagrams showcase my understanding of distributed systems, microservices, and DevOps practices.
+            {t.architecture.subtitle}
           </p>
         </motion.div>
 
@@ -30,8 +31,8 @@ export default function ArchitectureShowcase() {
         <div className="mb-12">
           <MermaidDiagram
             chart={sampleArchitectures.fullStack}
-            title="Full-Stack Web Application Architecture"
-            description="Production-ready architecture featuring load balancing, caching, and monitoring"
+            title={t.architecture.fullStackTitle}
+            description={t.architecture.fullStackDescription}
           />
         </div>
 
@@ -39,8 +40,8 @@ export default function ArchitectureShowcase() {
         <div className="mb-12">
           <MermaidDiagram
             chart={sampleArchitectures.cicd}
-            title="CI/CD Pipeline with Kubernetes"
-            description="Automated deployment pipeline from code commit to production"
+            title={t.architecture.cicdTitle}
+            description={t.architecture.cicdDescription}
           />
         </div>
 
@@ -48,8 +49,8 @@ export default function ArchitectureShowcase() {
         <div className="mb-12">
           <MermaidDiagram
             chart={sampleArchitectures.microservices}
-            title="Microservices Architecture"
-            description="Event-driven microservices with message queue integration"
+            title={t.architecture.microservicesTitle}
+            description={t.architecture.microservicesDescription}
           />
         </div>
 
@@ -81,8 +82,8 @@ export default function ArchitectureShowcase() {
                 style DynamoDB fill:#10b981,stroke:#059669,color:#fff
                 style CloudWatch fill:#6366f1,stroke:#4f46e5,color:#fff
             `}
-            title="AWS Terraform URL Shortener - Infrastructure Flow"
-            description="Serverless architecture with AWS Lambda, API Gateway, DynamoDB, and CloudFront CDN"
+            title={t.architecture.urlShortenerTitle}
+            description={t.architecture.urlShortenerDescription}
           />
         </div>
 
@@ -133,8 +134,8 @@ export default function ArchitectureShowcase() {
                 style ECR fill:#06b6d4,stroke:#0891b2,color:#fff
                 style CloudWatch fill:#6366f1,stroke:#4f46e5,color:#fff
             `}
-            title="ECS Blue-Green Deployment Strategy"
-            description="Zero-downtime deployment using AWS ECS, ALB, and CodeDeploy with Terraform IaC"
+            title={t.architecture.ecsBlueGreenTitle}
+            description={t.architecture.ecsBlueGreenDescription}
           />
         </div>
 
@@ -149,17 +150,17 @@ export default function ArchitectureShowcase() {
             <Network className="w-6 h-6 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-1" />
             <div>
               <h3 className="font-bold text-slate-800 dark:text-white mb-2">
-                Why Architecture Diagrams Matter in DevOps
+                {t.architecture.devopsNoteTitle}
               </h3>
               <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">
-                These diagrams demonstrate my ability to:
+                {t.architecture.devopsNoteDescription}
               </p>
               <ul className="text-sm text-slate-600 dark:text-slate-400 space-y-1 list-disc list-inside">
-                <li>Design scalable, production-ready systems</li>
-                <li>Understand the entire technology stack, not just individual components</li>
-                <li>Document complex architectures for team collaboration</li>
-                <li>Plan for high availability, disaster recovery, and monitoring</li>
-                <li>Make informed decisions about infrastructure and deployment strategies</li>
+                <li>{t.architecture.devopsNotePoints.point1}</li>
+                <li>{t.architecture.devopsNotePoints.point2}</li>
+                <li>{t.architecture.devopsNotePoints.point3}</li>
+                <li>{t.architecture.devopsNotePoints.point4}</li>
+                <li>{t.architecture.devopsNotePoints.point5}</li>
               </ul>
             </div>
           </div>

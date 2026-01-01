@@ -40,41 +40,6 @@ body {
   background: linear-gradient(to bottom, #9333ea, #db2777);
 }
 
-/* Custom Swiper Styles */
-.skill-swiper {
-  padding: 20px 0 40px 0 !important;
-}
-
-.skill-swiper .swiper-pagination {
-  position: static !important;
-  margin-top: 20px;
-}
-
-.skill-swiper .swiper-pagination-bullet {
-  width: 12px;
-  height: 12px;
-  background: linear-gradient(45deg, #ec4899, #a855f7);
-  opacity: 0.5;
-  transition: all 0.3s ease;
-}
-
-.skill-swiper .swiper-pagination-bullet-active {
-  opacity: 1;
-  transform: scale(1.2);
-}
-
-.skill-swiper .swiper-slide {
-  height: auto;
-  display: flex;
-  align-items: stretch;
-}
-
-/* Hide default navigation arrows */
-.skill-swiper .swiper-button-next,
-.skill-swiper .swiper-button-prev {
-  display: none !important;
-}
-
 /* Fade In Animation */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }

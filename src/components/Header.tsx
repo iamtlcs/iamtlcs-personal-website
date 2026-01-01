@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef, Suspense } from "react";
-import ThemeToggle from "./ThemeToggle";
+import { useState, useEffect, useRef } from "react";
 import { Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 interface HeaderProps {
     navigate: (page: string) => void;
@@ -11,21 +12,22 @@ interface HeaderProps {
     className?: string;
 }
 
-const navItems = [
-    { name: "Home", id: "home" },
-    { name: "Skills Track", id: "skills" },
-    { name: "Projects", id: "projects" },
-    { name: "Architecture", id: "architecture" },
-    { name: "Origin", id: "hongkong" },
-    { name: "Hobbies", id: "hobbies" },
-    { name: "Contact", id: "contact" },
-];
-
 const Header = ({ navigate, currentPage, className }: HeaderProps) => {
+    const { t } = useLanguage();
     const [isOpen, setIsOpen] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const menuRef = useRef<HTMLUListElement>(null);
+
+    const navItems = [
+        { name: t.header.home, id: "home" },
+        { name: t.header.skillsTrack, id: "skills" },
+        { name: t.header.projects, id: "projects" },
+        { name: t.header.architecture, id: "architecture" },
+        { name: t.header.origin, id: "hongkong" },
+        { name: t.header.hobbies, id: "hobbies" },
+        { name: t.header.contact, id: "contact" },
+    ];
 
     useEffect(() => {
         setIsMounted(true);
@@ -104,11 +106,9 @@ const Header = ({ navigate, currentPage, className }: HeaderProps) => {
                 </motion.button>
                 
                 <div className="flex items-center gap-4">
-                    {/* Theme Toggle */}
-                    <Suspense fallback={<div className="w-14 h-14" />}>
-                        <ThemeToggle />
-                    </Suspense>
-
+                    {/* Language Switcher */}
+                    <LanguageSwitcher />
+                    
                     {/* Mobile Menu Button */}
                     <motion.button
                         onClick={() => setIsOpen((open) => !open)}

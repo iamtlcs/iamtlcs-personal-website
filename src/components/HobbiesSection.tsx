@@ -1,114 +1,137 @@
+'use client';
+
+import React from "react";
+import { motion } from "framer-motion";
 import { Puzzle } from "lucide-react";
 import SpotifyWidget from "./SpotifyWidget";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { interpolate } from "@/lib/i18n";
 
 const HobbiesSection = () => {
+    const { t } = useLanguage();
+    
     const hobbies = [
         {
-            name: "Movies",
+            name: t.hobbies.hobbies.movies.name,
             icon: "fas fa-film",
-            description:
-                "Exploring the world of cinema, from classics to modern blockbusters.",
+            description: t.hobbies.hobbies.movies.description,
         },
         {
-            name: "Football",
+            name: t.hobbies.hobbies.football.name,
             icon: "fas fa-futbol",
-            description:
-                "Playing football and enjoying the camaraderie of team sports.",
+            description: t.hobbies.hobbies.football.description,
         },
         {
-            name: "Reading",
+            name: t.hobbies.hobbies.reading.name,
             icon: "fas fa-book-open",
-            description: "Diving into non-fiction to expand my knowledge.",
+            description: t.hobbies.hobbies.reading.description,
         },
         {
-            name: "Algo Trading",
+            name: t.hobbies.hobbies.algoTrading.name,
             icon: "fas fa-chart-line",
-            description:
-                "Applying statistical analysis and programming to develop trading algorithms.",
+            description: t.hobbies.hobbies.algoTrading.description,
         },
         {
-            name: "Traveling",
+            name: t.hobbies.hobbies.traveling.name,
             icon: "fas fa-plane",
-            description:
-                "Exploring new cultures and places, with a special fondness for Japan.",
+            description: t.hobbies.hobbies.traveling.description,
         },
         {
-            name: "Gaming",
+            name: t.hobbies.hobbies.gaming.name,
             icon: "fas fa-gamepad",
-            description:
-                "Enjoying video games as a way to relax and challenge my strategic thinking.",
+            description: t.hobbies.hobbies.gaming.description,
         },
         {
-            name: "Coding",
+            name: t.hobbies.hobbies.coding.name,
             icon: "fas fa-code",
-            description:
-                "Building projects and experimenting with new technologies in my free time.",
-      },
-        
+            description: t.hobbies.hobbies.coding.description,
+        },
     ];
 
     return (
-        <section className="py-16 px-4 bg-gradient-to-br from-white via-slate-50 to-gray-100 rounded-2xl shadow-2xl mb-8 animate-fadeIn border border-slate-300">
-            <div className="flex flex-col items-center mb-14">
-                <div className="flex items-center gap-3">
-                    <div className="flex flex-col sm:flex-row items-center gap-3">
-                        <h2 className="text-4xl font-extrabold text-center bg-gradient-to-r from-slate-700 via-blue-600 to-indigo-600 bg-clip-text text-transparent tracking-tight drop-shadow-lg">
-                            My Hobbies & Personality
-                        </h2>
-                        <span className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full p-2 shadow-lg flex items-center justify-center">
-                            <Puzzle
-                                className="w-9 h-9 text-white drop-shadow"
-                                aria-label="Puzzle Icon"
-                            />
-                        </span>
-                    </div>
+        <section className="min-h-screen py-16 px-4 relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
+            <motion.div 
+                className="text-center mb-12 relative z-10"
+                initial={{ opacity: 0, y: -30 }}
+                animate={{ opacity: 1, y: 0 }}
+            >
+                <div className="flex items-center justify-center gap-3 mb-4">
+                    <h2 className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 bg-clip-text text-transparent drop-shadow-lg">
+                        {t.hobbies.title}
+                    </h2>
+                    <Puzzle className="w-12 h-12 text-purple-400" />
                 </div>
-            </div>
-            <div className="max-w-5xl mx-auto text-lg leading-relaxed text-gray-800 mb-12">
-                <p className="text-center mb-8">
-                    Beyond the code, I&apos;m a curious and creative individual
-                    who loves to explore new things. As an{" "}
-                    <span className="font-semibold text-blue-600">INTP</span>,
-                    my personality is characterized by a strong drive for
-                    logical analysis and innovative problem-solving. I enjoy
-                    delving into complex systems and abstract concepts, which
-                    fuels my passion for both coding and my diverse hobbies.
+                <p className="text-xl text-slate-300 mb-2 font-semibold">
+                    {t.hobbies.subtitle}
                 </p>
-                <p className="text-center">
-                    Here are some of the activities that keep me inspired and
-                    balanced:
+                <p className="text-sm text-slate-400 font-mono">
+                    {t.hobbies.personality}
                 </p>
-            </div>
+            </motion.div>
+
+            <motion.div 
+                className="max-w-4xl mx-auto text-lg leading-relaxed mb-12 rounded-2xl backdrop-blur-sm p-8 border border-slate-700/50"
+                style={{
+                    background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%)',
+                    boxShadow: '0 0 40px rgba(147, 51, 234, 0.1), inset 0 0 40px rgba(0, 0, 0, 0.3)'
+                }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+            >
+                <p className="text-center mb-6 text-slate-300">
+                    {interpolate(t.hobbies.introParagraph1, { intp: <span key="intp" className="font-semibold text-purple-400">{t.hobbies.intp}</span> }).map((part, i) => (
+                        <React.Fragment key={i}>{part}</React.Fragment>
+                    ))}
+                </p>
+                <p className="text-center text-slate-300">
+                    {t.hobbies.introParagraph2}
+                </p>
+            </motion.div>
 
             {/* Spotify Now Playing Widget */}
-            <div className="max-w-2xl mx-auto mb-12">
-                <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
-                    <span className="text-green-500">♫</span>
-                    Currently Listening
+            <motion.div 
+                className="max-w-2xl mx-auto mb-12"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+            >
+                <h3 className="text-2xl font-bold text-slate-200 mb-4 flex items-center gap-2">
+                    <span className="text-green-400">♫</span>
+                    {t.hobbies.currentlyListening}
                 </h3>
                 <SpotifyWidget />
-                <p className="text-xs text-center text-slate-500 dark:text-slate-400 mt-2 font-mono">
-                    💡 Real-time integration with Spotify API
+                <p className="text-xs text-center text-slate-500 mt-2 font-mono">
+                    {t.hobbies.spotifyIntegration}
                 </p>
-            </div>
+            </motion.div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
                 {hobbies.map((hobby, index) => (
-                    <div
+                    <motion.div
                         key={index}
-                        className="flex flex-col items-center p-6 bg-gradient-to-br from-white to-slate-50 rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-3 hover:rotate-1 transition-all duration-300 animate-bounceIn border border-slate-200 hover:border-blue-300"
-                        style={{ animationDelay: `${index * 150}ms` }}
+                        className="group flex flex-col items-center p-6 rounded-2xl backdrop-blur-sm border border-slate-700/50 hover:border-purple-500/50 transition-all duration-300"
+                        style={{
+                            background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%)',
+                            boxShadow: '0 0 30px rgba(147, 51, 234, 0.1), inset 0 0 30px rgba(0, 0, 0, 0.3)'
+                        }}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 + index * 0.1 }}
+                        whileHover={{ scale: 1.05, y: -5 }}
                     >
-                        <i
-                            className={`${hobby.icon} text-transparent bg-gradient-to-r from-slate-600 to-blue-600 bg-clip-text text-5xl mb-4`}
-                        ></i>
-                        <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                        <div className="mb-4">
+                            <i
+                                className={`${hobby.icon} text-transparent bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-5xl`}
+                            ></i>
+                        </div>
+                        <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-purple-400 transition-colors">
                             {hobby.name}
                         </h3>
-                        <p className="text-center text-gray-700 text-base">
+                        <p className="text-center text-slate-300 text-sm leading-relaxed">
                             {hobby.description}
                         </p>
-                    </div>
+                    </motion.div>
                 ))}
             </div>
         </section>

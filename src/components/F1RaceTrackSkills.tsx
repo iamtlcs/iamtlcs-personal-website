@@ -7,8 +7,9 @@ import { OrbitControls, Html, Sparkles, Stars } from '@react-three/drei';
 import { motion, AnimatePresence } from 'framer-motion';
 import * as THREE from 'three';
 import { 
-  Server, Cloud, Database, GitBranch, Shield, Container, X
+  Server, Cloud, Database, GitBranch, Activity, X, Code, Brain, Lock
 } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // ============================================================================
 // TYPES & INTERFACES
@@ -16,7 +17,8 @@ import {
 
 interface SkillWithIcon {
   name: string;
-  icon: string;
+  icon: string; // Can be image path or Font Awesome icon class
+  faIcon?: string; // Optional Font Awesome icon class as fallback
 }
 
 interface Sector {
@@ -31,6 +33,8 @@ interface Sector {
 
 interface RacingCarProps {
   isPaused: boolean;
+  trailingOffset?: number; // Progress offset for trailing car (0-1)
+  color?: string; // Car color
 }
 
 interface SectorMarkerProps {
@@ -39,11 +43,6 @@ interface SectorMarkerProps {
   isActive: boolean;
 }
 
-interface Scene3DProps {
-  isPaused: boolean;
-  selectedSector: Sector | null;
-  onSectorClick: (sector: Sector) => void;
-}
 
 // ============================================================================
 // CONSTANTS & CONFIGURATION
@@ -63,19 +62,16 @@ const CAR_PHYSICS = {
   BASE_SPEED: 0.003,
   MAX_SPEED: 0.006,
   MIN_SPEED: 0.002,
-  BRAKE_POWER: 0.98,
-  ACCELERATION: 0.00005,
-  ELEVATION_PENALTY: 0.2,
   CURVATURE_PENALTY: 0.3,
   WHEEL_ROTATION_SPEED: 0.5,
   SMOOTH_FACTOR: 0.08,
 };
 
 const CAMERA_CONFIG = {
-  POSITION: [10, 14, 20] as [number, number, number],
+  POSITION: [7, 10, 14] as [number, number, number],
   FOV: 55,
   AUTO_ROTATE_SPEED: 0.5,
-  MIN_DISTANCE: 10,
+  MIN_DISTANCE: 6,
   MAX_DISTANCE: 40,
   MAX_POLAR_ANGLE: Math.PI / 2.2,
 };
@@ -86,93 +82,133 @@ const LIGHTING_CONFIG = {
   DIRECTIONAL_POSITION: [10, 15, 10] as [number, number, number],
 };
 
-const sectors: Sector[] = [
-  {
-    id: 'backend',
-    name: 'Backend Engineering',
-    position: 0.08,
-    icon: Server,
-    color: '#3b82f6',
-    skills: [
-      { name: 'Node.js', icon: '/skills/programming/JavaScript.png' },
-      { name: 'Python', icon: '/skills/programming/Python.png' },
-      { name: 'TypeScript', icon: '/skills/programming/TypeScript.png' },
-      { name: 'Go', icon: '/skills/programming/GoLang.png' },
-      { name: 'Next.js', icon: '/skills/frameworks/NextJs.png' },
-    ],
-    description: 'Building scalable backend services and APIs'
-  },
-  {
-    id: 'cloud',
-    name: 'Cloud Platforms',
-    position: 0.25,
-    icon: Cloud,
-    color: '#f59e0b',
-    skills: [
-      { name: 'AWS', icon: '/skills/cloud/AWS.png' },
-      { name: 'Azure', icon: '/skills/cloud/Azure.png' },
-      { name: 'GCP', icon: '/skills/cloud/GCP.png' },
-      { name: 'Vercel', icon: '/skills/cloud/Vercel.png' },
-      { name: 'Netlify', icon: '/skills/cloud/Netlify.png' },
-    ],
-    description: 'Cloud infrastructure and deployment'
-  },
-  {
-    id: 'devops',
-    name: 'DevOps & CI/CD',
-    position: 0.42,
-    icon: GitBranch,
-    color: '#8b5cf6',
-    skills: [
-      { name: 'GitHub Actions', icon: '/skills/devops/GitHubActions.png' },
-      { name: 'Terraform', icon: '/skills/devops/Terraform.png' },
-      { name: 'Ansible', icon: '/skills/devops/Ansible.png' },
-      { name: 'Nginx', icon: '/skills/devops/Nginx.png' },
-    ],
-    description: 'Automation and infrastructure as code'
-  },
-  {
-    id: 'database',
-    name: 'Databases',
-    position: 0.58,
-    icon: Database,
-    color: '#10b981',
-    skills: [
-      { name: 'PostgreSQL', icon: '/skills/databases/Postgresql.png' },
-      { name: 'MongoDB', icon: '/skills/databases/MongoDB.png' },
-    ],
-    description: 'Database design and optimization'
-  },
-  {
-    id: 'data',
-    name: 'Data Science & ML',
-    position: 0.75,
-    icon: Container,
-    color: '#ec4899',
-    skills: [
-      { name: 'TensorFlow', icon: '/skills/data/TensorFlow.png' },
-      { name: 'PyTorch', icon: '/skills/data/PyTorch.png' },
-      { name: 'Pandas', icon: '/skills/data/Pandas.png' },
-      { name: 'NumPy', icon: '/skills/data/NumPy.png' },
-      { name: 'Scikit-Learn', icon: '/skills/data/ScikitLearn.png' },
-    ],
-    description: 'Machine learning and data analysis'
-  },
-  {
-    id: 'tools',
-    name: 'Development Tools',
-    position: 0.92,
-    icon: Shield,
-    color: '#ef4444',
-    skills: [
-      { name: 'VS Code', icon: '/skills/tools/VSCode.png' },
-      { name: 'Postman', icon: '/skills/tools/Postman.png' },
-      { name: 'Linux', icon: '/skills/tools/Linux.png' },
-      { name: 'Tailwind CSS', icon: '/skills/css/TailwindCSS.png' },
-    ],
-    description: 'Essential development and testing tools'
-  },
-];
+// This will be created inside the component to access translations
+function getSectors(t: any): Sector[] {
+  return [
+    {
+      id: 'programming',
+      name: t.skills.sectors.programming.name,
+      position: 0.08,
+      icon: Code,
+      color: '#3b82f6',
+      skills: [
+        { name: 'Python', icon: '/skills/programming/Python.png' },
+        { name: 'JavaScript', icon: '/skills/programming/JavaScript.png' },
+        { name: 'TypeScript', icon: '/skills/programming/TypeScript.png' },
+        { name: 'Go', icon: '/skills/programming/GoLang.png' },
+      ],
+      description: t.skills.sectors.programming.description
+    },
+    {
+      id: 'web',
+      name: t.skills.sectors.web.name,
+      position: 0.20,
+      icon: Server,
+      color: '#10b981',
+      skills: [
+        { name: 'React.js', icon: '/skills/web/React.png', faIcon: 'fab fa-react' },
+        { name: 'Next.js', icon: '/skills/web/NextJs.png', faIcon: 'fas fa-arrow-right' },
+        { name: 'Express.js', icon: '/skills/web/Express.png', faIcon: 'fas fa-server' },
+        { name: 'Tailwind CSS', icon: '/skills/web/TailwindCSS.png', faIcon: 'fas fa-wind' },
+      ],
+      description: t.skills.sectors.web.description
+    },
+    {
+      id: 'cloud',
+      name: t.skills.sectors.cloud.name,
+      position: 0.32,
+      icon: Cloud,
+      color: '#f59e0b',
+      skills: [
+        { name: 'AWS', icon: '/skills/cloud/AWS.png', faIcon: 'fab fa-aws' },
+        { name: 'Azure', icon: '/skills/cloud/Azure.png', faIcon: 'fas fa-cloud' },
+        { name: 'GCP', icon: '/skills/cloud/GCP.png', faIcon: 'fas fa-cloud-meatball' },
+        { name: 'Alibaba Cloud', icon: '/skills/cloud/AlibabaCloud.png', faIcon: 'fas fa-cloud-upload-alt' },
+        { name: 'Vercel', icon: '/skills/cloud/Vercel.png', faIcon: 'fas fa-bolt' },
+        { name: 'Netlify', icon: '/skills/cloud/Netlify.png', faIcon: 'fas fa-globe' },
+      ],
+      description: t.skills.sectors.cloud.description
+    },
+    {
+      id: 'devops',
+      name: t.skills.sectors.devops.name,
+      position: 0.44,
+      icon: GitBranch,
+      color: '#8b5cf6',
+      skills: [
+        { name: 'Kubernetes', icon: '/skills/devops/Kubernetes.png', faIcon: 'fas fa-dharmachakra' },
+        { name: 'Docker', icon: '/skills/devops/Docker.png', faIcon: 'fab fa-docker' },
+        { name: 'Terraform', icon: '/skills/devops/Terraform.png', faIcon: 'fas fa-server' },
+        { name: 'Ansible', icon: '/skills/devops/Ansible.png', faIcon: 'fas fa-robot' },
+        { name: 'GitHub Actions', icon: '/skills/devops/GitHubActions.png', faIcon: 'fab fa-github-alt' },
+        { name: 'Argo CD', icon: '/skills/devops/ArgoCD.png', faIcon: 'fas fa-ship' },
+      ],
+      description: t.skills.sectors.devops.description
+    },
+    {
+      id: 'monitoring',
+      name: t.skills.sectors.monitoring.name,
+      position: 0.56,
+      icon: Activity,
+      color: '#ec4899',
+      skills: [
+        { name: 'Prometheus', icon: '/skills/monitoring/Prometheus.png', faIcon: 'fas fa-chart-line' },
+        { name: 'Grafana', icon: '/skills/monitoring/Grafana.png', faIcon: 'fas fa-chart-bar' },
+        { name: 'Loki', icon: '/skills/monitoring/Loki.png', faIcon: 'fas fa-database' },
+        { name: 'Mimir', icon: '/skills/monitoring/Mimir.png', faIcon: 'fas fa-database' },
+        { name: 'OTel', icon: '/skills/monitoring/OTel.png', faIcon: 'fas fa-project-diagram' },
+        { name: 'Fluent Bit', icon: '/skills/monitoring/FluentBit.png', faIcon: 'fas fa-stream' },
+      ],
+      description: t.skills.sectors.monitoring.description
+    },
+    {
+      id: 'database',
+      name: t.skills.sectors.database.name,
+      position: 0.68,
+      icon: Database,
+      color: '#10b981',
+      skills: [
+        { name: 'PostgreSQL', icon: '/skills/databases/Postgresql.png' },
+        { name: 'MongoDB', icon: '/skills/databases/MongoDB.png' },
+      ],
+      description: t.skills.sectors.database.description
+    },
+    {
+      id: 'ai',
+      name: t.skills.sectors.ai.name,
+      position: 0.80,
+      icon: Brain,
+      color: '#a855f7',
+      skills: [
+        { name: 'LLM APIs', icon: '/skills/ai/LLM.png', faIcon: 'fas fa-robot' },
+        { name: 'Hugging Face', icon: '/skills/ai/HuggingFace.png', faIcon: 'fas fa-hands-helping' },
+        { name: 'PyTorch', icon: '/skills/data/PyTorch.png', faIcon: 'fab fa-python' },
+        { name: 'TensorFlow', icon: '/skills/data/TensorFlow.png', faIcon: 'fas fa-brain' },
+        { name: 'Pandas', icon: '/skills/data/Pandas.png', faIcon: 'fas fa-table' },
+        { name: 'NumPy', icon: '/skills/data/NumPy.png', faIcon: 'fas fa-calculator' },
+        { name: 'Scikit-Learn', icon: '/skills/data/ScikitLearn.png', faIcon: 'fas fa-cogs' },
+        { name: 'Matplotlib', icon: '/skills/data/Matplotlib.png', faIcon: 'fas fa-chart-bar' },
+        { name: 'Seaborn', icon: '/skills/data/Seaborn.png', faIcon: 'fas fa-palette' },
+        { name: 'Plotly', icon: '/skills/data/Plotly.png', faIcon: 'fas fa-chart-line' },
+      ],
+      description: t.skills.sectors.ai.description
+    },
+    {
+      id: 'security',
+      name: t.skills.sectors.security.name,
+      position: 0.92,
+      icon: Lock,
+      color: '#ef4444',
+      skills: [
+        { name: 'Penetration Testing', icon: '/skills/security/Pentest.png', faIcon: 'fas fa-user-secret' },
+        { name: 'SIEM', icon: '/skills/security/SIEM.png', faIcon: 'fas fa-shield-alt' },
+        { name: 'Incident Response', icon: '/skills/security/IncidentResponse.png', faIcon: 'fas fa-exclamation-triangle' },
+        { name: 'Digital Forensics', icon: '/skills/security/Forensics.png', faIcon: 'fas fa-search' },
+      ],
+      description: t.skills.sectors.security.description
+    },
+  ];
+}
 
 // ============================================================================
 // GEOMETRY UTILITIES
@@ -402,8 +438,6 @@ function createCenterLineMaterial(): THREE.LineDashedMaterial {
 
 function InfinityTrack() {
   const curve = useMemo(() => new InfinityCurve(TRACK_CONFIG.SCALE), []);
-  const trackRef = useRef<THREE.Mesh>(null);
-  const centerLineRef = useRef<THREE.Line | null>(null);
 
   const trackGeometry = useMemo(() => 
     createFlatTrackGeometry(curve, TRACK_CONFIG.WIDTH, TRACK_CONFIG.SEGMENTS), 
@@ -456,7 +490,6 @@ function InfinityTrack() {
     <group>
       {/* Main Track Surface */}
       <mesh 
-        ref={trackRef} 
         geometry={trackGeometry} 
         material={trackMaterial}
         receiveShadow
@@ -586,26 +619,47 @@ function CurbMarkers({ curve }: { curve: InfinityCurve }) {
 // RACING CAR COMPONENT
 // ============================================================================
 
-function RacingCar({ isPaused }: RacingCarProps) {
+function RacingCar({ isPaused, trailingOffset = 0, color = "#ff3333" }: RacingCarProps) {
   const carRef = useRef<THREE.Group>(null);
-  const exhaustRef1 = useRef<THREE.PointLight>(null);
-  const exhaustRef2 = useRef<THREE.PointLight>(null);
   const wheelRefs = useRef<(THREE.Mesh | null)[]>([null, null, null, null]);
   const suspensionRefs = useRef<(THREE.Group | null)[]>([null, null, null, null]);
   
   const curve = useMemo(() => new InfinityCurve(TRACK_CONFIG.SCALE), []);
   
+  // Initialize car position on the track
+  const initialProgress = useMemo(() => (0.1 - trailingOffset + 1) % 1, [trailingOffset]); // Start at 10% minus trailing offset
+  const initialPosition = useMemo(() => {
+    const pos = curve.getPoint(initialProgress);
+    return new THREE.Vector3(pos.x, pos.y, pos.z);
+  }, [curve, initialProgress]);
+  
   // Physics state
-  const progressRef = useRef(0);
+  const progressRef = useRef(initialProgress);
   const velocityRef = useRef(CAR_PHYSICS.BASE_SPEED);
   const wheelRotationRef = useRef(0);
   
-  // Smooth interpolation state
-  const smoothPosRef = useRef(new THREE.Vector3());
+  // Smooth interpolation state - initialize with actual starting position
+  const smoothPosRef = useRef(initialPosition.clone());
   const previousTangentRef = useRef(new THREE.Vector3(0, 0, 1));
   const pitchRef = useRef(0);
   const rollRef = useRef(0);
   const yawRef = useRef(0);
+  
+  // Initialize car position and rotation on mount
+  useEffect(() => {
+    if (carRef.current) {
+      const startPos = curve.getPoint(initialProgress);
+      const startTangent = curve.getTangent(initialProgress).normalize();
+      const startYaw = Math.atan2(startTangent.x, startTangent.z);
+      
+      smoothPosRef.current.set(startPos.x, startPos.y, startPos.z);
+      previousTangentRef.current.copy(startTangent);
+      yawRef.current = startYaw;
+      
+      carRef.current.position.set(startPos.x, startPos.y + 0.3, startPos.z);
+      carRef.current.rotation.set(0, startYaw, 0);
+    }
+  }, [curve, initialProgress]);
 
   useFrame((state, delta) => {
     if (!carRef.current || isPaused) return;
@@ -671,9 +725,10 @@ function RacingCar({ isPaused }: RacingCarProps) {
     // Use the actual track tangent as the base direction
     const trackTangent = curve.getTangent(progressRef.current).normalize();
     
-    // Faster tangent smoothing for more responsive turning
+    // Faster tangent interpolation for sharper turning
+    const tangentLerpFactor = THREE.MathUtils.clamp(clampedDelta * 4, 0, 0.3);
     const smoothTangent = new THREE.Vector3()
-      .lerpVectors(previousTangentRef.current, trackTangent, 0.25)
+      .lerpVectors(previousTangentRef.current, trackTangent, tangentLerpFactor)
       .normalize();
     previousTangentRef.current.copy(smoothTangent);
     
@@ -685,39 +740,51 @@ function RacingCar({ isPaused }: RacingCarProps) {
     if (yawDiff > Math.PI) yawDiff -= 2 * Math.PI;
     if (yawDiff < -Math.PI) yawDiff += 2 * Math.PI;
     
-    // Faster yaw interpolation for more responsive steering
-    const yawLerpFactor = curvature > 0.2 
-      ? clampedDelta * 6   // Faster in curves
-      : clampedDelta * 8;  // Even faster on straights
+    // Sharper yaw interpolation - faster response to turns
+    const turnIntensity = Math.abs(yawDiff);
+    const yawLerpFactor = THREE.MathUtils.clamp(
+      clampedDelta * (4 + turnIntensity * 6), // Much faster in sharp turns
+      0,
+      0.4
+    );
       
     yawRef.current += yawDiff * yawLerpFactor;
     
     // === NATURAL PITCH (NOSE UP/DOWN) WITH ANTICIPATION ===
-    // Look ahead to anticipate slope changes
-    const pitchLookAhead = curve.getPoint((progressRef.current + 0.02) % 1);
-    const pitchSlope = (pitchLookAhead.y - smoothPosRef.current.y) / 0.02;
+    // Use multiple look-ahead points for smoother pitch prediction
+    const pitchLookAhead1 = curve.getPoint((progressRef.current + 0.015) % 1);
+    const pitchLookAhead2 = curve.getPoint((progressRef.current + 0.03) % 1);
+    const currentY = smoothPosRef.current.y;
     
-    // Calculate pitch angle from slope with stronger response
-    const slopeAngle = Math.atan(pitchSlope);
-    const targetPitch = -slopeAngle * 0.6; // Increased from 0.25 for more visible nose movement
+    // Calculate average slope from multiple points for smoother transitions
+    const slope1 = (pitchLookAhead1.y - currentY) / 0.015;
+    const slope2 = (pitchLookAhead2.y - pitchLookAhead1.y) / 0.015;
+    const avgSlope = (slope1 + slope2) / 2;
     
-    // Faster pitch response on ramps, slower on flats
-    const pitchLerpFactor = Math.abs(pitchSlope) > 0.3 
-      ? clampedDelta * 4  // Fast response on ramps
-      : clampedDelta * 2; // Normal response on flat sections
+    // Calculate pitch angle from slope with more natural response
+    const slopeAngle = Math.atan(avgSlope);
+    const targetPitch = -slopeAngle * 0.4; // More natural pitch response
+    
+    // Adaptive pitch interpolation - smoother on gentle slopes, responsive on steep ones
+    const slopeMagnitude = Math.abs(avgSlope);
+    const pitchLerpFactor = THREE.MathUtils.clamp(
+      clampedDelta * (1.5 + slopeMagnitude * 2), // Faster on steeper slopes
+      0,
+      0.15
+    );
       
     pitchRef.current = THREE.MathUtils.lerp(
       pitchRef.current, 
-      THREE.MathUtils.clamp(targetPitch, -0.4, 0.4),
+      THREE.MathUtils.clamp(targetPitch, -0.35, 0.35), // Slightly reduced max pitch
       pitchLerpFactor
     );
     
     // === NATURAL ROLL (BANKING IN TURNS) ===
     // Calculate roll from turn direction and speed
     const turnDirection = Math.sign(yawDiff);
-    const turnIntensity = Math.abs(yawDiff) * 5;
+    const rollIntensity = Math.abs(yawDiff) * 5;
     const speedFactor = velocityRef.current / CAR_PHYSICS.BASE_SPEED;
-    const targetRoll = turnDirection * turnIntensity * speedFactor * 0.08;
+    const targetRoll = turnDirection * rollIntensity * speedFactor * 0.08;
     
     rollRef.current = THREE.MathUtils.lerp(
       rollRef.current, 
@@ -766,29 +833,19 @@ function RacingCar({ isPaused }: RacingCarProps) {
       }
     });
     
-    // === EXHAUST EFFECTS ===
-    const exhaustIntensity = THREE.MathUtils.mapLinear(
-      velocityRef.current,
-      CAR_PHYSICS.MIN_SPEED,
-      CAR_PHYSICS.MAX_SPEED,
-      0.5,
-      2
-    );
-    if (exhaustRef1.current) exhaustRef1.current.intensity = exhaustIntensity;
-    if (exhaustRef2.current) exhaustRef2.current.intensity = exhaustIntensity;
   });
 
   return (
     <group ref={carRef}>
-      {/* Main Chassis - Lower profile with curves */}
+      {/* Main Chassis */}
       <mesh castShadow position={[0, 0, 0]}>
         <boxGeometry args={[0.4, 0.12, 0.8]} />
         <meshStandardMaterial 
-          color="#dc2626"
-          roughness={0.2}
-          metalness={0.9}
-          emissive="#dc2626"
-          emissiveIntensity={0.1}
+          color={color}
+          roughness={0.15}
+          metalness={0.95}
+          emissive={color}
+          emissiveIntensity={0.3}
         />
       </mesh>
       
@@ -796,9 +853,11 @@ function RacingCar({ isPaused }: RacingCarProps) {
       <mesh castShadow position={[0, 0.08, -0.15]}>
         <boxGeometry args={[0.3, 0.08, 0.4]} />
         <meshStandardMaterial 
-          color="#a30000"
-          roughness={0.2}
-          metalness={0.9}
+          color={color}
+          roughness={0.15}
+          metalness={0.95}
+          emissive={color}
+          emissiveIntensity={0.2}
         />
       </mesh>
       
@@ -806,87 +865,162 @@ function RacingCar({ isPaused }: RacingCarProps) {
       <mesh castShadow position={[0, -0.02, 0.45]}>
         <coneGeometry args={[0.08, 0.2, 8]} />
         <meshStandardMaterial 
-          color="#dc2626"
+          color={color}
+          roughness={0.15}
+          metalness={0.95}
+          emissive={color}
+          emissiveIntensity={0.25}
+        />
+      </mesh>
+      
+      {/* Front Wing with endplates */}
+      <group position={[0, -0.06, 0.42]}>
+        {/* Main wing plane */}
+        <mesh castShadow>
+          <boxGeometry args={[0.5, 0.02, 0.1]} />
+          <meshStandardMaterial 
+            color="#1a1a1a"
+            roughness={0.2}
+            metalness={0.9}
+          />
+        </mesh>
+        {/* Left endplate */}
+        <mesh castShadow position={[-0.25, 0.01, 0]} rotation={[0, 0, 0.1]}>
+          <boxGeometry args={[0.02, 0.08, 0.1]} />
+          <meshStandardMaterial color={color} roughness={0.2} metalness={0.9} emissive={color} emissiveIntensity={0.2} />
+        </mesh>
+        {/* Right endplate */}
+        <mesh castShadow position={[0.25, 0.01, 0]} rotation={[0, 0, -0.1]}>
+          <boxGeometry args={[0.02, 0.08, 0.1]} />
+          <meshStandardMaterial color={color} roughness={0.2} metalness={0.9} emissive={color} emissiveIntensity={0.2} />
+        </mesh>
+      </group>
+      
+      {/* Rear Wing with supports and endplates */}
+      <group position={[0, 0.15, -0.48]}>
+        {/* Main wing plane */}
+        <mesh castShadow>
+          <boxGeometry args={[0.5, 0.02, 0.1]} />
+          <meshStandardMaterial 
+            color="#1a1a1a"
+            roughness={0.2}
+            metalness={0.9}
+          />
+        </mesh>
+        {/* Supports */}
+        <mesh position={[-0.15, -0.1, 0]}>
+          <boxGeometry args={[0.02, 0.2, 0.05]} />
+          <meshStandardMaterial color="#1a1a1a" roughness={0.2} metalness={0.9} />
+        </mesh>
+        <mesh position={[0.15, -0.1, 0]}>
+          <boxGeometry args={[0.02, 0.2, 0.05]} />
+          <meshStandardMaterial color="#1a1a1a" roughness={0.2} metalness={0.9} />
+        </mesh>
+        {/* Left endplate */}
+        <mesh position={[-0.275, 0.03, 0]}>
+          <boxGeometry args={[0.015, 0.14, 0.1]} />
+          <meshStandardMaterial color={color} roughness={0.3} metalness={0.8} emissive={color} emissiveIntensity={0.15} />
+        </mesh>
+        {/* Right endplate */}
+        <mesh position={[0.275, 0.03, 0]}>
+          <boxGeometry args={[0.015, 0.14, 0.1]} />
+          <meshStandardMaterial color={color} roughness={0.3} metalness={0.8} emissive={color} emissiveIntensity={0.15} />
+        </mesh>
+      </group>
+      
+      {/* Side Pods */}
+      <mesh castShadow position={[-0.22, -0.03, 0.1]}>
+        <boxGeometry args={[0.08, 0.1, 0.5]} />
+        <meshStandardMaterial 
+          color={color}
+          roughness={0.2}
+          metalness={0.9}
+          emissive={color}
+          emissiveIntensity={0.15}
+        />
+      </mesh>
+      <mesh castShadow position={[0.22, -0.03, 0.1]}>
+        <boxGeometry args={[0.08, 0.1, 0.5]} />
+        <meshStandardMaterial 
+          color={color}
+          roughness={0.2}
+          metalness={0.9}
+          emissive={color}
+          emissiveIntensity={0.15}
+        />
+      </mesh>
+      
+      {/* Diffuser */}
+      <mesh position={[0, -0.08, -0.42]} rotation={[0.3, 0, 0]} castShadow>
+        <boxGeometry args={[0.35, 0.02, 0.18]} />
+        <meshStandardMaterial 
+          color="#1a1a1a"
           roughness={0.2}
           metalness={0.9}
         />
       </mesh>
       
-      {/* Front Wing - Multi-element */}
-      <group position={[0, -0.06, 0.42]}>
-        {/* Main plane */}
-        <mesh castShadow>
-          <boxGeometry args={[0.55, 0.02, 0.12]} />
-          <meshStandardMaterial 
-            color="#1a1a1a"
-            roughness={0.15}
-            metalness={0.95}
-          />
-        </mesh>
-        {/* Upper flap */}
-        <mesh castShadow position={[0, 0.03, -0.03]} rotation={[0.15, 0, 0]}>
-          <boxGeometry args={[0.52, 0.015, 0.08]} />
-          <meshStandardMaterial 
-            color="#1a1a1a"
-            roughness={0.15}
-            metalness={0.95}
-          />
-        </mesh>
-        {/* Endplates */}
-        <mesh castShadow position={[-0.27, 0.02, 0]} rotation={[0, 0, 0.1]}>
-          <boxGeometry args={[0.02, 0.08, 0.12]} />
-          <meshStandardMaterial color="#dc2626" roughness={0.3} metalness={0.8} />
-        </mesh>
-        <mesh castShadow position={[0.27, 0.02, 0]} rotation={[0, 0, -0.1]}>
-          <boxGeometry args={[0.02, 0.08, 0.12]} />
-          <meshStandardMaterial color="#dc2626" roughness={0.3} metalness={0.8} />
-        </mesh>
-      </group>
+      {/* Exhaust pipes */}
+      <mesh position={[-0.08, 0, -0.48]} rotation={[Math.PI / 2, 0, 0]}>
+        <cylinderGeometry args={[0.025, 0.025, 0.08, 12]} />
+        <meshStandardMaterial 
+          color="#1a1a1a"
+          roughness={0.3}
+          metalness={0.9}
+          emissive="#ff6600"
+          emissiveIntensity={0.5}
+        />
+      </mesh>
+      <mesh position={[0.08, 0, -0.48]} rotation={[Math.PI / 2, 0, 0]}>
+        <cylinderGeometry args={[0.025, 0.025, 0.08, 12]} />
+        <meshStandardMaterial 
+          color="#1a1a1a"
+          roughness={0.3}
+          metalness={0.9}
+          emissive="#ff6600"
+          emissiveIntensity={0.5}
+        />
+      </mesh>
       
-      {/* Rear Wing - DRS style */}
-      <group position={[0, 0.2, -0.48]}>
-        {/* Main plane */}
-        <mesh castShadow>
-          <boxGeometry args={[0.55, 0.025, 0.12]} />
-          <meshStandardMaterial 
-            color="#1a1a1a"
-            roughness={0.15}
-            metalness={0.95}
-          />
-        </mesh>
-        {/* Upper element */}
-        <mesh castShadow position={[0, 0.06, 0.01]} rotation={[-0.1, 0, 0]}>
-          <boxGeometry args={[0.53, 0.02, 0.1]} />
-          <meshStandardMaterial 
-            color="#1a1a1a"
-            roughness={0.15}
-            metalness={0.95}
-          />
-        </mesh>
-        {/* Left support */}
-        <mesh position={[-0.18, -0.12, 0]}>
-          <boxGeometry args={[0.025, 0.25, 0.06]} />
-          <meshStandardMaterial color="#1a1a1a" roughness={0.2} metalness={0.9} />
-        </mesh>
-        {/* Right support */}
-        <mesh position={[0.18, -0.12, 0]}>
-          <boxGeometry args={[0.025, 0.25, 0.06]} />
-          <meshStandardMaterial color="#1a1a1a" roughness={0.2} metalness={0.9} />
-        </mesh>
-        {/* Endplates */}
-        <mesh position={[-0.275, 0.03, 0]}>
-          <boxGeometry args={[0.015, 0.14, 0.12]} />
-          <meshStandardMaterial color="#dc2626" roughness={0.3} metalness={0.8} />
-        </mesh>
-        <mesh position={[0.275, 0.03, 0]}>
-          <boxGeometry args={[0.015, 0.14, 0.12]} />
-          <meshStandardMaterial color="#dc2626" roughness={0.3} metalness={0.8} />
-        </mesh>
-      </group>
+      {/* Headlights */}
+      <pointLight position={[0, 0, 0.5]} color="#ffffff" intensity={1.8} distance={2.5} />
+      <mesh position={[-0.1, -0.02, 0.48]}>
+        <sphereGeometry args={[0.02, 8, 8]} />
+        <meshStandardMaterial 
+          color="#ffffff"
+          emissive="#ffffff"
+          emissiveIntensity={1.2}
+        />
+      </mesh>
+      <mesh position={[0.1, -0.02, 0.48]}>
+        <sphereGeometry args={[0.02, 8, 8]} />
+        <meshStandardMaterial 
+          color="#ffffff"
+          emissive="#ffffff"
+          emissiveIntensity={1.2}
+        />
+      </mesh>
       
-      {/* Cockpit with Halo */}
+      {/* Rear lights */}
+      <mesh position={[-0.12, 0.02, -0.48]}>
+        <sphereGeometry args={[0.015, 8, 8]} />
+        <meshStandardMaterial 
+          color="#ff3333"
+          emissive="#ff3333"
+          emissiveIntensity={1.0}
+        />
+      </mesh>
+      <mesh position={[0.12, 0.02, -0.48]}>
+        <sphereGeometry args={[0.015, 8, 8]} />
+        <meshStandardMaterial 
+          color="#ff3333"
+          emissive="#ff3333"
+          emissiveIntensity={1.0}
+        />
+      </mesh>
+      
+      {/* Cockpit */}
       <group position={[0, 0.08, 0.05]}>
-        {/* Cockpit opening */}
         <mesh castShadow>
           <boxGeometry args={[0.28, 0.15, 0.4]} />
           <meshStandardMaterial 
@@ -895,42 +1029,11 @@ function RacingCar({ isPaused }: RacingCarProps) {
             metalness={0.7}
           />
         </mesh>
-        
-        {/* Halo protection */}
-        <group position={[0, 0.1, 0]}>
-          {/* Center pillar */}
-          <mesh position={[0, 0, 0.15]}>
-            <cylinderGeometry args={[0.02, 0.025, 0.15, 8]} />
-            <meshStandardMaterial 
-              color="#ffcc00"
-              roughness={0.2}
-              metalness={0.9}
-            />
-          </mesh>
-          {/* Left arc */}
-          <mesh position={[-0.12, 0.05, 0]} rotation={[0, 0, 0.3]}>
-            <torusGeometry args={[0.12, 0.018, 8, 16, Math.PI]} />
-            <meshStandardMaterial 
-              color="#ffcc00"
-              roughness={0.2}
-              metalness={0.9}
-            />
-          </mesh>
-          {/* Right arc */}
-          <mesh position={[0.12, 0.05, 0]} rotation={[0, 0, -0.3]}>
-            <torusGeometry args={[0.12, 0.018, 8, 16, Math.PI]} />
-            <meshStandardMaterial 
-              color="#ffcc00"
-              roughness={0.2}
-              metalness={0.9}
-            />
-          </mesh>
-        </group>
       </group>
       
       {/* Helmet */}
-      <mesh position={[0, 0.24, 0.05]} castShadow>
-        <sphereGeometry args={[0.07, 20, 20, 0, Math.PI * 2, 0, Math.PI / 2]} />
+      <mesh position={[0, 0.22, 0.05]} castShadow>
+        <sphereGeometry args={[0.06, 16, 16, 0, Math.PI * 2, 0, Math.PI / 2]} />
         <meshStandardMaterial 
           color="#fbbf24"
           roughness={0.1}
@@ -938,55 +1041,7 @@ function RacingCar({ isPaused }: RacingCarProps) {
         />
       </mesh>
       
-      {/* Visor */}
-      <mesh position={[0, 0.235, 0.1]} castShadow>
-        <boxGeometry args={[0.12, 0.05, 0.04]} />
-        <meshStandardMaterial 
-          color="#000000"
-          roughness={0.05}
-          metalness={0.95}
-          transparent={true}
-          opacity={0.8}
-        />
-      </mesh>
-      
-      {/* Side Pods */}
-      <mesh castShadow position={[-0.22, -0.03, 0.1]}>
-        <boxGeometry args={[0.08, 0.1, 0.5]} />
-        <meshStandardMaterial 
-          color="#dc2626"
-          roughness={0.25}
-          metalness={0.85}
-        />
-      </mesh>
-      <mesh castShadow position={[0.22, -0.03, 0.1]}>
-        <boxGeometry args={[0.08, 0.1, 0.5]} />
-        <meshStandardMaterial 
-          color="#dc2626"
-          roughness={0.25}
-          metalness={0.85}
-        />
-      </mesh>
-      
-      {/* Air Intakes */}
-      <mesh position={[-0.22, 0.03, 0.15]}>
-        <boxGeometry args={[0.06, 0.06, 0.08]} />
-        <meshStandardMaterial 
-          color="#1a1a1a"
-          roughness={0.8}
-          metalness={0.2}
-        />
-      </mesh>
-      <mesh position={[0.22, 0.03, 0.15]}>
-        <boxGeometry args={[0.06, 0.06, 0.08]} />
-        <meshStandardMaterial 
-          color="#1a1a1a"
-          roughness={0.8}
-          metalness={0.2}
-        />
-      </mesh>
-      
-      {/* Wheels with detailed rims */}
+      {/* Simple Wheels */}
       {[
         [-0.22, -0.1, 0.32],
         [0.22, -0.1, 0.32],
@@ -1004,7 +1059,7 @@ function RacingCar({ isPaused }: RacingCarProps) {
             rotation={[0, 0, Math.PI / 2]}
             castShadow
           >
-            <cylinderGeometry args={[0.13, 0.13, 0.1, 24]} />
+            <cylinderGeometry args={[0.13, 0.13, 0.1, 16]} />
             <meshStandardMaterial 
               color="#1a1a1a"
               roughness={0.95}
@@ -1014,130 +1069,15 @@ function RacingCar({ isPaused }: RacingCarProps) {
           
           {/* Rim */}
           <mesh rotation={[0, 0, Math.PI / 2]}>
-            <cylinderGeometry args={[0.09, 0.09, 0.11, 24]} />
+            <cylinderGeometry args={[0.09, 0.09, 0.11, 16]} />
             <meshStandardMaterial 
               color="#c0c0c0"
               roughness={0.2}
               metalness={0.9}
             />
           </mesh>
-          
-          {/* Brake disc */}
-          <mesh rotation={[0, 0, Math.PI / 2]} position={[pos[0] > 0 ? 0.055 : -0.055, 0, 0]}>
-            <cylinderGeometry args={[0.08, 0.08, 0.01, 24]} />
-            <meshStandardMaterial 
-              color="#ff4400"
-              roughness={0.3}
-              metalness={0.8}
-              emissive="#ff4400"
-              emissiveIntensity={0.3}
-            />
-          </mesh>
-          
-          {/* Brake caliper */}
-          <mesh position={[pos[0] > 0 ? 0.07 : -0.07, 0.06, 0]}>
-            <boxGeometry args={[0.02, 0.04, 0.06]} />
-            <meshStandardMaterial 
-              color="#ffcc00"
-              roughness={0.3}
-              metalness={0.8}
-            />
-          </mesh>
-          
-          {/* Brake glow */}
-          <pointLight 
-            position={[0, 0, 0]} 
-            color="#ff4400" 
-            intensity={0.3} 
-            distance={0.4} 
-          />
         </group>
       ))}
-      
-      {/* Diffuser */}
-      <mesh position={[0, -0.08, -0.42]} rotation={[0.3, 0, 0]} castShadow>
-        <boxGeometry args={[0.35, 0.02, 0.18]} />
-        <meshStandardMaterial 
-          color="#1a1a1a"
-          roughness={0.2}
-          metalness={0.9}
-        />
-      </mesh>
-      
-      {/* Exhaust pipes */}
-      <mesh position={[-0.08, 0, -0.48]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.025, 0.025, 0.08, 12]} />
-        <meshStandardMaterial 
-          color="#2a2a2a"
-          roughness={0.4}
-          metalness={0.8}
-          emissive="#ff4400"
-          emissiveIntensity={0.2}
-        />
-      </mesh>
-      <mesh position={[0.08, 0, -0.48]} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.025, 0.025, 0.08, 12]} />
-        <meshStandardMaterial 
-          color="#2a2a2a"
-          roughness={0.4}
-          metalness={0.8}
-          emissive="#ff4400"
-          emissiveIntensity={0.2}
-        />
-      </mesh>
-      
-      {/* Headlights */}
-      <pointLight position={[0, 0, 0.5]} color="#ffffff" intensity={1.5} distance={2.5} />
-      <mesh position={[-0.1, -0.02, 0.48]}>
-        <sphereGeometry args={[0.02, 8, 8]} />
-        <meshStandardMaterial 
-          color="#ffffff"
-          emissive="#ffffff"
-          emissiveIntensity={1}
-        />
-      </mesh>
-      <mesh position={[0.1, -0.02, 0.48]}>
-        <sphereGeometry args={[0.02, 8, 8]} />
-        <meshStandardMaterial 
-          color="#ffffff"
-          emissive="#ffffff"
-          emissiveIntensity={1}
-        />
-      </mesh>
-      
-      {/* Rear lights */}
-      <mesh position={[-0.12, 0.02, -0.48]}>
-        <sphereGeometry args={[0.015, 8, 8]} />
-        <meshStandardMaterial 
-          color="#ff0000"
-          emissive="#ff0000"
-          emissiveIntensity={0.8}
-        />
-      </mesh>
-      <mesh position={[0.12, 0.02, -0.48]}>
-        <sphereGeometry args={[0.015, 8, 8]} />
-        <meshStandardMaterial 
-          color="#ff0000"
-          emissive="#ff0000"
-          emissiveIntensity={0.8}
-        />
-      </mesh>
-      
-      {/* Exhaust lights */}
-      <pointLight 
-        ref={exhaustRef1}
-        position={[-0.08, 0, -0.5]} 
-        color="#ff6600" 
-        intensity={1.5} 
-        distance={1.2} 
-      />
-      <pointLight 
-        ref={exhaustRef2}
-        position={[0.08, 0, -0.5]} 
-        color="#ff6600" 
-        intensity={1.5} 
-        distance={1.2} 
-      />
     </group>
   );
 }
@@ -1180,7 +1120,9 @@ function SectorMarker({ sector, onClick, isActive }: SectorMarkerProps) {
             className="marker-icon-3d"
             style={{ color: isActive ? '#ffffff' : sector.color }}
           >
-            <Icon className="w-full h-full" />
+            <div className="marker-icon-wrapper">
+              <Icon className="marker-icon-svg" />
+            </div>
           </div>
           <div 
             className="marker-label-3d" 
@@ -1198,7 +1140,14 @@ function SectorMarker({ sector, onClick, isActive }: SectorMarkerProps) {
 // 3D SCENE COMPONENT
 // ============================================================================
 
-function Scene3D({ isPaused, selectedSector, onSectorClick }: Scene3DProps) {
+interface Scene3DProps {
+  isPaused: boolean;
+  selectedSector: Sector | null;
+  onSectorClick: (sector: Sector) => void;
+  sectors: Sector[];
+}
+
+function Scene3D({ isPaused, selectedSector, onSectorClick, sectors }: Scene3DProps) {
   return (
     <>
       {/* Lighting */}
@@ -1219,8 +1168,9 @@ function Scene3D({ isPaused, selectedSector, onSectorClick }: Scene3DProps) {
       {/* Track */}
       <InfinityTrack />
 
-      {/* Racing Car */}
-      <RacingCar isPaused={isPaused} />
+      {/* Racing Cars */}
+      <RacingCar isPaused={isPaused} color="#ff3333" />
+      <RacingCar isPaused={isPaused} trailingOffset={0.08} color="#00aaff" />
 
       {/* Sector Markers - Hide when modal is open */}
       {!selectedSector && sectors.map((sector) => (
@@ -1269,10 +1219,159 @@ function Scene3D({ isPaused, selectedSector, onSectorClick }: Scene3DProps) {
 }
 
 // ============================================================================
+// SKILL ICON COMPONENT (Handles images and Font Awesome icons)
+// ============================================================================
+
+interface SkillIconProps {
+  skill: SkillWithIcon;
+  size?: number;
+  className?: string;
+}
+
+function SkillIcon({ skill, size = 40, className = "" }: SkillIconProps) {
+  const [imageError, setImageError] = React.useState(false);
+  const [isFontAwesome, setIsFontAwesome] = React.useState(false);
+
+  // Check if icon is a Font Awesome class (starts with fab:, fas:, far:, etc.)
+  // Only set this if it's NOT an image path
+  React.useEffect(() => {
+    if (!skill.icon.startsWith('/')) {
+      if (skill.icon.startsWith('fab:') || skill.icon.startsWith('fas:') || 
+          skill.icon.startsWith('far:') || skill.icon.startsWith('fal:') ||
+          skill.icon.startsWith('fab fa-') || skill.icon.startsWith('fas fa-') ||
+          skill.icon.startsWith('far fa-') || skill.icon.startsWith('fal fa-')) {
+        setIsFontAwesome(true);
+      }
+    }
+  }, [skill.icon]);
+
+  // Container style for consistent sizing
+  const containerStyle: React.CSSProperties = {
+    width: `${size}px`,
+    height: `${size}px`,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    margin: '4px',
+    padding: '2px',
+  };
+
+  // If image failed to load, use Font Awesome icon as fallback
+  if (imageError) {
+    const faClass = skill.faIcon || getDefaultFAIcon(skill.name);
+    return (
+      <div style={containerStyle}>
+        <i 
+          className={`${faClass} text-slate-200`}
+          style={{ fontSize: `${size * 0.75}px`, lineHeight: 1 }}
+        />
+      </div>
+    );
+  }
+
+  // If it's a Font Awesome icon (not an image path), use it directly
+  if (isFontAwesome) {
+    let faClass: string;
+    // Parse Font Awesome format: "fab:react" -> "fab fa-react"
+    const match = skill.icon.match(/^(fab|fas|far|fal):(.+)$/);
+    if (match) {
+      const [, prefix, iconName] = match;
+      faClass = `${prefix} fa-${iconName}`;
+    } else {
+      faClass = skill.icon; // Already a valid FA class
+    }
+    
+    return (
+      <div style={containerStyle}>
+        <i 
+          className={`${faClass} text-slate-200`}
+          style={{ fontSize: `${size * 0.75}px`, lineHeight: 1 }}
+        />
+      </div>
+    );
+  }
+
+  // Priority: Try to load image first (if it's an image path)
+  // Image paths typically start with '/' or are relative paths
+  if (skill.icon.startsWith('/') || skill.icon.includes('.')) {
+    return (
+      <div style={containerStyle}>
+        <Image 
+          src={skill.icon} 
+          alt={skill.name}
+          width={size}
+          height={size}
+          className={`object-contain ${className}`}
+          style={{ width: '100%', height: '100%', maxWidth: '100%', maxHeight: '100%' }}
+          onError={() => setImageError(true)}
+        />
+      </div>
+    );
+  }
+
+  // Final fallback: use Font Awesome icon
+  const faClass = skill.faIcon || getDefaultFAIcon(skill.name);
+  return (
+    <div style={containerStyle}>
+      <i 
+        className={`${faClass} text-slate-200`}
+        style={{ fontSize: `${size * 0.75}px`, lineHeight: 1 }}
+      />
+    </div>
+  );
+}
+
+// Helper function to get default Font Awesome icons for common skills
+function getDefaultFAIcon(skillName: string): string {
+  const iconMap: Record<string, string> = {
+    'Python': 'fab fa-python',
+    'JavaScript': 'fab fa-js-square',
+    'TypeScript': 'fab fa-js-square',
+    'Go': 'fab fa-golang',
+    'Node.js': 'fab fa-node-js',
+    'React.js': 'fab fa-react',
+    'Next.js': 'fas fa-arrow-right',
+    'Express.js': 'fas fa-server',
+    'Tailwind CSS': 'fas fa-wind',
+    'MERN Stack': 'fab fa-react',
+    'AWS': 'fab fa-aws',
+    'Azure': 'fas fa-cloud',
+    'GCP': 'fas fa-cloud-meatball',
+    'Alibaba Cloud': 'fas fa-cloud-upload-alt',
+    'Kubernetes': 'fas fa-dharmachakra',
+    'Docker': 'fab fa-docker',
+    'Terraform': 'fas fa-server',
+    'Ansible': 'fas fa-robot',
+    'GitHub Actions': 'fab fa-github-alt',
+    'Argo CD': 'fas fa-ship',
+    'Prometheus': 'fas fa-chart-line',
+    'Grafana': 'fas fa-chart-bar',
+    'Loki & Mimir': 'fas fa-database',
+    'OTel': 'fas fa-project-diagram',
+    'PostgreSQL': 'fas fa-elephant',
+    'MongoDB': 'fas fa-leaf',
+    'LLM APIs': 'fas fa-robot',
+    'Hugging Face': 'fas fa-hands-helping',
+    'PyTorch': 'fab fa-python',
+    'TensorFlow': 'fas fa-brain',
+    'Pandas': 'fas fa-table',
+    'Penetration Testing': 'fas fa-user-secret',
+    'SIEM': 'fas fa-shield-alt',
+    'Incident Response': 'fas fa-exclamation-triangle',
+    'Digital Forensics': 'fas fa-search',
+  };
+
+  return iconMap[skillName] || 'fas fa-code';
+}
+
+// ============================================================================
 // MAIN COMPONENT
 // ============================================================================
 
 export default function F1RaceTrackSkills() {
+  const { t } = useLanguage();
+  const sectors = useMemo(() => getSectors(t), [t]);
   const [selectedSector, setSelectedSector] = useState<Sector | null>(null);
   const [isPaused, setIsPaused] = useState(false);
 
@@ -1306,13 +1405,13 @@ export default function F1RaceTrackSkills() {
         animate={{ opacity: 1, y: 0 }}
       >
         <h2 className="text-5xl md:text-6xl font-extrabold mb-4 bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500 bg-clip-text text-transparent drop-shadow-lg">
-          🏎️ Skills Race Track
+          {t.skills.title}
         </h2>
         <p className="text-xl text-slate-300 mb-2 font-semibold">
-          Powered by the DevOps Infinity Loop
+          {t.skills.subtitle}
         </p>
         <p className="text-sm text-slate-400 font-mono">
-          Click sectors • Drag to rotate • Scroll to zoom • Auto-rotates 🏁
+          {t.skills.instructions}
         </p>
       </motion.div>
 
@@ -1340,6 +1439,7 @@ export default function F1RaceTrackSkills() {
             isPaused={isPaused} 
             selectedSector={selectedSector}
             onSectorClick={handleSectorClick}
+            sectors={sectors}
           />
         </Canvas>
       </motion.div>
@@ -1482,7 +1582,7 @@ export default function F1RaceTrackSkills() {
                     className="w-8 h-0.5 rounded-full"
                     style={{ backgroundColor: selectedSector.color }}
                   />
-                  Core Technologies
+                  {t.common.coreTechnologies}
                 </motion.h4>
                 
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -1524,13 +1624,7 @@ export default function F1RaceTrackSkills() {
                           whileHover={{ scale: 1.1, rotate: 5 }}
                           transition={{ type: "spring", stiffness: 400, damping: 10 }}
                         >
-                          <Image 
-                            src={skill.icon} 
-                            alt={skill.name}
-                            width={40}
-                            height={40}
-                            className="object-contain"
-                          />
+                          <SkillIcon skill={skill} size={40} />
                         </motion.div>
                         
                         {/* Skill Name */}
@@ -1568,17 +1662,8 @@ export default function F1RaceTrackSkills() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8 }}
               >
-                <div className="flex items-center gap-2">
-                  <div 
-                    className="w-2 h-2 rounded-full animate-pulse"
-                    style={{ backgroundColor: selectedSector.color }}
-                  />
-                  <p className="text-xs text-slate-400 font-mono">
-                    Car paused
-                  </p>
-                </div>
                 <p className="text-xs text-slate-500 font-mono">
-                  Press ESC or click outside to resume
+                  {t.common.pressEscToResume}
                 </p>
               </motion.div>
             </motion.div>
@@ -1631,7 +1716,7 @@ export default function F1RaceTrackSkills() {
                     {sector.name}
                   </h4>
                   <p className="text-xs text-slate-400 mt-0.5">
-                    {sector.skills.length} technologies
+                    {sector.skills.length} {t.common.technologies}
                   </p>
                 </div>
               </div>
@@ -1641,19 +1726,13 @@ export default function F1RaceTrackSkills() {
                 {sector.skills.slice(0, 5).map((skill, skillIdx) => (
                   <motion.div
                     key={skill.name}
-                    className="w-8 h-8 rounded-lg bg-slate-700/50 p-1.5 relative"
+                    className="w-8 h-8 rounded-lg bg-slate-700/50 p-1.5 relative flex items-center justify-center"
                     initial={{ opacity: 0, scale: 0 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.6 + idx * 0.05 + skillIdx * 0.03 }}
                     whileHover={{ scale: 1.2, zIndex: 10 }}
                   >
-                    <Image 
-                      src={skill.icon} 
-                      alt={skill.name}
-                      width={32}
-                      height={32}
-                      className="object-contain"
-                    />
+                    <SkillIcon skill={skill} size={32} />
                   </motion.div>
                 ))}
                 {sector.skills.length > 5 && (
@@ -1733,10 +1812,42 @@ export default function F1RaceTrackSkills() {
         }
 
         .marker-icon-3d {
-          width: 30px;
-          height: 30px;
+          width: 48px;
+          height: 48px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
           transition: all 0.3s;
           filter: drop-shadow(0 0 8px currentColor);
+        }
+        
+        .marker-icon-wrapper {
+          width: 28px;
+          height: 28px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+        
+        .marker-icon-3d svg,
+        .marker-icon-svg,
+        .marker-icon-wrapper svg {
+          width: 28px !important;
+          height: 28px !important;
+          min-width: 28px !important;
+          min-height: 28px !important;
+          max-width: 28px !important;
+          max-height: 28px !important;
+          flex-shrink: 0;
+          stroke-width: 2.5;
+          display: block;
+          box-sizing: border-box;
+        }
+        
+        .marker-icon-wrapper svg {
+          viewBox: attr(viewBox);
         }
 
         .marker-label-3d {
@@ -1746,27 +1857,6 @@ export default function F1RaceTrackSkills() {
           line-height: 1.1;
           transition: color 0.3s;
           text-shadow: 0 0 10px currentColor;
-        }
-
-        .infinity-symbol-3d {
-          font-size: 120px;
-          font-weight: 900;
-          background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 33%, #ec4899 66%, #f59e0b 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          filter: drop-shadow(0 0 35px rgba(139, 92, 246, 0.9));
-          pointer-events: none;
-        }
-
-        .devops-text-3d {
-          margin-top: 15px;
-          font-size: 20px;
-          color: #cbd5e1;
-          font-family: monospace;
-          font-weight: 600;
-          text-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
-          pointer-events: none;
         }
       `}</style>
     </section>

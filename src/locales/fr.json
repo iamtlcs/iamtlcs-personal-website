@@ -1,0 +1,200 @@
+{
+  "common": {
+    "viewWork": "View My Work",
+    "getInTouch": "Get In Touch",
+    "clickMe": "Click Me!",
+    "comingSoon": "COMING SOON",
+    "technologies": "technologies",
+    "downloadCV": "Download CV",
+    "emailMe": "Email Me",
+    "connectWithMe": "Connect with me:",
+    "pressEscToResume": "Press ESC or click outside to resume",
+    "coreTechnologies": "Core Technologies"
+  },
+  "header": {
+    "home": "Home",
+    "skillsTrack": "Skills Track",
+    "projects": "Projects",
+    "architecture": "Architecture",
+    "origin": "Origin",
+    "hobbies": "Hobbies",
+    "contact": "Contact"
+  },
+  "home": {
+    "greeting": "Bonjour, je suis",
+    "name": "Simon Cheung",
+    "title": "Un {fullStack} & {devOps} passionné qui construit des plateformes robustes, scalables et web dynamiques.",
+    "fullStack": "Développeur Full Stack",
+    "devOps": "Ingénieur DevOps",
+    "aboutMe": "À propos",
+    "aboutParagraph1": "Salut les gars! C'est Simon, et je suis un Ingénieur backend-focused, DevOps, et systèmes avec un fort passion par la création des plateformes robustes, scalables et fiables. Mon parcours dans la technologie a commencé pendant mon temps à {cuhk}, où j'ai obtenu un Bachelor of Science en Statistiques (Août 2020 - Juillet 2024) et développé un profond intérêt pour les systèmes distribués, l'automatisation, et l'architecture cloud.",
+    "cuhk": "The Chinese University of Hong Kong",
+    "aboutParagraph2": "I specialize in architecting backend services, designing APIs, and managing cloud infrastructure. My expertise covers {techStack}, as well as cloud platforms like {cloudPlatforms}. I enjoy solving complex problems, automating workflows, and ensuring systems are secure and maintainable.",
+    "techStack": "Node.js, Python, and Linux systems",
+    "cloudPlatforms": "AWS and Azure",
+    "aboutParagraph3": "Outside of coding, I'm always exploring new technologies in DevOps, cloud, and backend engineering to keep my skills sharp. You can find more about my professional journey and connect with me on {linkedIn} and {github}.",
+    "linkedIn": "LinkedIn",
+    "github": "GitHub",
+    "techCertifications": "Tech Certifications"
+  },
+  "skills": {
+    "title": "🏎️ Skills Race Track",
+    "subtitle": "Inspired by the DevOps Infinity Loop",
+    "instructions": "Click sectors • Drag to rotate • Scroll to zoom • Auto-rotates 🏁",
+    "sectors": {
+      "programming": {
+        "name": "Programming Languages",
+        "description": "Core programming languages for backend and full-stack development"
+      },
+      "web": {
+        "name": "Web Development",
+        "description": "Modern web frameworks and frontend technologies"
+      },
+      "cloud": {
+        "name": "Cloud Platforms",
+        "description": "Multi-cloud infrastructure and services"
+      },
+      "devops": {
+        "name": "DevOps & Infrastructure",
+        "description": "Container orchestration, IaC, and CI/CD pipelines"
+      },
+      "monitoring": {
+        "name": "Observability & Monitoring",
+        "description": "Monitoring, logging, and observability platforms"
+      },
+      "database": {
+        "name": "Databases",
+        "description": "SQL and NoSQL database management"
+      },
+      "ai": {
+        "name": "AI & Machine Learning",
+        "description": "AI integration, ML frameworks, and data science"
+      },
+      "security": {
+        "name": "Security & Compliance",
+        "description": "Cybersecurity, compliance, and threat detection"
+      }
+    }
+  },
+  "hongkong": {
+    "title": "My Hong Kong Roots",
+    "subtitle": "Where efficiency meets innovation",
+    "description": "A city that shaped my engineering mindset",
+    "paragraph1": "Growing up in the heart of {hongKong}, I was immersed in a city where efficiency and reliability are essential for daily life. The fast-paced environment and robust urban infrastructure have shaped my mindset toward building systems that are dependable, scalable, and high-performing.",
+    "hongKong": "Hong Kong",
+    "paragraph2": "Navigating complex transport networks and witnessing seamless city operations taught me the value of well-architected backends and resilient infrastructure. These experiences drive my engineering approach—prioritizing efficiency, fault tolerance, and maintainability in every solution I design.",
+    "paragraph3": "The iconic skyline, advanced public systems, and dynamic city life continue to inspire my focus on robust architecture and operational excellence. I strive to bring this spirit of efficiency and reliability into every backend, system, and infrastructure project I develop."
+  },
+  "hobbies": {
+    "title": "🎯 My Hobbies & Personality",
+    "subtitle": "Beyond the code, exploring life's passions",
+    "personality": "INTP • Curious • Creative • Always learning",
+    "introParagraph1": "Beyond the code, I'm a curious and creative individual who loves to explore new things. As an {intp}, my personality is characterized by a strong drive for logical analysis and innovative problem-solving. I enjoy delving into complex systems and abstract concepts, which fuels my passion for both coding and my diverse hobbies.",
+    "intp": "INTP",
+    "introParagraph2": "Here are some of the activities that keep me inspired and balanced:",
+    "currentlyListening": "♫ Currently Listening",
+    "spotifyIntegration": "💡 Real-time integration with Spotify API",
+    "hobbies": {
+      "movies": {
+        "name": "Movies",
+        "description": "Exploring the world of cinema, from classics to modern blockbusters."
+      },
+      "football": {
+        "name": "Football",
+        "description": "Playing football and enjoying the camaraderie of team sports."
+      },
+      "reading": {
+        "name": "Reading",
+        "description": "Diving into non-fiction to expand my knowledge."
+      },
+      "algoTrading": {
+        "name": "Algo Trading",
+        "description": "Applying statistical analysis and programming to develop trading algorithms."
+      },
+      "traveling": {
+        "name": "Traveling",
+        "description": "Exploring new cultures and places, with a special fondness for Japan."
+      },
+      "gaming": {
+        "name": "Gaming",
+        "description": "Enjoying video games as a way to relax and challenge my strategic thinking."
+      },
+      "coding": {
+        "name": "Coding",
+        "description": "Building projects and experimenting with new technologies in my free time."
+      }
+    }
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "subtitle": "Let's connect and build something amazing together",
+    "description": "Always open to new opportunities and collaborations",
+    "message": "I'm always open to new opportunities and collaborations. Feel free to reach out if you have any questions, want to discuss a project, or just say hello!"
+  },
+  "projects": {
+    "title": "My Projects",
+    "subtitle": "Building scalable solutions and innovative applications",
+    "description": "Click to explore • Open source contributions welcome 🚀",
+    "viewDemo": "Live Demo",
+    "viewCode": "GitHub",
+    "confidential": "Confidential",
+    "items": {
+      "thisWebsite": {
+        "title": "This Website",
+        "description": "Personal portfolio built with Next.js, React, and Tailwind CSS. Showcases my projects, experience, and skills with a modern, responsive design."
+      },
+      "urlShortener": {
+        "title": "AWS Terraform IaC URL Shortener",
+        "description": "Infrastructure-as-Code project deploying a scalable URL shortener on AWS using Terraform. Automated provisioning of Lambda, API Gateway, DynamoDB, and monitoring."
+      },
+      "ecsBlueGreen": {
+        "title": "Terraform IaC ECS Load Balancer with Blue-Green Deployment",
+        "description": "Automated deployment of containerized applications on AWS ECS with blue-green deployment strategy using Terraform. Includes ALB, ECS, CodeDeploy, and CI/CD integration."
+      },
+      "shell": {
+        "title": "Making my own shell",
+        "description": "Back to basics! A simple shell implementation in C. I use shell a lot, bash, zsh, ps, etc. But I want to know how it works under the hood, so I made my own shell. I take it as a step to get me out of my comfort zone."
+      },
+      "stateMachine": {
+        "title": "State Machine Concurrency Control Data Processing Units",
+        "description": "Designed and implemented scalable data processing pipelines with concurrency control using AWS Step Functions and Lambda. (Job-related project: Details are confidential, but maybe there will be a Medium article to go through what I did!)"
+      },
+      "algoTrading": {
+        "title": "Algorithmic Trading Competition",
+        "description": "Developed and backtested a MACD-based trading algorithm for BTC-USDT perpetual futures. Received first runner-up in a global competition."
+      },
+      "algoTradingResearch": {
+        "title": "Self-research on Algorithmic Trading",
+        "description": "Conducted self-directed research on algorithmic trading strategies, focusing on technical indicators, statistical arbitrage, and statistical models. To be organised to show you guys!"
+      },
+      "artClassification": {
+        "title": "Art Classification with CNN",
+        "description": "Built a Convolutional Neural Network (CNN) to classify which painting belongs to which artist."
+      }
+    }
+  },
+  "architecture": {
+    "title": "System Architecture",
+    "subtitle": "Visual representations of complex systems I've designed and implemented. These diagrams showcase my understanding of distributed systems, microservices, and DevOps practices.",
+    "fullStackTitle": "Full-Stack Web Application Architecture",
+    "fullStackDescription": "Production-ready architecture featuring load balancing, caching, and monitoring",
+    "cicdTitle": "CI/CD Pipeline with Kubernetes",
+    "cicdDescription": "Automated deployment pipeline from code commit to production",
+    "microservicesTitle": "Microservices Architecture",
+    "microservicesDescription": "Event-driven microservices with message queue integration",
+    "urlShortenerTitle": "AWS Terraform URL Shortener - Infrastructure Flow",
+    "urlShortenerDescription": "Serverless architecture with AWS Lambda, API Gateway, DynamoDB, and CloudFront CDN",
+    "ecsBlueGreenTitle": "ECS Blue-Green Deployment Strategy",
+    "ecsBlueGreenDescription": "Zero-downtime deployment using AWS ECS, ALB, and CodeDeploy with Terraform IaC",
+    "devopsNoteTitle": "Why Architecture Diagrams Matter in DevOps",
+    "devopsNoteDescription": "These diagrams demonstrate my ability to:",
+    "devopsNotePoints": {
+      "point1": "Design scalable, production-ready systems",
+      "point2": "Understand the entire technology stack, not just individual components",
+      "point3": "Document complex architectures for team collaboration",
+      "point4": "Plan for high availability, disaster recovery, and monitoring",
+      "point5": "Make informed decisions about infrastructure and deployment strategies"
+    }
+  }
+}
+

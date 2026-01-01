@@ -1,6 +1,9 @@
 import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { interpolate } from "@/lib/i18n";
+import React from "react";
 
 import { FlaskConical, Inbox, Sparkles, ExternalLink } from "lucide-react";
 
@@ -61,6 +64,8 @@ const certifications: Certification[] = [
 ];
 
 const HomeSection = ({ navigate }: HomeSectionProps) => {
+    const { t } = useLanguage();
+    
     return (
         <div className="space-y-12">
         {/* Hero Section */}
@@ -75,9 +80,9 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.6 }}
                 >
-                    Hi, I&apos;m{" "}
+                    {t.home.greeting}{" "}
                     <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-indigo-600 dark:from-blue-400 dark:via-cyan-400 dark:to-indigo-400 bg-clip-text text-transparent">
-                        Simon, Cheung Tak Leung
+                        {t.home.name}
                     </span>
                 </motion.h1>
                 <motion.p 
@@ -86,7 +91,12 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
                 >
-                    A passionate <span className="text-blue-600 dark:text-blue-400 font-bold">Full Stack</span> &amp; <span className="text-cyan-600 dark:text-cyan-400 font-bold">DevOps Engineer</span> building scalable and dynamic web experiences.
+                    {interpolate(t.home.title, { 
+                        fullStack: <span key="fs" className="text-blue-600 dark:text-blue-400 font-bold">{t.home.fullStack}</span>,
+                        devOps: <span key="do" className="text-cyan-600 dark:text-cyan-400 font-bold">{t.home.devOps}</span>
+                    }).map((part, i) => (
+                        <React.Fragment key={i}>{part}</React.Fragment>
+                    ))}
                 </motion.p>
                 <motion.div 
                     className="flex flex-col sm:flex-row gap-4 w-full"
@@ -102,7 +112,7 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
                         whileTap={{ scale: 0.95 }}
                     >
                         <FlaskConical className="w-5 h-5" />
-                        View My Work
+                        {t.common.viewWork}
                     </motion.button>
                     <motion.button
                         onClick={() => navigate("contact")}
@@ -112,7 +122,7 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
                         whileTap={{ scale: 0.95 }}
                     >
                         <Inbox className="w-5 h-5" />
-                        Get In Touch
+                        {t.common.getInTouch}
                     </motion.button>
                 </motion.div>
             </div>
@@ -136,61 +146,64 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
             transition={{ delay: 0.6, duration: 0.8 }}
         >
             <h2 className="flex items-center justify-center gap-4 text-4xl md:text-5xl font-extrabold text-center bg-gradient-to-r from-slate-700 via-blue-600 to-indigo-600 dark:from-blue-400 dark:via-cyan-400 dark:to-indigo-400 bg-clip-text text-transparent mb-12 drop-shadow-lg tracking-tight">
-                About Me
+                {t.home.aboutMe}
                 <Sparkles className="w-10 h-10 text-blue-500 dark:text-blue-400 drop-shadow-md" />
             </h2>
             
             <div className="max-w-3xl mx-auto text-lg leading-relaxed text-slate-800 dark:text-slate-200 space-y-6">
                 <p>
-                    What&apos;s up guys! This is Simon, and I&apos;m a backend-focused, DevOps, and Systems Engineer with a strong passion for building robust, scalable, and reliable platforms. My journey into technology began during my time at{" "}
-                    <a
-                        href="https://www.cuhk.edu.hk/english/index.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-semibold text-blue-600 dark:text-blue-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline transition-colors duration-300"
-                    >
-                        The Chinese University of Hong Kong
-                    </a>
-                    , where I earned a Bachelor of Science in Statistics (August 2020 - July 2024) and developed a deep interest in distributed systems, automation, and cloud architecture.
+                    {interpolate(t.home.aboutParagraph1, {
+                        cuhk: <a
+                            key="cuhk"
+                            href="https://www.cuhk.edu.hk/english/index.html"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-semibold text-blue-600 dark:text-blue-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline transition-colors duration-300"
+                        >
+                            {t.home.cuhk}
+                        </a>
+                    }).map((part, i) => (
+                        <React.Fragment key={i}>{part}</React.Fragment>
+                    ))}
                 </p>
                 <p>
-                    I specialize in architecting backend services, designing APIs, and managing cloud infrastructure. My expertise covers{" "}
-                    <span className="font-semibold text-slate-700 dark:text-blue-300">
-                        Node.js, Python, and Linux systems
-                    </span>
-                    , as well as cloud platforms like{" "}
-                    <span className="font-semibold text-blue-600 dark:text-blue-400">
-                        AWS and Azure
-                    </span>
-                    . I enjoy solving complex problems, automating workflows, and ensuring systems are secure and maintainable.
+                    {interpolate(t.home.aboutParagraph2, {
+                        techStack: <span key="ts" className="font-semibold text-slate-700 dark:text-blue-300">{t.home.techStack}</span>,
+                        cloudPlatforms: <span key="cp" className="font-semibold text-blue-600 dark:text-blue-400">{t.home.cloudPlatforms}</span>
+                    }).map((part, i) => (
+                        <React.Fragment key={i}>{part}</React.Fragment>
+                    ))}
                 </p>
                 <p>
-                    Outside of coding, I&apos;m always exploring new technologies in DevOps, cloud, and backend engineering to keep my skills sharp. You can find more about my professional journey and connect with me on{" "}
-                    <a
-                        href="https://www.linkedin.com/in/iamtlcs"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 dark:text-blue-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline font-semibold transition-colors duration-300"
-                    >
-                        LinkedIn
-                    </a>{" "}
-                    and{" "}
-                    <a
-                        href="https://github.com/iamtlcs"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 dark:text-blue-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline font-semibold transition-colors duration-300"
-                    >
-                        GitHub
-                    </a>
-                    .
+                    {interpolate(t.home.aboutParagraph3, {
+                        linkedIn: <a
+                            key="li"
+                            href="https://www.linkedin.com/in/iamtlcs"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 dark:text-blue-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline font-semibold transition-colors duration-300"
+                        >
+                            {t.home.linkedIn}
+                        </a>,
+                        github: <a
+                            key="gh"
+                            href="https://github.com/iamtlcs"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 dark:text-blue-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline font-semibold transition-colors duration-300"
+                        >
+                            {t.home.github}
+                        </a>
+                    }).map((part, i) => (
+                        <React.Fragment key={i}>{part}</React.Fragment>
+                    ))}
                 </p>
             </div>
 
             {/* Certifications */}
             <div className="mt-14">
                 <h3 className="text-2xl font-bold text-slate-700 dark:text-slate-200 mb-6 text-center tracking-tight flex items-center justify-center gap-2">
-                    <span>Tech Certifications</span>
+                    <span>{t.home.techCertifications}</span>
                     <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-6xl mx-auto">
@@ -200,14 +213,14 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
                         return isInProgress ? (
                             <motion.div
                                 key={cert.name}
-                                className="group relative rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br from-gray-50 via-orange-50 to-red-50 dark:from-slate-800 dark:via-orange-900/20 dark:to-red-900/20 border border-orange-200 dark:border-orange-800 flex flex-col items-center p-6 min-h-[240px]"
+                                className="group relative rounded-2xl shadow-lg bg-gradient-to-br from-gray-50 via-orange-50 to-red-50 dark:from-slate-800 dark:via-orange-900/20 dark:to-red-900/20 border border-orange-200 dark:border-orange-800 flex flex-col items-center p-6 min-h-[240px]"
                                 whileHover={{ scale: 1.02 }}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.8 + certifications.indexOf(cert) * 0.1 }}
                             >
-                                <div className="absolute -top-2 -right-2 z-20 bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg transform rotate-12 animate-pulse">
-                                    COMING SOON
+                                <div className="absolute top-2 right-2 z-30 bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg transform rotate-12 animate-pulse">
+                                    {t.common.comingSoon}
                                 </div>
                                 <div className="relative w-28 h-28 flex items-center justify-center mb-4">
                                     <Image
@@ -264,6 +277,7 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
 };
 
 function CoinFlipPhoto() {
+    const { t } = useLanguage();
     const [flipped, setFlipped] = useState(false);
 
     return (
@@ -317,7 +331,7 @@ function CoinFlipPhoto() {
                 </motion.div>
             </AnimatePresence>
             <span className="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs text-blue-400 bg-black/60 px-3 py-1 rounded-full shadow-lg select-none pointer-events-none animate-pulse group-hover:bg-blue-200 group-hover:text-black group-hover:scale-110 transition-all">
-                Click Me!
+                {t.common.clickMe}
             </span>
         </div>
     );

@@ -13,6 +13,7 @@ import ArchitectureShowcase from '@/components/ArchitectureShowcase';
 import ClientHydrationWrapper from '@/components/ClientHydrationWrapper';
 import HydrationErrorBoundary from '@/components/HydrationErrorBoundary';
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import { LanguageProvider } from '@/contexts/LanguageContext';
 import PageTransition from '@/components/PageTransition';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import CommandPalette from '@/components/CommandPalette';
@@ -37,7 +38,8 @@ export default function Home() {
   return (
     <HydrationErrorBoundary>
       <ClientHydrationWrapper>
-        <ThemeProvider>
+        <LanguageProvider>
+          <ThemeProvider>
           <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-blue-950 font-inter text-gray-900 dark:text-gray-100 transition-colors duration-300 relative overflow-hidden">
             {/* Animated Background */}
             <AnimatedBackground />
@@ -62,7 +64,8 @@ export default function Home() {
               <SystemStatusFooter />
             </div>
           </div>
-        </ThemeProvider>
+          </ThemeProvider>
+        </LanguageProvider>
       </ClientHydrationWrapper>
     </HydrationErrorBoundary>
   );

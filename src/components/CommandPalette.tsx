@@ -80,7 +80,7 @@ export default function CommandPalette({ navigate }: CommandPaletteProps) {
       'hobbies': () => navigate('hobbies'),
       'contact': () => navigate('contact'),
       'github': () => window.open('https://github.com/iamtlcs', '_blank'),
-      'linkedin': () => window.open('https://linkedin.com/in/yourusername', '_blank'),
+      'linkedin': () => window.open('https://linkedin.com/in/iamtlcs', '_blank'),
       'logs': () => {
         console.table(logs);
         alert('Server logs printed to console (F12)');
@@ -118,8 +118,9 @@ export default function CommandPalette({ navigate }: CommandPaletteProps) {
       >
         <Terminal className="w-4 h-4" />
         <span className="text-sm font-mono">DevOps Console</span>
+        {/* Show ⌘K for Mac, Ctrl+K for Windows/Linux */}
         <kbd className="px-2 py-0.5 text-xs bg-slate-700 dark:bg-slate-600 rounded border border-slate-600 dark:border-slate-500">
-          ⌘K
+          {typeof window !== "undefined" && navigator.platform.toLowerCase().indexOf('mac') >= 0 ? '⌘ K' : 'Ctrl K'}
         </kbd>
       </motion.button>
 

@@ -225,17 +225,17 @@ export default function SpotifyWidget() {
 
 Example API endpoint code (save as /api/spotify/now-playing/route.ts):
 
-import { NextResponse } from 'next/server';
-
-const SPOTIFY_TOKEN_URL = 'https://accounts.spotify.com/api/token';
-const SPOTIFY_NOW_PLAYING_URL = 'https://api.spotify.com/v1/me/player/currently-playing';
-
-const client_id = process.env.SPOTIFY_CLIENT_ID;
-const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-const refresh_token = process.env.SPOTIFY_REFRESH_TOKEN;
-
-export async function GET() {
-  // Implementation here...
-}
+// import { NextResponse } from 'next/server';
+//
+// const SPOTIFY_TOKEN_URL = 'https://accounts.spotify.com/api/token';
+// const SPOTIFY_NOW_PLAYING_URL = 'https://api.spotify.com/v1/me/player/currently-playing';
+//
+// const client_id = process.env.SPOTIFY_CLIENT_ID;
+// const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+// const refresh_token = process.env.SPOTIFY_REFRESH_TOKEN;
+//
+// export async function GET() {
+//   // Implementation here...
+// }
 */
 
