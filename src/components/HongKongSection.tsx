@@ -1,39 +1,75 @@
+'use client';
+
 import Image from 'next/image';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { HK } from 'country-flag-icons/react/3x2';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { interpolate } from '@/lib/i18n';
+import React from 'react';
 
 const HongKongSection = () => {
+  const { t } = useLanguage();
   return (
-    <section className="py-20 px-6 bg-gradient-to-br from-white via-slate-50 to-gray-100 rounded-3xl shadow-2xl mb-12 animate-fadeIn border border-slate-300">
-      <div className="flex flex-col items-center pb-5 mb-10">
-        <div className="flex items-center gap-4">
-          <h2 className="text-4xl font-extrabold text-center bg-gradient-to-r from-slate-700 via-gray-600 to-blue-600 bg-clip-text text-transparent tracking-tight drop-shadow-lg">
-            My Hong Kong Roots
+    <section className="min-h-screen py-16 px-4 relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
+      <motion.div 
+        className="text-center mb-12 relative z-10"
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <div className="flex items-center justify-center gap-4 mb-4">
+          <h2 className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500 bg-clip-text text-transparent drop-shadow-lg leading-tight pb-2">
+            {t.hongkong.title}
           </h2>
-          <HK className="w-12 h-12 drop-shadow-lg" />
+          <HK className="w-16 h-16 drop-shadow-lg" />
         </div>
-      </div>
-      <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16">
-        <div className="md:w-1/2 md:pr-10 mb-10 md:mb-0 text-lg leading-relaxed text-gray-800 bg-white/80 rounded-xl shadow-lg p-8 border border-slate-200">
-            <p className="mb-6">
-            Growing up in the heart of{" "}
-            <span className="font-semibold text-blue-600">
-              Hong Kong
-            </span>
-            , I was immersed in a city where efficiency and reliability are essential for daily life. The fast-paced environment and robust urban infrastructure have shaped my mindset toward building systems that are dependable, scalable, and high-performing.
-            </p>
-            <p className="mb-6">
-            Navigating complex transport networks and witnessing seamless city operations taught me the value of well-architected backends and resilient infrastructure. These experiences drive my engineering approach—prioritizing efficiency, fault tolerance, and maintainability in every solution I design.
-            </p>
-            <p>
-            The iconic skyline, advanced public systems, and dynamic city life continue to inspire my focus on robust architecture and operational excellence. I strive to bring this spirit of efficiency and reliability into every backend, system, and infrastructure project I develop.
-            </p>
-        </div>
-        <div className="md:w-1/2 flex justify-center items-center">
-          <div className="w-full max-w-lg bg-white/90 rounded-xl shadow-xl p-4 border border-slate-200 flex flex-col items-center">
+        <p className="text-xl text-slate-300 mb-2 font-semibold">
+          {t.hongkong.subtitle}
+        </p>
+        <p className="text-sm text-slate-400 font-mono">
+          {t.hongkong.description}
+        </p>
+      </motion.div>
+      
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-12">
+        <motion.div 
+          className="md:w-1/2 text-lg leading-relaxed rounded-2xl backdrop-blur-sm p-8 border border-slate-700/50"
+          style={{
+            background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%)',
+            boxShadow: '0 0 40px rgba(59, 130, 246, 0.1), inset 0 0 40px rgba(0, 0, 0, 0.3)'
+          }}
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <p className="mb-6 text-slate-300">
+            {interpolate(t.hongkong.paragraph1, { hongKong: <span key="hk" className="font-semibold text-blue-400">{t.hongkong.hongKong}</span> }).map((part, i) => (
+              <React.Fragment key={i}>{part}</React.Fragment>
+            ))}
+          </p>
+          <p className="mb-6 text-slate-300">
+            {t.hongkong.paragraph2}
+          </p>
+          <p className="text-slate-300">
+            {t.hongkong.paragraph3}
+          </p>
+        </motion.div>
+        
+        <motion.div 
+          className="md:w-1/2 flex justify-center items-center"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <div className="w-full max-w-lg rounded-2xl backdrop-blur-sm p-4 border border-slate-700/50"
+            style={{
+              background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(30, 41, 59, 0.4) 100%)',
+              boxShadow: '0 0 40px rgba(59, 130, 246, 0.1), inset 0 0 40px rgba(0, 0, 0, 0.3)'
+            }}
+          >
             <HongKongSlideshow />
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -55,44 +91,64 @@ function HongKongSlideshow() {
   const prev = () => setCurrent((c) => (c - 1 + total) % total);
   return (
     <div className="relative w-full max-w-md flex flex-col items-center">
-      <div className="relative w-full h-[350px] flex items-center justify-center group">
-        <button
+      <div className="relative w-full h-[400px] flex items-center justify-center group">
+        <motion.button
           onClick={prev}
-          className="absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-slate-50 text-gray-700 hover:text-blue-600 text-3xl rounded-full shadow p-1 transition-all duration-150 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-200"
+          className="absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-blue-400 rounded-full shadow-lg p-2 transition-all duration-150 border border-slate-700/50 backdrop-blur-sm"
           aria-label="Previous image"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
         >
           <span className="sr-only">Previous</span>
-          <svg xmlns='http://www.w3.org/2000/svg' className='w-7 h-7' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 19l-7-7 7-7' /></svg>
-        </button>
-        <div className="w-full h-full flex items-center justify-center overflow-hidden rounded-3xl bg-gradient-to-br from-slate-100 via-gray-100 to-slate-200 border-4 border-slate-300 shadow-2xl">
-          <Image
-            src={hongKongImages[current]}
-            alt={`Hong Kong Slide ${current + 1}`}
-            width={500}
-            height={350}
-            className="rounded-3xl w-full max-w-md object-cover transition-transform duration-500 drop-shadow-[0_2px_12px_rgba(0,0,0,0.15)]"
-            priority
-          />
+          <svg xmlns='http://www.w3.org/2000/svg' className='w-6 h-6' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 19l-7-7 7-7' /></svg>
+        </motion.button>
+        <div className="w-full h-full flex items-center justify-center overflow-hidden rounded-2xl border-2 border-slate-700/50 shadow-2xl">
+          <motion.div
+            key={current}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Image
+              src={hongKongImages[current]}
+              alt={`Hong Kong Slide ${current + 1}`}
+              width={500}
+              height={400}
+              className="rounded-2xl w-full max-w-md object-cover"
+              priority
+            />
+          </motion.div>
         </div>
-        <button
+        <motion.button
           onClick={next}
-          className="absolute right-2 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-slate-50 text-gray-700 hover:text-blue-600 text-3xl rounded-full shadow p-1 transition-all duration-150 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-200"
+          className="absolute right-2 top-1/2 -translate-y-1/2 z-20 bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-blue-400 rounded-full shadow-lg p-2 transition-all duration-150 border border-slate-700/50 backdrop-blur-sm"
           aria-label="Next image"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
         >
           <span className="sr-only">Next</span>
-          <svg xmlns='http://www.w3.org/2000/svg' className='w-7 h-7' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 5l7 7-7 7' /></svg>
-        </button>
+          <svg xmlns='http://www.w3.org/2000/svg' className='w-6 h-6' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 5l7 7-7 7' /></svg>
+        </motion.button>
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
           {hongKongImages.map((_, idx) => (
-            <span
+            <motion.button
               key={idx}
-              className={`inline-block w-3 h-3 rounded-full border border-blue-400 transition-all duration-200 ${idx === current ? 'bg-blue-400 scale-150 shadow-xl' : 'bg-slate-200'}`}
+              onClick={() => setCurrent(idx)}
+              className={`inline-block w-3 h-3 rounded-full border transition-all duration-200 ${
+                idx === current 
+                  ? 'bg-blue-500 border-blue-400 scale-150 shadow-lg shadow-blue-500/50' 
+                  : 'bg-slate-600 border-slate-500 hover:bg-slate-500'
+              }`}
+              whileHover={{ scale: 1.2 }}
             />
           ))}
         </div>
       </div>
       <div className="flex justify-center w-full mt-4">
-        <span className="text-base text-slate-700 font-bold bg-gradient-to-r from-slate-100 via-gray-100 to-slate-200 px-5 py-2 rounded-2xl shadow-lg border-2 border-slate-300 tracking-widest uppercase animate-pulse">{current + 1} / {total}</span>
+        <span className="text-sm text-slate-400 font-bold bg-slate-800/50 px-5 py-2 rounded-xl shadow-lg border border-slate-700/50 tracking-widest uppercase backdrop-blur-sm">
+          {current + 1} / {total}
+        </span>
       </div>
     </div>
   );

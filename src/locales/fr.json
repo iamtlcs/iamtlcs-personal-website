@@ -1,0 +1,202 @@
+{
+  "common": {
+    "viewWork": "Voir mon travail",
+    "getInTouch": "Contactez-moi",
+    "clickMe": "Cliquez-moi!",
+    "comingSoon": "À venir bientôt",
+    "technologies": "technologies",
+    "downloadCV": "Télécharger mon CV",
+    "emailMe": "Envoyer un email",
+    "connectWithMe": "Connectez-moi:",
+    "pressEscToResume": "Appuyez sur ESC ou cliquez en dehors pour reprendre",
+    "coreTechnologies": "Technologies de base"
+  },
+  "header": {
+    "home": "Accueil",
+    "skillsTrack": "Skills Track",
+    "projects": "Projets",
+    "architecture": "Architecture",
+    "origin": "Origine",
+    "hobbies": "Loisirs",
+    "contact": "Contact"
+  },
+  "home": {
+    "greeting": "Bonjour, je suis",
+    "name": "Simon Cheung",
+    "title": "Un {fullStack} & {devOps} passionné qui construit des plateformes robustes, scalables et web dynamiques.",
+    "fullStack": "Développeur Full Stack",
+    "devOps": "Ingénieur DevOps",
+    "aboutMe": "À propos",
+    "aboutParagraph1": "Salut les gars! C'est Simon, et je suis un Ingénieur backend-focused, DevOps, et systèmes avec un fort passion par la création des plateformes robustes, scalables et fiables. Mon parcours dans la technologie a commencé pendant mon temps à {cuhk}, où j'ai obtenu un Bachelor of Science en Statistiques (Août 2020 - Juillet 2024) et développé un profond intérêt pour les systèmes distribués, l'automatisation, et l'architecture cloud.",
+    "cuhk": "l'Université chinoise de Hong Kong (The CUHK en anglais)",
+    "aboutParagraph2": "Je spécialise dans l'architecture des services backend, la conception d'API et la gestion de l'infrastructure cloud. Ma compétence couvre {techStack}, ainsi que les plateformes cloud comme {cloudPlatforms}. Je aime résoudre des problèmes complexes, automatiser les workflows, et garantir la sécurité et la maintenabilité des systèmes.",
+    "techStack": "Node.js, Python, et systèmes Linux",
+    "cloudPlatforms": "AWS, Google Cloud, et Azure",
+    "aboutParagraph3": "En dehors du programmation, je suis toujours explorer de nouvelles technologies dans DevOps, cloud, et l'ingénierie backend pour garder mes compétences à jour. Vous pouvez trouver plus sur mon parcours professionnel et me contacter sur {linkedIn} et {github}.",
+    "linkedIn": "LinkedIn",
+    "github": "GitHub",
+    "techCertifications": "Certifications technologiques"
+  },
+  "skills": {
+    "title": "Compétences Race Track",
+    "subtitle": "Inspiré par la boucle infinie DevOps",
+    "instructions": "Cliquez sur les secteurs • Faites glisser pour tourner • Faites défiler pour zoomer • Auto-tourne",
+    "sectors": {
+      "programming": {
+        "name": "Langages de programmation",
+        "description": "Langages de programmation pour le backend et le Full Stack"
+      },
+      "web": {
+        "name": "Développement web",
+        "description": "Frameworks web modernes et technologies frontend"
+      },
+      "cloud": {
+        "name": "Plateformes cloud",
+        "description": "Infrastructure multi-cloud et services"
+      },
+      "devops": {
+        "name": "DevOps & Infrastructure",
+        "description": "Orchestration de conteneurs, IaC, et pipelines CI/CD"
+      },
+      "monitoring": {
+        "name": "Observabilité & Surveillance",
+        "description": "Monitoring, logging, et plateformes d'observabilité"
+      },
+      "database": {
+        "name": "Bases de données",
+        "description": "Gestion de SQL et NoSQL"
+      },
+      "ai": {
+        "name": "IA & Machine Learning",
+        "description": "Integration de IA APIs, frameworks ML et science des données"
+      },
+      "security": {
+        "name": "Sécurité & Compliance",
+        "description": "Cybersécurité, conformité, et détection de menaces"
+      }
+    }
+  },
+  "hongkong": {
+    "title": "Mes racines à Hong Kong",
+    "subtitle": "Où l'efficacité rencontre l'innovation",
+    "description": "Une ville qui a formé mon esprit d'ingénierie",
+    "paragraph1": "En grandissant au cœur de {hongKong}, j'ai été immergé dans une ville où l'efficacité et la fiabilité sont essentielles pour la vie chaque jour. L'environnement rapide et l'infrastructure urbaine robuste ont formé mon esprit vers la construction de systèmes fiables, scalables et performants.",
+    "hongKong": "Hongkong",
+    "paragraph2": "Naviguer dans les réseaux de transport complexes et observer les opérations urbaines sans interruption m'ont appris la valeur des backends bien architecturés et des infrastructures résilientes. Ces expériences guident mon approche d'ingénierie—priorisant l'efficacité, la tolérance aux pannes, et la maintenabilité dans chaque solution que je conçois.",
+    "paragraph3": "Le célèbre skyline, les systèmes publics avancés, et la vie urbaine dynamique continuent à m'inspirer pour me concentrer sur l'architecture robuste et l'excellence opérationnelle. Je m'efforce de transporter cette esprit d'efficacité et de fiabilité dans chaque backend, système et projet d'infrastructure que je développe."
+  },
+  "hobbies": {
+    "title": "Mes loisirs & Ma personnalité",
+    "subtitle": "En dehors du code, explorer les passions de la vie",
+    "personality": "INTP • Curieux • Créatif • Toujours en apprentissage",
+    "introParagraph1": "En dehors du code, je suis un individu curieux et créatif qui aime explorer de nouvelles choses. En tant que {intp}, ma personnalité est caractérisée par un fort désir d'analyse logique et de résolution de problèmes innovants. Je profite de plonger dans les systèmes complexes et les concepts abstraits, ce qui alimente ma passion pour le codage et mes divers loisirs.",
+    "intp": "INTP",
+    "introParagraph2": "Voici quelques activités qui me gardent inspiré et équilibré:",
+    "currentlyListening": "♫ Actuellement en écoute",
+    "spotifyIntegration": "💡 Intégration en temps réel avec l'API Spotify",
+    "hobbies": {
+      "movies": {
+        "name": "Films",
+        "description": "Explorer le monde du cinéma, des classiques aux blockbusters modernes."
+      },
+      "football": {
+        "name": "Football",
+        "description": "Jouer au football et profiter de la camaraderie des sports de team."
+      },
+      "reading": {
+        "name": "Lecture",
+        "description": "Plonger dans le non-fiction pour élargir mes connaissances."
+      },
+      "algoTrading": {
+        "name": "Algo Trading",
+        "description": "Appliquer l'analyse statistique et le programmation pour développer des algorithmes de trading."
+      },
+      "traveling": {
+        "name": "Voyage",
+        "description": "Explorer de nouvelles cultures et de nouveaux lieux, avec un penchant particulier pour le Japon."
+      },
+      "gaming": {
+        "name": "Jeux vidéo",
+        "description": "Profiter des jeux vidéo comme un moyen de relaxer et de challenger mon pensée stratégique."
+      },
+      "coding": {
+        "name": "Programmation",
+        "description": "Construire des projets et expérimenter avec de nouvelles technologies dans mon temps libre."
+      }
+    }
+  },
+  "contact": {
+    "title": "Contactez-moi",
+    "subtitle": "Connectons-nous et construisons quelque chose de merveilleux ensemble",
+    "description": "Toujours ouvert à de nouvelles opportunités et collaborations",
+    "message": "Je suis toujours ouvert à de nouvelles opportunités et collaborations. N'hésitez pas à me contacter si vous avez des questions, souhaitez discuter d'un projet, ou simplement dire bonjour!"
+  },
+  "projects": {
+    "title": "Mes projets",
+    "subtitle": "Construire des solutions scalables et innovantes",
+    "description": "Cliquez pour explorer • Contributions open source bienvenues 🚀",
+    "viewDemo": "Live Demo",
+    "viewCode": "GitHub",
+    "confidential": "Confidentiel",
+    "items": {
+      "thisWebsite": {
+        "title": "Ce site web",
+        "description": "Portfolio personnel construit avec Next.js, React, et Tailwind CSS. Montre mes projets, expérience, et compétences avec un design moderne et responsive."
+      },
+      "urlShortener": {
+        "title": "AWS Terraform IaC URL Shortener",
+        "description": "Projet Infrastructure-as-Code déployant un raccourcisseur d'URL scalable sur AWS en utilisant Terraform. Automatisation de la provisionning de Lambda, API Gateway, DynamoDB, et monitoring."
+      },
+      "ecsBlueGreen": {
+        "title": "Terraform IaC ECS Load Balancer avec Blue-Green Deployment",
+        "description": "Déploiement automatique d'applications containerisées sur AWS ECS avec la stratégie de déploiement blue-green en utilisant Terraform. Inclut ALB, ECS, CodeDeploy, et intégration CI/CD."
+      },
+      "shell": {
+        "title": "Faire mon propre shell",
+        "description": "Retour aux bases! Une simple implémentation de shell en C. Je utilise shell beaucoup, bash, zsh, ps, etc. Mais je veux savoir comment ça fonctionne sous le capot, donc je fais mon propre shell. Je le prends comme un pas pour me sortir de ma zone de confort."
+      },
+      "stateMachine": {
+        "title": "State Machine Concurrency Control Data Processing Units",
+        "description": "Conception et implémentation de pipelines de traitement de données scalables avec contrôle de concurrence en utilisant AWS Step Functions et Lambda. (Projet lié au travail: Détails confidentiels, mais peut-être un article Medium pour passer à travers ce que j'ai fait!)"
+      },
+      "algoTrading": {
+        "title": "Compétition de Trading Algorithmique",
+        "description": "Développé et backtesté un algorithme de trading basé sur MACD pour les futures BTC-USDT perpétuelles. Reçu second prix dans une compétition mondiale."
+      },
+      "algoTradingResearch": {
+        "title": "Recherche autonome sur le Trading Algorithmique",
+        "description": "Conducté une recherche autonome sur les stratégies de trading algorithmique, en se concentrant sur les indicateurs techniques, l'arbitrage statistique, et les modèles statistiques. À venir bientôt!"
+      },  
+      "artClassification": {
+        "title": "Classification d'art avec CNN",
+        "description": "Construit un réseau de CNN pour classifier quelle peinture appartient à quel artiste."
+      }
+    }
+  },
+  "architecture": {
+    "title": "Architecture du système",
+    "subtitle": "Visual representations of complex systems I've designed and implemented. These diagrams showcase my understanding of distributed systems, microservices, and DevOps practices.",
+    "fullStackTitle": "Architecture Full-Stack Web Application",
+    "fullStackDescription": "Architecture production-ready avec load balancing, caching, et monitoring",
+    "cicdTitle": "Pipeline CI/CD avec Kubernetes",
+    "cicdDescription": "Pipeline de déploiement automatique depuis le commit de code à la production",
+    "microservicesTitle": "Architecture Microservices",
+    "microservicesDescription": "Microservices événementielles avec intégration de message queue",
+    "urlShortenerTitle": "AWS Terraform URL Shortener - Infrastructure Flow",
+    "urlShortenerDescription": "Architecture serverless avec AWS Lambda, API Gateway, DynamoDB et CloudFront CDN",
+    "ecsBlueGreenTitle": "Stratégie de déploiement ECS Blue-Green",
+    "ecsBlueGreenDescription": "Déploiement sans interruption utilisant AWS ECS, ALB et CodeDeploy avec Terraform IaC",
+    "multiRegionEKSTitle": "Architecture EKS multi-région avec MongoDB Atlas",
+    "multiRegionEKSDescription": "Configuration multi-région haute disponibilité avec EKS dans ap-east-1, Lambda dans ap-southeast-1, et intégration MongoDB Atlas via Private Endpoint et VPC Peering",
+    "devopsNoteTitle": "Pourquoi les diagrammes d'architecture sont importants en DevOps",
+    "devopsNoteDescription": "Ces diagrammes démontrent ma capacité à:",
+    "devopsNotePoints": {
+      "point1": "Concevoir des systèmes scalables et production-ready",
+      "point2": "Comprendre l'ensemble de la technologie stack, pas juste les composants individuels",
+      "point3": "Documenter des architectures complexes pour la collaboration de l'équipe",
+      "point4": "Planifier pour la haute disponibilité, la récupération d'urgence, et le monitoring",
+      "point5": "Prendre des décisions informées sur l'infrastructure et les stratégies de déploiement"
+    }
+  }
+}
+

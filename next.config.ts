@@ -44,6 +44,14 @@ const nextConfig: NextConfig = {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()',
           },
+          {
+            key: 'X-Role',
+            value: 'DevOps-Engineer',
+          },
+          {
+            key: 'X-Location',
+            value: 'Hong Kong (ap-east-1)',
+          },
         ],
       },
     ];

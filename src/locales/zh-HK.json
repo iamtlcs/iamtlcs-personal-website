@@ -1,0 +1,202 @@
+{
+  "common": {
+    "viewWork": "查看我的作品",
+    "getInTouch": "聯繫我",
+    "clickMe": "點擊我！",
+    "comingSoon": "即將完成",
+    "technologies": "項技術",
+    "downloadCV": "下載履歷",
+    "emailMe": "發送郵件",
+    "connectWithMe": "與我聯繫：",
+    "pressEscToResume": "按 ESC 或點擊外部以繼續",
+    "coreTechnologies": "核心技術"
+  },
+  "header": {
+    "home": "首頁",
+    "skillsTrack": "技能賽道",
+    "projects": "個人項目",
+    "architecture": "系統架構",
+    "origin": "香港根源",
+    "hobbies": "愛好",
+    "contact": "聯繫"
+  },
+  "home": {
+    "greeting": "你好，我是",
+    "name": "Simon Cheung",
+    "title": "一位充滿熱情的 {fullStack} 和 {devOps}，致力於構建可擴展且動態的網絡體驗。",
+    "fullStack": "Full Stack 工程師",
+    "devOps": "DevOps 工程師",
+    "aboutMe": "關於我",
+    "aboutParagraph1": "大家好！我是 Simon，一位專注於後端、DevOps 和系統工程的工程師，對構建強大、可擴展且可靠的平台充滿熱情。我的技術之旅始於我在 {cuhk} 的時光，在那裡我獲得了統計學理學士學位（2020年8月 - 2024年7月），畢業後對分佈式系統、自動化和雲架構產生了濃厚興趣。",
+    "cuhk": "香港中文大學",
+    "aboutParagraph2": "我專注於架構後端服務、設計 API 和管理雲基礎設施。我的專業知識涵蓋 {techStack}，以及 {cloudPlatforms} 等雲平台。我喜歡解決複雜問題、自動化工作流程，並確保系統安全、可擴展、可靠且易於維護。",
+    "techStack": "Node.js、Python 和 Linux 系統",
+    "cloudPlatforms": "AWS、Google Cloud 和 Azure",
+    "aboutParagraph3": "除了編程，我一直探索 DevOps、雲和後端工程的新技術，跟緊行業最新趨勢。您可以在 {linkedIn} 和 {github} 上了解更多關於我的專業歷程並與我聯繫。",
+    "linkedIn": "LinkedIn",
+    "github": "GitHub",
+    "techCertifications": "技術認證"
+  },
+  "skills": {
+    "title": "🏎️ 技能賽道",
+    "subtitle": "靈感來自 DevOps 無限循環",
+    "instructions": "點擊區域 • 拖動旋轉 • 滾動縮放 • 自動旋轉",
+    "sectors": {
+      "programming": {
+        "name": "編程語言",
+        "description": "用於後端和Full Stack開發的核心編程語言"
+      },
+      "web": {
+        "name": "網頁開發",
+        "description": "現代網頁框架和前端技術"
+      },
+      "cloud": {
+        "name": "雲平台",
+        "description": "多雲基礎設施和服務"
+      },
+      "devops": {
+        "name": "DevOps 與基礎設施",
+        "description": "容器編排、IaC 和 CI/CD 流水線"
+      },
+      "monitoring": {
+        "name": "可觀測性與監控",
+        "description": "監控、日誌記錄和可觀測性平台"
+      },
+      "database": {
+        "name": "數據庫",
+        "description": "SQL 和 NoSQL 數據庫管理"
+      },
+      "ai": {
+        "name": "人工智能與機器學習",
+        "description": "AI 整合、ML 框架和數據科學"
+      },
+      "security": {
+        "name": "網絡安全與合規",
+        "description": "網絡安全、合規性和威脅檢測"
+      }
+    }
+  },
+  "hongkong": {
+    "title": "我的香港",
+    "subtitle": "效率為先的城市",
+    "description": "塑造我工程思維的城市",
+    "paragraph1": "在 {hongKong} 長大，我沉浸在一個效率和可靠性對日常生活至關重要的城市中。快節奏的環境和強大的城市基礎設施塑造了我對構建可靠、可擴展和高性能系統的思維方式。",
+    "hongKong": "香港",
+    "paragraph2": "導航複雜的交通網絡並見證無縫的城市運營，教會我良好架構的後端和彈性基礎設施的價值，推動我的工程方法，在我設計的每個解決方案中優先考慮效率、容錯性和可維護性。",
+    "paragraph3": "標誌性的天際線、先進的公共系統和充滿活力的城市生活繼續激發我對強大架構和運營卓越的關注。我努力將這種效率和可靠性的精神帶入我開發的每個後端、系統和基礎設施項目中。"
+  },
+  "hobbies": {
+    "title": "我的愛好與個性",
+    "subtitle": "超越代碼，探索生活熱情",
+    "personality": "INTP • 好奇 • 創意 • 持續學習",
+    "introParagraph1": "我是一個好奇且富有創造力的人，喜歡探索新事物。作為 {intp}，我的個性特點是對邏輯分析和創新問題解決的強烈驅動力。我喜歡深入研究複雜系統和抽象概念，這激發了我對編程和各種愛好的熱情。",
+    "intp": "INTP",
+    "introParagraph2": "以下是一些讓我保持靈感與平衡的活動：",
+    "currentlyListening": "♫ 正在收聽",
+    "spotifyIntegration": "💡 與 Spotify API 實時同步",
+    "hobbies": {
+      "movies": {
+        "name": "電影",
+        "description": "探索電影世界，從經典到現代大片。"
+      },
+      "football": {
+        "name": "足球",
+        "description": "踢足球並享受團隊運動的友誼與樂趣。"
+      },
+      "reading": {
+        "name": "閱讀",
+        "description": "深入閱讀非小說類書籍以擴展知識。"
+      },
+      "algoTrading": {
+        "name": "算法交易",
+        "description": "應用統計分析和編程開發交易策略。"
+      },
+      "traveling": {
+        "name": "旅行",
+        "description": "探索新的文化和地方，特別喜歡日本。"
+      },
+      "gaming": {
+        "name": "遊戲",
+        "description": "享受電子遊戲作為放鬆和挑戰戰略思維的方式。"
+      },
+      "coding": {
+        "name": "編程",
+        "description": "在業餘時間構建項目並探索新技術。"
+      }
+    }
+  },
+  "contact": {
+    "title": "聯繫我",
+    "subtitle": "讓我們聯繫並一起創造精彩的事物",
+    "description": "始終對新機會和合作持開放態度",
+    "message": "我始終對新機會和合作持開放態度。如果您有任何問題、想討論項目或只是想打個招呼，歡迎隨時聯繫我！"
+  },
+  "projects": {
+    "title": "我的項目",
+    "subtitle": "構建可擴展的解決方案和創新應用",
+    "description": "點擊探索 • 歡迎開源貢獻！",
+    "viewDemo": "在線演示",
+    "viewCode": "GitHub",
+    "confidential": "機密",
+    "items": {
+      "thisWebsite": {
+        "title": "本網站",
+        "description": "使用 Next.js、React 和 Tailwind CSS 構建的個人網站。以現代、響應式設計展示我的項目、經驗和技能。"
+      },
+      "urlShortener": {
+        "title": "AWS Terraform IaC 網址縮短器",
+        "description": "使用 Terraform 在 AWS 上部署可擴展網址縮短器的基礎設施即代碼項目。自動配置 Lambda、API Gateway、DynamoDB 和監測。"
+      },
+      "ecsBlueGreen": {
+        "title": "Terraform IaC ECS 負載均衡器與藍綠部署",
+        "description": "使用 Terraform 在 AWS ECS 上自動部署容器化應用，採用藍綠部署策略。包括 ALB、ECS、CodeDeploy 和 CI/CD 整合。"
+      },
+      "shell": {
+        "title": "製作自己的 Shell",
+        "description": "回到基礎！用 C 語言實現的簡單 Shell。我經常使用 Shell，如 bash、zsh、ps 等。但我想知道它的工作原理，所以我製作了自己的 Shell。我將此視為讓我走出舒適圈的一步。"
+      },
+      "stateMachine": {
+        "title": "狀態機並發控制數據處理單元",
+        "description": "使用 AWS Step Functions 和 Lambda 設計並實現具有並發控制的可擴展數據處理管道。（工作相關項目：細節保密，但可能會有一篇 Medium 文章來介紹我所做的工作！）"
+      },
+      "algoTrading": {
+        "title": "算法交易競賽",
+        "description": "為 BTC-USDT 永續期貨開發並回測了基於 MACD 的交易算法。在全球競賽中獲得亞軍。"
+      },
+      "algoTradingResearch": {
+        "title": "算法交易自主研究",
+        "description": "進行關於算法交易策略的自主研究，專注於技術指標、統計套利和統計模型。待整理後展示！"
+      },
+      "artClassification": {
+        "title": "使用 CNN 進行藝術分類",
+        "description": "構建一個卷積神經網絡（CNN）來分類畫作屬於哪位藝術家。"
+      }
+    }
+  },
+  "architecture": {
+    "title": "系統架構",
+    "subtitle": "我設計和實施的複雜系統的可視化表示。這些圖表展示了我對分佈式系統、微服務和 DevOps 實踐的理解。",
+    "fullStackTitle": "全棧網頁應用架構",
+    "fullStackDescription": "生產就緒的架構，具有負載平衡、緩存和監控功能",
+    "cicdTitle": "Kubernetes CI/CD 流水線",
+    "cicdDescription": "從代碼提交到生產的自動化部署流水線",
+    "microservicesTitle": "微服務架構",
+    "microservicesDescription": "具有消息隊列整合的事件驅動微服務",
+    "urlShortenerTitle": "AWS Terraform 網址縮短器 - 基礎設施流程",
+    "urlShortenerDescription": "使用 AWS Lambda、API Gateway、DynamoDB 和 CloudFront CDN 的無服務器架構",
+    "ecsBlueGreenTitle": "ECS 藍綠部署策略",
+    "ecsBlueGreenDescription": "使用 AWS ECS、ALB 和 CodeDeploy 以及 Terraform IaC 實現零停機部署",
+    "multiRegionEKSTitle": "多區域 EKS 架構與 MongoDB Atlas",
+    "multiRegionEKSDescription": "高可用性多區域設置，在 ap-east-1 使用 EKS，在 ap-southeast-1 使用 Lambda，並通過私有端點和 VPC 對等連接集成 MongoDB Atlas",
+    "devopsNoteTitle": "為什麼架構圖在 DevOps 中至關重要",
+    "devopsNoteDescription": "這些圖表展示了我的能力：",
+    "devopsNotePoints": {
+      "point1": "設計可擴展、生產就緒的系統",
+      "point2": "理解整個技術棧，而不僅僅是單個組件",
+      "point3": "為團隊協作記錄複雜架構",
+      "point4": "規劃高可用性、災難恢復和監控",
+      "point5": "就基礎設施和部署策略做出明智決策"
+    }
+  }
+}
+

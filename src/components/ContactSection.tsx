@@ -1,9 +1,12 @@
 "use client";
 
-import { Mail } from "lucide-react";
+import { motion } from "framer-motion";
+import { Mail, Download, Github, Linkedin, MessageCircle } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const ContactSection = () => {
+    const { t } = useLanguage();
     const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
@@ -23,68 +26,113 @@ const ContactSection = () => {
     };
 
     return (
-        <section className="py-16 px-4 bg-gradient-to-br from-white via-slate-50 to-gray-100 rounded-2xl shadow-2xl mb-8 animate-fadeIn border border-slate-300">
-            <h2 className="text-4xl font-bold text-center bg-gradient-to-r from-slate-700 to-blue-600 bg-clip-text text-transparent mb-12 flex items-center justify-center gap-3">
-                Get In Touch
-                <span className="flex items-center">
-                    <Mail
-                        className="w-8 h-8 text-blue-600 drop-shadow-md"
-                        aria-label="Mail Icon"
-                    />
-                </span>
-            </h2>
-            <div className="max-w-2xl mx-auto text-center text-lg leading-relaxed text-gray-800">
-                <p className="mb-8">
-                    I&apos;m always open to new opportunities and
-                    collaborations. Feel free to reach out if you have any
-                    questions, want to discuss a project, or just say hello!
+        <section className="min-h-screen py-16 px-4 relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
+            <motion.div 
+                className="text-center mb-12 relative z-10"
+                initial={{ opacity: 0, y: -30 }}
+                animate={{ opacity: 1, y: 0 }}
+            >
+                <div className="flex items-center justify-center gap-3 mb-4">
+                    <h2 className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 bg-clip-text text-transparent drop-shadow-lg">
+                        {t.contact.title}
+                    </h2>
+                    <Mail className="w-12 h-12 text-emerald-400" />
+                </div>
+                <p className="text-xl text-slate-300 mb-2 font-semibold">
+                    {t.contact.subtitle}
                 </p>
-                <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                    <button
+                <p className="text-sm text-slate-400 font-mono">
+                    {t.contact.description}
+                </p>
+            </motion.div>
+
+            <motion.div 
+                className="max-w-3xl mx-auto text-center rounded-2xl backdrop-blur-sm p-8 border border-slate-700/50 mb-12"
+                style={{
+                    background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%)',
+                    boxShadow: '0 0 40px rgba(16, 185, 129, 0.1), inset 0 0 40px rgba(0, 0, 0, 0.3)'
+                }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+            >
+                <p className="text-lg leading-relaxed text-slate-300 mb-8">
+                    {t.contact.message}
+                </p>
+                
+                <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+                    <motion.button
                         onClick={handleDownloadCV}
-                        className="bg-gradient-to-r from-emerald-600 to-teal-700 text-white px-8 py-3 rounded-full text-lg font-semibold hover:from-emerald-700 hover:to-teal-800 transition-all duration-300 transform hover:scale-110 shadow-2xl flex items-center justify-center hover:shadow-emerald-500/25"
+                        className="flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:from-emerald-500 hover:to-teal-500 transition-all duration-300 shadow-lg hover:shadow-emerald-500/50 border border-emerald-500/50"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                     >
-                        <i className="fas fa-download mr-2"></i> Download CV
-                    </button>
-                    <a
+                        <Download className="w-5 h-5" />
+                        {t.common.downloadCV}
+                    </motion.button>
+                    <motion.a
                         href="mailto:simoncheung2002@gmail.com"
-                        className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white px-8 py-3 rounded-full text-lg font-semibold hover:from-blue-700 hover:to-indigo-800 transition-all duration-300 transform hover:scale-110 shadow-2xl flex items-center justify-center hover:shadow-blue-500/25"
+                        className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:from-blue-500 hover:to-indigo-500 transition-all duration-300 shadow-lg hover:shadow-blue-500/50 border border-blue-500/50"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                     >
-                        <i className="fas fa-envelope mr-2"></i> Email Me
-                    </a>
+                        <Mail className="w-5 h-5" />
+                        {t.common.emailMe}
+                    </motion.a>
                 </div>
-                <div className="mt-12">
-                    <h3 className="text-2xl font-semibold bg-gradient-to-r from-slate-700 to-blue-600 bg-clip-text text-transparent mb-4">
-                        Connect with me:
-                    </h3>
-                    <div className="flex justify-center space-x-6">
-                        <a
-                            href="https://github.com/iamtlcs"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gray-700 hover:text-blue-600 transition-colors duration-300 transform hover:scale-125"
-                        >
-                            <i className="fab fa-github text-4xl"></i>
-                        </a>
-                        <a
-                            href="https://www.linkedin.com/in/iamtlcs"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gray-700 hover:text-blue-600 transition-colors duration-300 transform hover:scale-125"
-                        >
-                            <i className="fab fa-linkedin text-4xl"></i>
-                        </a>
-                        <a
-                            href="https://discord.com/users/tahithchongluton"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-gray-700 hover:text-blue-600 transition-colors duration-300 transform hover:scale-125"
-                        >
-                            <i className="fab fa-discord text-4xl"></i>
-                        </a>
-                    </div>
+            </motion.div>
+
+            <motion.div 
+                className="max-w-2xl mx-auto"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+            >
+                <h3 className="text-2xl font-semibold text-slate-200 mb-6 text-center">
+                    {t.common.connectWithMe}
+                </h3>
+                <div className="flex justify-center gap-6">
+                    <motion.a
+                        href="https://github.com/iamtlcs"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-4 rounded-xl bg-slate-800/50 text-slate-300 hover:text-white border border-slate-700/50 backdrop-blur-sm transition-all duration-300"
+                        style={{
+                            boxShadow: '0 0 20px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.2)'
+                        }}
+                        whileHover={{ scale: 1.1, y: -5 }}
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        <Github className="w-8 h-8" />
+                    </motion.a>
+                    <motion.a
+                        href="https://www.linkedin.com/in/iamtlcs"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-4 rounded-xl bg-slate-800/50 text-slate-300 hover:text-blue-400 border border-slate-700/50 backdrop-blur-sm transition-all duration-300"
+                        style={{
+                            boxShadow: '0 0 20px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.2)'
+                        }}
+                        whileHover={{ scale: 1.1, y: -5 }}
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        <Linkedin className="w-8 h-8" />
+                    </motion.a>
+                    <motion.a
+                        href="https://discord.com/users/tahithchongluton"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-4 rounded-xl bg-slate-800/50 text-slate-300 hover:text-indigo-400 border border-slate-700/50 backdrop-blur-sm transition-all duration-300"
+                        style={{
+                            boxShadow: '0 0 20px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.2)'
+                        }}
+                        whileHover={{ scale: 1.1, y: -5 }}
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        <MessageCircle className="w-8 h-8" />
+                    </motion.a>
                 </div>
-            </div>
+            </motion.div>
         </section>
     );
 };
