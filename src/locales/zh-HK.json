@@ -92,7 +92,7 @@
     "introParagraph1": "我是一個好奇且富有創造力的人，喜歡探索新事物。作為 {intp}，我的個性特點是對邏輯分析和創新問題解決的強烈驅動力。我喜歡深入研究複雜系統和抽象概念，這激發了我對編程和各種愛好的熱情。",
     "intp": "INTP",
     "introParagraph2": "以下是一些讓我保持靈感與平衡的活動：",
-    "currentlyListening": "♫ 正在收聽",
+    "currentlyListening": "正在收聽",
     "spotifyIntegration": "💡 與 Spotify API 實時同步",
     "hobbies": {
       "movies": {

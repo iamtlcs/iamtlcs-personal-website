@@ -18,9 +18,9 @@ const Footer = () => {
           {/* Social Links */}
           <div className="flex gap-4">
             {[
-              { Icon: Github, href: "https://github.com/yourusername", label: "GitHub" },
-              { Icon: Linkedin, href: "https://linkedin.com/in/yourusername", label: "LinkedIn" },
-              { Icon: Mail, href: "mailto:your.email@example.com", label: "Email" }
+              { Icon: Github, href: "https://github.com/iamtlcs", label: "GitHub" },
+              { Icon: Linkedin, href: "https://linkedin.com/in/iamtlcs", label: "LinkedIn" },
+              { Icon: Mail, href: "mailto:simoncheung2002@gmail.com", label: "Email" }
             ].map(({ Icon, href, label }) => (
               <motion.a
                 key={label}

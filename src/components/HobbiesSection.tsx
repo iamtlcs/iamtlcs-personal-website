@@ -55,12 +55,10 @@ const HobbiesSection = () => {
                 initial={{ opacity: 0, y: -30 }}
                 animate={{ opacity: 1, y: 0 }}
             >
-                <div className="flex items-center justify-center gap-3 mb-4">
-                    <h2 className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 bg-clip-text text-transparent drop-shadow-lg">
-                        {t.hobbies.title}
-                    </h2>
+                <h2 className="text-5xl md:text-6xl font-extrabold mb-4 bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 bg-clip-text text-transparent drop-shadow-lg flex items-center justify-center gap-3">
                     <Puzzle className="w-12 h-12 text-purple-400" />
-                </div>
+                    {t.hobbies.title}
+                </h2>
                 <p className="text-xl text-slate-300 mb-2 font-semibold">
                     {t.hobbies.subtitle}
                 </p>

@@ -133,6 +133,9 @@ export default function MermaidDiagram({
         if (!isFullscreen && ref.current) {
           const svg = ref.current.querySelector('svg');
           if (svg) {
+            // Get original SVG dimensions
+            const svgHeight = svg.getBoundingClientRect().height || parseInt(svg.getAttribute('height') || '400');
+            
             // Remove any default width/height attributes to make it responsive
             svg.removeAttribute('height');
             svg.style.width = '100%';
@@ -145,7 +148,7 @@ export default function MermaidDiagram({
             // Apply custom scale if specified
             if (scale !== 1.0) {
               svg.style.transform = `scale(${scale})`;
-              svg.style.transformOrigin = 'center';
+              svg.style.transformOrigin = 'center center';
             }
           }
         }
@@ -210,7 +213,7 @@ export default function MermaidDiagram({
 
   return (
     <motion.div
-      className="relative group mb-16"
+      className="relative group"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -237,7 +240,7 @@ export default function MermaidDiagram({
         className="relative rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 overflow-hidden backdrop-blur-sm mx-auto"
         style={{ 
           maxWidth,
-          padding: '1.5rem'
+          padding: '2rem'
         }}
       >
         {/* Action Buttons */}

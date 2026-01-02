@@ -23,7 +23,7 @@ export default function ArchitectureShowcase() {
       title: t.architecture.fullStackTitle,
       description: t.architecture.fullStackDescription,
       scale: 2.0,        // Zoom level for this diagram
-      minHeight: 800,    // Container height (manually set to fit scaled content)
+      minHeight: 900,    // Base container height (will be multiplied by scale)
       maxWidth: '100%',
       fontSize: '16px',
       nodeSpacing: 60,
@@ -34,7 +34,7 @@ export default function ArchitectureShowcase() {
       title: t.architecture.cicdTitle,
       description: t.architecture.cicdDescription,
       scale: 3.5,
-      minHeight: 400,   // Container height (manually set to fit scaled content)
+      minHeight: 200,    // Base container height (will be multiplied by scale)
       maxWidth: '100%',
       fontSize: '15px',
       nodeSpacing: 40,
@@ -44,8 +44,8 @@ export default function ArchitectureShowcase() {
       chart: sampleArchitectures.microservices,
       title: t.architecture.microservicesTitle,
       description: t.architecture.microservicesDescription,
-      scale: 1.7,        // Zoom level for this diagram
-      minHeight: 600,    // Container height (manually set to fit scaled content)
+      scale: 2.0,        // Zoom level for this diagram
+      minHeight: 600,    // Base container height (will be multiplied by scale)
       maxWidth: '100%',
       fontSize: '15px',
       nodeSpacing: 50,
@@ -56,7 +56,7 @@ export default function ArchitectureShowcase() {
       title: t.architecture.ecsBlueGreenTitle,
       description: t.architecture.ecsBlueGreenDescription,
       scale: 2.0,        // Zoom level for this diagram
-      minHeight: 800,    // Container height (manually set to fit scaled content)
+      minHeight: 600,    // Base container height (will be multiplied by scale)
       maxWidth: '100%',
       fontSize: '15px',
       nodeSpacing: 55,
@@ -67,7 +67,7 @@ export default function ArchitectureShowcase() {
       title: t.architecture.multiRegionEKSTitle,
       description: t.architecture.multiRegionEKSDescription,
       scale: 3.0,        // Zoom level for this diagram
-      minHeight: 800,   // Container height (manually set to fit scaled content)
+      minHeight: 1000,    // Base container height (will be multiplied by scale)
       maxWidth: '100%',
       fontSize: '14px',
       nodeSpacing: 45,
@@ -82,9 +82,9 @@ export default function ArchitectureShowcase() {
         <HeaderSection title={t.architecture.title} subtitle={t.architecture.subtitle} />
 
         {/* Architecture Diagrams */}
-        <div className="space-y-4">
+        <div className="space-y-12">
           {architectureDiagrams.map((diagram, index) => (
-            <div key={index}>
+            <div key={index} className="mb-8">
               <MermaidDiagram
                 chart={diagram.chart}
                 title={diagram.title}

@@ -68,9 +68,9 @@ const TRACK_CONFIG = {
 };
 
 const CAR_PHYSICS = {
-  BASE_SPEED: 0.003,
-  MAX_SPEED: 0.006,
-  MIN_SPEED: 0.002,
+  BASE_SPEED: 0.002,
+  MAX_SPEED: 0.004,
+  MIN_SPEED: 0.001,
   CURVATURE_PENALTY: 0.3,
   WHEEL_ROTATION_SPEED: 0.5,
   SMOOTH_FACTOR: 0.08,
@@ -736,64 +736,58 @@ function RacingCar({ isPaused, trailingOffset = 0, color = "#ff3333" }: RacingCa
     // Use the actual track tangent as the base direction
     const trackTangent = curve.getTangent(progressRef.current).normalize();
     
-    // Faster tangent interpolation for sharper turning
-    const tangentLerpFactor = THREE.MathUtils.clamp(clampedDelta * 4, 0, 0.3);
-    const smoothTangent = new THREE.Vector3()
-      .lerpVectors(previousTangentRef.current, trackTangent, tangentLerpFactor)
-      .normalize();
-    previousTangentRef.current.copy(smoothTangent);
-    
-    // Calculate target yaw from smooth tangent
-    const targetYaw = Math.atan2(smoothTangent.x, smoothTangent.z);
+    // Calculate yaw directly from track tangent for precise alignment
+    const targetYaw = Math.atan2(trackTangent.x, trackTangent.z);
     
     // Handle angle wrapping for smooth rotation across 0/2π boundary
     let yawDiff = targetYaw - yawRef.current;
     if (yawDiff > Math.PI) yawDiff -= 2 * Math.PI;
     if (yawDiff < -Math.PI) yawDiff += 2 * Math.PI;
     
-    // Sharper yaw interpolation - faster response to turns
-    const turnIntensity = Math.abs(yawDiff);
-    const yawLerpFactor = THREE.MathUtils.clamp(
-      clampedDelta * (4 + turnIntensity * 6), // Much faster in sharp turns
-      0,
-      0.4
-    );
-      
-    yawRef.current += yawDiff * yawLerpFactor;
+    // Direct yaw alignment - car points exactly to track tangent
+    yawRef.current = targetYaw;
+    
+    // Store tangent for roll calculation
+    previousTangentRef.current.copy(trackTangent);
     
     // === NATURAL PITCH (NOSE UP/DOWN) WITH ANTICIPATION ===
-    // Use multiple look-ahead points for smoother pitch prediction
-    const pitchLookAhead1 = curve.getPoint((progressRef.current + 0.015) % 1);
-    const pitchLookAhead2 = curve.getPoint((progressRef.current + 0.03) % 1);
+    // Use immediate look-ahead for instant pitch response
+    const pitchLookAhead1 = curve.getPoint((progressRef.current + 0.005) % 1);
+    const pitchLookAhead2 = curve.getPoint((progressRef.current + 0.01) % 1);
     const currentY = smoothPosRef.current.y;
     
-    // Calculate average slope from multiple points for smoother transitions
-    const slope1 = (pitchLookAhead1.y - currentY) / 0.015;
-    const slope2 = (pitchLookAhead2.y - pitchLookAhead1.y) / 0.015;
+    // Calculate slope with immediate response
+    const slope1 = (pitchLookAhead1.y - currentY) / 0.005;
+    const slope2 = (pitchLookAhead2.y - pitchLookAhead1.y) / 0.005;
     const avgSlope = (slope1 + slope2) / 2;
     
-    // Calculate pitch angle from slope with more natural response
+    // Calculate pitch angle from slope with very sharp response
     const slopeAngle = Math.atan(avgSlope);
-    const targetPitch = -slopeAngle * 0.4; // More natural pitch response
+    const targetPitch = -slopeAngle * 0.8; // Even sharper pitch response
     
-    // Adaptive pitch interpolation - smoother on gentle slopes, responsive on steep ones
+    // Very fast pitch interpolation - nearly instant
     const slopeMagnitude = Math.abs(avgSlope);
     const pitchLerpFactor = THREE.MathUtils.clamp(
-      clampedDelta * (1.5 + slopeMagnitude * 2), // Faster on steeper slopes
+      clampedDelta * (10 + slopeMagnitude * 15), // Much faster - nearly instant response
       0,
-      0.15
+      0.7 // Very high max lerp factor for near-instant pitch changes
     );
       
     pitchRef.current = THREE.MathUtils.lerp(
       pitchRef.current, 
-      THREE.MathUtils.clamp(targetPitch, -0.35, 0.35), // Slightly reduced max pitch
+      THREE.MathUtils.clamp(targetPitch, -0.55, 0.55), // Slightly increased max pitch angle
       pitchLerpFactor
     );
     
     // === NATURAL ROLL (BANKING IN TURNS) ===
-    // Calculate roll from turn direction and speed
-    const turnDirection = Math.sign(yawDiff);
-    const rollIntensity = Math.abs(yawDiff) * 5;
+    // Calculate roll from curvature (rate of direction change)
+    const nextTangent = curve.getTangent((progressRef.current + 0.005) % 1).normalize();
+    const curvatureDiff = Math.atan2(
+      trackTangent.x * nextTangent.z - trackTangent.z * nextTangent.x,
+      trackTangent.x * nextTangent.x + trackTangent.z * nextTangent.z
+    );
+    const turnDirection = Math.sign(curvatureDiff);
+    const rollIntensity = Math.abs(curvatureDiff) * 15; // Higher multiplier for sharper banking
     const speedFactor = velocityRef.current / CAR_PHYSICS.BASE_SPEED;
     const targetRoll = turnDirection * rollIntensity * speedFactor * 0.08;
     
@@ -853,8 +847,8 @@ function RacingCar({ isPaused, trailingOffset = 0, color = "#ff3333" }: RacingCa
         <boxGeometry args={[0.4, 0.12, 0.8]} />
         <meshStandardMaterial 
           color={color}
-          roughness={0.15}
-          metalness={0.95}
+          roughness={0.05}
+          metalness={0.98}
           emissive={color}
           emissiveIntensity={0.3}
         />
@@ -865,8 +859,8 @@ function RacingCar({ isPaused, trailingOffset = 0, color = "#ff3333" }: RacingCa
         <boxGeometry args={[0.3, 0.08, 0.4]} />
         <meshStandardMaterial 
           color={color}
-          roughness={0.15}
-          metalness={0.95}
+          roughness={0.05}
+          metalness={0.98}
           emissive={color}
           emissiveIntensity={0.2}
         />
@@ -877,8 +871,8 @@ function RacingCar({ isPaused, trailingOffset = 0, color = "#ff3333" }: RacingCa
         <coneGeometry args={[0.08, 0.2, 8]} />
         <meshStandardMaterial 
           color={color}
-          roughness={0.15}
-          metalness={0.95}
+          roughness={0.05}
+          metalness={0.98}
           emissive={color}
           emissiveIntensity={0.25}
         />
@@ -898,12 +892,12 @@ function RacingCar({ isPaused, trailingOffset = 0, color = "#ff3333" }: RacingCa
         {/* Left endplate */}
         <mesh castShadow position={[-0.25, 0.01, 0]} rotation={[0, 0, 0.1]}>
           <boxGeometry args={[0.02, 0.08, 0.1]} />
-          <meshStandardMaterial color={color} roughness={0.2} metalness={0.9} emissive={color} emissiveIntensity={0.2} />
+          <meshStandardMaterial color={color} roughness={0.05} metalness={0.98} emissive={color} emissiveIntensity={0.2} />
         </mesh>
         {/* Right endplate */}
         <mesh castShadow position={[0.25, 0.01, 0]} rotation={[0, 0, -0.1]}>
           <boxGeometry args={[0.02, 0.08, 0.1]} />
-          <meshStandardMaterial color={color} roughness={0.2} metalness={0.9} emissive={color} emissiveIntensity={0.2} />
+          <meshStandardMaterial color={color} roughness={0.05} metalness={0.98} emissive={color} emissiveIntensity={0.2} />
         </mesh>
       </group>
       
@@ -930,12 +924,12 @@ function RacingCar({ isPaused, trailingOffset = 0, color = "#ff3333" }: RacingCa
         {/* Left endplate */}
         <mesh position={[-0.275, 0.03, 0]}>
           <boxGeometry args={[0.015, 0.14, 0.1]} />
-          <meshStandardMaterial color={color} roughness={0.3} metalness={0.8} emissive={color} emissiveIntensity={0.15} />
+          <meshStandardMaterial color={color} roughness={0.05} metalness={0.98} emissive={color} emissiveIntensity={0.15} />
         </mesh>
         {/* Right endplate */}
         <mesh position={[0.275, 0.03, 0]}>
           <boxGeometry args={[0.015, 0.14, 0.1]} />
-          <meshStandardMaterial color={color} roughness={0.3} metalness={0.8} emissive={color} emissiveIntensity={0.15} />
+          <meshStandardMaterial color={color} roughness={0.05} metalness={0.98} emissive={color} emissiveIntensity={0.15} />
         </mesh>
       </group>
       
@@ -944,8 +938,8 @@ function RacingCar({ isPaused, trailingOffset = 0, color = "#ff3333" }: RacingCa
         <boxGeometry args={[0.08, 0.1, 0.5]} />
         <meshStandardMaterial 
           color={color}
-          roughness={0.2}
-          metalness={0.9}
+          roughness={0.05}
+          metalness={0.98}
           emissive={color}
           emissiveIntensity={0.15}
         />
@@ -954,8 +948,8 @@ function RacingCar({ isPaused, trailingOffset = 0, color = "#ff3333" }: RacingCa
         <boxGeometry args={[0.08, 0.1, 0.5]} />
         <meshStandardMaterial 
           color={color}
-          roughness={0.2}
-          metalness={0.9}
+          roughness={0.05}
+          metalness={0.98}
           emissive={color}
           emissiveIntensity={0.15}
         />
@@ -1181,7 +1175,7 @@ function Scene3D({ isPaused, selectedSector, onSectorClick, sectors }: Scene3DPr
 
       {/* Racing Cars */}
       <RacingCar isPaused={isPaused} color="#ff3333" />
-      <RacingCar isPaused={isPaused} trailingOffset={0.08} color="#00aaff" />
+      <RacingCar isPaused={isPaused} trailingOffset={0.9} color="#00aaff" />
 
       {/* Sector Markers - Hide when modal is open */}
       {!selectedSector && sectors.map((sector) => (

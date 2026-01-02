@@ -213,13 +213,13 @@ export default function SystemStatusFooter() {
               },
               {
                 Icon: Linkedin,
-                href: 'https://linkedin.com/in/yourusername',
+                href: 'https://linkedin.com/in/iamtlcs',
                 label: 'LinkedIn',
                 color: 'hover:text-blue-600',
               },
               {
                 Icon: Mail,
-                href: 'mailto:your.email@example.com',
+                href: 'mailto:simoncheung2002@gmail.com',
                 label: 'Email',
                 color: 'hover:text-red-500',
               },
