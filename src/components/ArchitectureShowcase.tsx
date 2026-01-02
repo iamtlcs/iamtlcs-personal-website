@@ -135,14 +135,6 @@ function HeaderSection({ title, subtitle }: { title: string; subtitle: string })
   );
 }
 
-interface DevOpsNotePoints {
-  point1: string;
-  point2: string;
-  point3: string;
-  point4: string;
-  point5: string;
-}
-
 function DevOpsNoteSection({
   title,
   description,
@@ -150,7 +142,7 @@ function DevOpsNoteSection({
 }: {
   title: string;
   description: string;
-  points: DevOpsNotePoints;
+  points: string[];
 }) {
   return (
     <motion.div
@@ -165,11 +157,9 @@ function DevOpsNoteSection({
           <h3 className="font-bold text-slate-800 dark:text-white mb-2">{title}</h3>
           <p className="text-sm text-slate-600 dark:text-slate-400 mb-3">{description}</p>
           <ul className="text-sm text-slate-600 dark:text-slate-400 space-y-1 list-disc list-inside">
-            <li>{points.point1}</li>
-            <li>{points.point2}</li>
-            <li>{points.point3}</li>
-            <li>{points.point4}</li>
-            <li>{points.point5}</li>
+            {points.map((point, index) => (
+              <li key={index}>{point}</li>
+            ))}
           </ul>
         </div>
       </div>

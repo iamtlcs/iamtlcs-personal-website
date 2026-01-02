@@ -92,6 +92,7 @@ const LIGHTING_CONFIG = {
 };
 
 // This will be created inside the component to access translations
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getSectors(t: any): Sector[] {
   return [
     {
@@ -491,6 +492,7 @@ function InfinityTrack() {
 
   useFrame(() => {
     if (centerLine && centerLine.material && 'dashOffset' in centerLine.material) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (centerLine.material as any).dashOffset -= 0.02;
     }
   });

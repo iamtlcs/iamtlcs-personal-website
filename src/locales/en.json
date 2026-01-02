@@ -190,13 +190,13 @@
     "multiRegionEKSDescription": "High-availability multi-region setup with EKS in ap-east-1, Lambda in ap-southeast-1, and MongoDB Atlas integration via Private Endpoint and VPC Peering",
     "devopsNoteTitle": "Why Architecture Diagrams Matter in DevOps",
     "devopsNoteDescription": "These diagrams demonstrate my ability to:",
-    "devopsNotePoints": {
-      "point1": "Design scalable, production-ready systems",
-      "point2": "Understand the entire technology stack, not just individual components",
-      "point3": "Document complex architectures for team collaboration",
-      "point4": "Plan for high availability, disaster recovery, and monitoring",
-      "point5": "Make informed decisions about infrastructure and deployment strategies"
-    }
+    "devopsNotePoints": [
+      "Design scalable, production-ready systems",
+      "Understand the entire technology stack, not just individual components",
+      "Document complex architectures for team collaboration",
+      "Plan for high availability, disaster recovery, and monitoring",
+      "Make informed decisions about infrastructure and deployment strategies"
+    ]
   }
 }
 

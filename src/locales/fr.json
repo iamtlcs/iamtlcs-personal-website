@@ -190,13 +190,13 @@
     "multiRegionEKSDescription": "Configuration multi-région haute disponibilité avec EKS dans ap-east-1, Lambda dans ap-southeast-1, et intégration MongoDB Atlas via Private Endpoint et VPC Peering",
     "devopsNoteTitle": "Pourquoi les diagrammes d'architecture sont importants en DevOps",
     "devopsNoteDescription": "Ces diagrammes démontrent ma capacité à:",
-    "devopsNotePoints": {
-      "point1": "Concevoir des systèmes scalables et production-ready",
-      "point2": "Comprendre l'ensemble de la technologie stack, pas juste les composants individuels",
-      "point3": "Documenter des architectures complexes pour la collaboration de l'équipe",
-      "point4": "Planifier pour la haute disponibilité, la récupération d'urgence, et le monitoring",
-      "point5": "Prendre des décisions informées sur l'infrastructure et les stratégies de déploiement"
-    }
+    "devopsNotePoints": [
+      "Concevoir des systèmes scalables et production-ready",
+      "Comprendre l'ensemble de la technologie stack, pas juste les composants individuels",
+      "Documenter des architectures complexes pour la collaboration de l'équipe",
+      "Planifier pour la haute disponibilité, la récupération d'urgence, et le monitoring",
+      "Prendre des décisions informées sur l'infrastructure et les stratégies de déploiement"
+    ]
   }
 }
 

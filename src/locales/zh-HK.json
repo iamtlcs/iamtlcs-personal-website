@@ -190,13 +190,13 @@
     "multiRegionEKSDescription": "高可用性多區域設置，在 ap-east-1 使用 EKS，在 ap-southeast-1 使用 Lambda，並通過私有端點和 VPC 對等連接集成 MongoDB Atlas",
     "devopsNoteTitle": "為什麼架構圖在 DevOps 中至關重要",
     "devopsNoteDescription": "這些圖表展示了我的能力：",
-    "devopsNotePoints": {
-      "point1": "設計可擴展、生產就緒的系統",
-      "point2": "理解整個技術棧，而不僅僅是單個組件",
-      "point3": "為團隊協作記錄複雜架構",
-      "point4": "規劃高可用性、災難恢復和監控",
-      "point5": "就基礎設施和部署策略做出明智決策"
-    }
+    "devopsNotePoints": [
+      "設計可擴展、生產就緒的系統",
+      "理解整個技術棧，而不僅僅是單個組件",
+      "為團隊協作記錄複雜架構",
+      "規劃高可用性、災難恢復和監控",
+      "就基礎設施和部署策略做出明智決策"
+    ]
   }
 }
 

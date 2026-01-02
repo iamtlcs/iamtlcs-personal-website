@@ -5,8 +5,6 @@ import { Command } from 'cmdk';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Home,
-  User,
-  Wrench,
   Briefcase,
   MapPin,
   Heart,
@@ -17,9 +15,6 @@ import {
   FileText,
   Activity,
   Server,
-  Database,
-  Cloud,
-  Shield,
   Zap,
 } from 'lucide-react';
 
@@ -152,7 +147,7 @@ export default function CommandPalette({ navigate }: CommandPaletteProps) {
                 
                 <Command.List className="max-h-[400px] overflow-y-auto p-2">
                   <Command.Empty className="py-6 text-center text-slate-500 text-sm font-mono">
-                    No results found. Try 'help' for available commands.
+                    No results found. Try &apos;help&apos; for available commands.
                   </Command.Empty>
 
                   <Command.Group heading="Navigation" className="text-slate-400 text-xs font-mono px-2 py-2">
