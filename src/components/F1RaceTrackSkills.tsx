@@ -6,9 +6,18 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Html, Sparkles, Stars } from '@react-three/drei';
 import { motion, AnimatePresence } from 'framer-motion';
 import * as THREE from 'three';
-import { 
-  Server, Cloud, Database, GitBranch, Activity, X, Code, Brain, Lock
-} from 'lucide-react';
+import {
+    Server,
+    Cloud,
+    Database,
+    GitBranch,
+    Activity,
+    X,
+    Code,
+    Brain,
+    Lock,
+    Gauge,
+} from "lucide-react";
 import { useLanguage } from '@/contexts/LanguageContext';
 
 // ============================================================================
@@ -1398,467 +1407,551 @@ export default function F1RaceTrackSkills() {
   }, [selectedSector]);
 
   return (
-    <section className="min-h-screen py-16 px-4 relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
-      <motion.div 
-        className="text-center mb-8 relative z-10"
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        <h2 className="text-5xl md:text-6xl font-extrabold mb-4 bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500 bg-clip-text text-transparent drop-shadow-lg">
-          {t.skills.title}
-        </h2>
-        <p className="text-xl text-slate-300 mb-2 font-semibold">
-          {t.skills.subtitle}
-        </p>
-        <p className="text-sm text-slate-400 font-mono">
-          {t.skills.instructions}
-        </p>
-      </motion.div>
-
-      <motion.div 
-        className="relative w-full h-[650px] rounded-2xl overflow-hidden shadow-2xl border-2 border-slate-600"
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.2 }}
-        style={{
-          background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%)',
-          boxShadow: '0 0 60px rgba(59, 130, 246, 0.3), inset 0 0 60px rgba(0, 0, 0, 0.5)'
-        }}
-      >
-        <Canvas
-          camera={{ position: CAMERA_CONFIG.POSITION, fov: CAMERA_CONFIG.FOV }}
-          shadows
-          gl={{ 
-            antialias: true,
-            toneMapping: THREE.ACESFilmicToneMapping,
-            toneMappingExposure: 1.3
-          }}
-        >
-          <color attach="background" args={['#0a0a1a']} />
-          <Scene3D 
-            isPaused={isPaused} 
-            selectedSector={selectedSector}
-            onSectorClick={handleSectorClick}
-            sectors={sectors}
-          />
-        </Canvas>
-      </motion.div>
-
-      {/* Sector Details Modal - Enhanced UI/UX */}
-      <AnimatePresence mode="wait">
-        {selectedSector && (
+      <section className="min-h-screen py-16 px-4 relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={handleClose}
+              className="text-center mb-8 relative z-10"
+              initial={{ opacity: 0, y: -30 }}
+              animate={{ opacity: 1, y: 0 }}
           >
-            {/* Animated background with blur */}
-            <motion.div 
-              className="absolute inset-0 bg-black/80 backdrop-blur-xl"
-              initial={{ backdropFilter: 'blur(0px)' }}
-              animate={{ backdropFilter: 'blur(12px)' }}
-              exit={{ backdropFilter: 'blur(0px)' }}
-            />
-            
-            {/* Glow effect */}
-            <motion.div
-              className="absolute inset-0 opacity-30"
-              style={{
-                background: `radial-gradient(circle at center, ${selectedSector.color}40 0%, transparent 70%)`
-              }}
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1.5, opacity: 0.3 }}
-              exit={{ scale: 0, opacity: 0 }}
-              transition={{ duration: 0.5 }}
-            />
-
-            <motion.div
-              className="relative max-w-3xl w-full rounded-3xl overflow-hidden shadow-2xl"
-              style={{
-                background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%)',
-                border: `2px solid ${selectedSector.color}`,
-                boxShadow: `0 0 80px ${selectedSector.color}60, inset 0 0 80px rgba(0,0,0,0.3)`
-              }}
-              initial={{ opacity: 0, scale: 0.8, rotateX: -15, y: 50 }}
-              animate={{ opacity: 1, scale: 1, rotateX: 0, y: 0 }}
-              exit={{ opacity: 0, scale: 0.8, rotateX: 15, y: -50 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Header with gradient background */}
-              <div 
-                className="relative p-8 overflow-hidden"
-                style={{
-                  background: `linear-gradient(135deg, ${selectedSector.color}20 0%, transparent 100%)`
-                }}
-              >
-                {/* Animated particles in header */}
-                <div className="absolute inset-0 opacity-20">
-                  {[...Array(20)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      className="absolute w-1 h-1 rounded-full"
-                      style={{ 
-                        backgroundColor: selectedSector.color,
-                        left: `${Math.random() * 100}%`,
-                        top: `${Math.random() * 100}%`
-                      }}
-                      animate={{
-                        y: [0, -20, 0],
-                        opacity: [0, 1, 0]
-                      }}
-                      transition={{
-                        duration: 2 + Math.random() * 2,
-                        repeat: Infinity,
-                        delay: Math.random() * 2
-                      }}
-                    />
-                  ))}
-                </div>
-
-                <button
-                  onClick={handleClose}
-                  className="absolute top-4 right-4 p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 backdrop-blur-sm transition-all hover:scale-110 hover:rotate-90 duration-300 group"
-                >
-                  <X className="w-5 h-5 text-slate-300 group-hover:text-white" />
-                </button>
-
-                <div className="flex items-center gap-6 relative z-10">
-                  <motion.div 
-                    className="w-20 h-20 flex-shrink-0 rounded-2xl flex items-center justify-center relative"
-                    style={{
-                      backgroundColor: `${selectedSector.color}20`,
-                      boxShadow: `0 0 30px ${selectedSector.color}40`
-                    }}
-                    initial={{ scale: 0, rotate: -180 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{ type: "spring", delay: 0.2 }}
-                  >
-                    <div 
-                      className="absolute inset-0 rounded-2xl"
-                      style={{
-                        background: `linear-gradient(135deg, ${selectedSector.color}40, transparent)`,
-                      }}
-                    />
-                    <div style={{ color: selectedSector.color }}>
-                      {React.createElement(selectedSector.icon, {
-                        className: 'w-12 h-12 relative z-10'
-                      })}
-                    </div>
-                  </motion.div>
-                  
-                  <div className="flex-1">
-                    <motion.h3 
-                      className="text-4xl font-black text-white mb-2 tracking-tight"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.3 }}
-                    >
-                      {selectedSector.name}
-                    </motion.h3>
-                    <motion.p 
-                      className="text-slate-300 text-base font-medium"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.4 }}
-                    >
-                      {selectedSector.description}
-                    </motion.p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Skills section with cards */}
-              <div className="p-8 pt-6">
-                <motion.h4 
-                  className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  <div 
-                    className="w-8 h-0.5 rounded-full"
-                    style={{ backgroundColor: selectedSector.color }}
-                  />
-                  {t.common.coreTechnologies}
-                </motion.h4>
-                
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                  {selectedSector.skills.map((skill, idx) => (
-                    <motion.div
-                      key={skill.name}
-                      className="group relative p-4 rounded-xl backdrop-blur-sm transition-all duration-300 cursor-pointer"
-                      style={{
-                        backgroundColor: 'rgba(30, 41, 59, 0.5)',
-                        border: `1px solid rgba(148, 163, 184, 0.1)`
-                      }}
-                      initial={{ opacity: 0, y: 20, scale: 0.9 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      transition={{ 
-                        delay: 0.6 + idx * 0.08,
-                        type: "spring",
-                        stiffness: 200,
-                        damping: 20
-                      }}
-                      whileHover={{ 
-                        scale: 1.05,
-                        backgroundColor: `${selectedSector.color}15`,
-                        borderColor: selectedSector.color,
-                        transition: { duration: 0.2 }
-                      }}
-                    >
-                      {/* Glow on hover */}
-                      <div 
-                        className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                        style={{
-                          boxShadow: `inset 0 0 20px ${selectedSector.color}30`
-                        }}
-                      />
-                      
-                      <div className="relative z-10 flex items-center gap-3">
-                        {/* Skill Icon */}
-                        <motion.div 
-                          className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-700/50 p-2 relative"
-                          whileHover={{ scale: 1.1, rotate: 5 }}
-                          transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                        >
-                          <SkillIcon skill={skill} size={40} />
-                        </motion.div>
-                        
-                        {/* Skill Name */}
-                        <div className="flex-1">
-                          <span className="text-sm font-semibold text-slate-200 group-hover:text-white transition-colors block">
-                            {skill.name}
-                          </span>
-                        </div>
-                        
-                        {/* Glow Indicator */}
-                        <motion.div
-                          className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 flex-shrink-0"
-                          style={{ backgroundColor: selectedSector.color }}
-                          whileHover={{ scale: 1.5 }}
-                        />
-                      </div>
-                      
-                      {/* Animated border on hover */}
-                      <motion.div
-                        className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100"
-                        style={{
-                          border: `1px solid ${selectedSector.color}`,
-                        }}
-                        initial={false}
-                      />
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Footer */}
-              <motion.div 
-                className="px-8 pb-6 flex items-center justify-between"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 }}
-              >
-                <p className="text-xs text-slate-500 font-mono">
-                  {t.common.pressEscToResume}
-                </p>
-              </motion.div>
-            </motion.div>
+              <h2 className="text-5xl md:text-6xl font-extrabold mb-4 bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500 bg-clip-text text-transparent drop-shadow-lg flex items-center justify-center gap-3">
+                  <Gauge className="w-12 h-12 text-yellow-400" />
+                  {t.skills.title}
+              </h2>
+              <p className="text-xl text-slate-300 mb-2 font-semibold">
+                  {t.skills.subtitle}
+              </p>
+              <p className="text-sm text-slate-400 font-mono">
+                  {t.skills.instructions}
+              </p>
           </motion.div>
-        )}
-      </AnimatePresence>
 
-      {/* Sector Grid */}
-      <motion.div 
-        className="mt-8 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-      >
-        {sectors.map((sector, idx) => (
-          <motion.button
-            key={sector.id}
-            className="relative overflow-hidden p-5 rounded-xl bg-slate-800/50 backdrop-blur-sm border border-slate-700 hover:bg-slate-800 hover:border-slate-600 transition-all duration-300 group"
-            style={{
-              boxShadow: `0 0 20px ${sector.color}20`
-            }}
-            onClick={() => handleSectorClick(sector)}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 + idx * 0.05 }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+          <motion.div
+              className="relative w-full h-[650px] rounded-2xl overflow-hidden shadow-2xl border-2 border-slate-600"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+              style={{
+                  background:
+                      "linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%)",
+                  boxShadow:
+                      "0 0 60px rgba(59, 130, 246, 0.3), inset 0 0 60px rgba(0, 0, 0, 0.5)",
+              }}
           >
-            {/* Gradient overlay */}
-            <div 
-              className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
-              style={{
-                background: `linear-gradient(135deg, ${sector.color} 0%, transparent 100%)`
-              }}
-            />
-            
-            {/* Content */}
-            <div className="relative z-10">
-              {/* Header */}
-              <div className="flex items-center gap-3 mb-3">
-                <div 
-                  className="w-2 h-8 rounded-full flex-shrink-0 shadow-lg"
-                  style={{ 
-                    backgroundColor: sector.color,
-                    boxShadow: `0 0 10px ${sector.color}`
+              <Canvas
+                  camera={{
+                      position: CAMERA_CONFIG.POSITION,
+                      fov: CAMERA_CONFIG.FOV,
                   }}
-                />
-                <div className="flex-1 text-left">
-                  <h4 className="text-base font-bold text-slate-200 group-hover:text-white transition-colors">
-                    {sector.name}
-                  </h4>
-                  <p className="text-xs text-slate-400 mt-0.5">
-                    {sector.skills.length} {t.common.technologies}
-                  </p>
-                </div>
-              </div>
-              
-              {/* Skill Icons Preview */}
-              <div className="flex items-center gap-2 flex-wrap">
-                {sector.skills.slice(0, 5).map((skill, skillIdx) => (
+                  shadows
+                  gl={{
+                      antialias: true,
+                      toneMapping: THREE.ACESFilmicToneMapping,
+                      toneMappingExposure: 1.3,
+                  }}
+              >
+                  <color attach="background" args={["#0a0a1a"]} />
+                  <Scene3D
+                      isPaused={isPaused}
+                      selectedSector={selectedSector}
+                      onSectorClick={handleSectorClick}
+                      sectors={sectors}
+                  />
+              </Canvas>
+          </motion.div>
+
+          {/* Sector Details Modal - Enhanced UI/UX */}
+          <AnimatePresence mode="wait">
+              {selectedSector && (
                   <motion.div
-                    key={skill.name}
-                    className="w-8 h-8 rounded-lg bg-slate-700/50 p-1.5 relative flex items-center justify-center"
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.6 + idx * 0.05 + skillIdx * 0.03 }}
-                    whileHover={{ scale: 1.2, zIndex: 10 }}
+                      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      onClick={handleClose}
                   >
-                    <SkillIcon skill={skill} size={32} />
+                      {/* Animated background with blur */}
+                      <motion.div
+                          className="absolute inset-0 bg-black/80 backdrop-blur-xl"
+                          initial={{ backdropFilter: "blur(0px)" }}
+                          animate={{ backdropFilter: "blur(12px)" }}
+                          exit={{ backdropFilter: "blur(0px)" }}
+                      />
+
+                      {/* Glow effect */}
+                      <motion.div
+                          className="absolute inset-0 opacity-30"
+                          style={{
+                              background: `radial-gradient(circle at center, ${selectedSector.color}40 0%, transparent 70%)`,
+                          }}
+                          initial={{ scale: 0, opacity: 0 }}
+                          animate={{ scale: 1.5, opacity: 0.3 }}
+                          exit={{ scale: 0, opacity: 0 }}
+                          transition={{ duration: 0.5 }}
+                      />
+
+                      <motion.div
+                          className="relative max-w-3xl w-full rounded-3xl overflow-hidden shadow-2xl"
+                          style={{
+                              background:
+                                  "linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%)",
+                              border: `2px solid ${selectedSector.color}`,
+                              boxShadow: `0 0 80px ${selectedSector.color}60, inset 0 0 80px rgba(0,0,0,0.3)`,
+                          }}
+                          initial={{
+                              opacity: 0,
+                              scale: 0.8,
+                              rotateX: -15,
+                              y: 50,
+                          }}
+                          animate={{ opacity: 1, scale: 1, rotateX: 0, y: 0 }}
+                          exit={{ opacity: 0, scale: 0.8, rotateX: 15, y: -50 }}
+                          transition={{
+                              type: "spring",
+                              damping: 25,
+                              stiffness: 300,
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                      >
+                          {/* Header with gradient background */}
+                          <div
+                              className="relative p-8 overflow-hidden"
+                              style={{
+                                  background: `linear-gradient(135deg, ${selectedSector.color}20 0%, transparent 100%)`,
+                              }}
+                          >
+                              {/* Animated particles in header */}
+                              <div className="absolute inset-0 opacity-20">
+                                  {[...Array(20)].map((_, i) => (
+                                      <motion.div
+                                          key={i}
+                                          className="absolute w-1 h-1 rounded-full"
+                                          style={{
+                                              backgroundColor:
+                                                  selectedSector.color,
+                                              left: `${Math.random() * 100}%`,
+                                              top: `${Math.random() * 100}%`,
+                                          }}
+                                          animate={{
+                                              y: [0, -20, 0],
+                                              opacity: [0, 1, 0],
+                                          }}
+                                          transition={{
+                                              duration: 2 + Math.random() * 2,
+                                              repeat: Infinity,
+                                              delay: Math.random() * 2,
+                                          }}
+                                      />
+                                  ))}
+                              </div>
+
+                              <button
+                                  onClick={handleClose}
+                                  className="absolute top-4 right-4 p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 backdrop-blur-sm transition-all hover:scale-110 hover:rotate-90 duration-300 group"
+                              >
+                                  <X className="w-5 h-5 text-slate-300 group-hover:text-white" />
+                              </button>
+
+                              <div className="flex items-center gap-6 relative z-10">
+                                  <motion.div
+                                      className="w-20 h-20 flex-shrink-0 rounded-2xl flex items-center justify-center relative"
+                                      style={{
+                                          backgroundColor: `${selectedSector.color}20`,
+                                          boxShadow: `0 0 30px ${selectedSector.color}40`,
+                                      }}
+                                      initial={{ scale: 0, rotate: -180 }}
+                                      animate={{ scale: 1, rotate: 0 }}
+                                      transition={{
+                                          type: "spring",
+                                          delay: 0.2,
+                                      }}
+                                  >
+                                      <div
+                                          className="absolute inset-0 rounded-2xl"
+                                          style={{
+                                              background: `linear-gradient(135deg, ${selectedSector.color}40, transparent)`,
+                                          }}
+                                      />
+                                      <div
+                                          style={{
+                                              color: selectedSector.color,
+                                          }}
+                                      >
+                                          {React.createElement(
+                                              selectedSector.icon,
+                                              {
+                                                  className:
+                                                      "w-12 h-12 relative z-10",
+                                              }
+                                          )}
+                                      </div>
+                                  </motion.div>
+
+                                  <div className="flex-1">
+                                      <motion.h3
+                                          className="text-4xl font-black text-white mb-2 tracking-tight"
+                                          initial={{ opacity: 0, x: -20 }}
+                                          animate={{ opacity: 1, x: 0 }}
+                                          transition={{ delay: 0.3 }}
+                                      >
+                                          {selectedSector.name}
+                                      </motion.h3>
+                                      <motion.p
+                                          className="text-slate-300 text-base font-medium"
+                                          initial={{ opacity: 0, x: -20 }}
+                                          animate={{ opacity: 1, x: 0 }}
+                                          transition={{ delay: 0.4 }}
+                                      >
+                                          {selectedSector.description}
+                                      </motion.p>
+                                  </div>
+                              </div>
+                          </div>
+
+                          {/* Skills section with cards */}
+                          <div className="p-8 pt-6">
+                              <motion.h4
+                                  className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2"
+                                  initial={{ opacity: 0 }}
+                                  animate={{ opacity: 1 }}
+                                  transition={{ delay: 0.5 }}
+                              >
+                                  <div
+                                      className="w-8 h-0.5 rounded-full"
+                                      style={{
+                                          backgroundColor: selectedSector.color,
+                                      }}
+                                  />
+                                  {t.common.coreTechnologies}
+                              </motion.h4>
+
+                              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                  {selectedSector.skills.map((skill, idx) => (
+                                      <motion.div
+                                          key={skill.name}
+                                          className="group relative p-4 rounded-xl backdrop-blur-sm transition-all duration-300 cursor-pointer"
+                                          style={{
+                                              backgroundColor:
+                                                  "rgba(30, 41, 59, 0.5)",
+                                              border: `1px solid rgba(148, 163, 184, 0.1)`,
+                                          }}
+                                          initial={{
+                                              opacity: 0,
+                                              y: 20,
+                                              scale: 0.9,
+                                          }}
+                                          animate={{
+                                              opacity: 1,
+                                              y: 0,
+                                              scale: 1,
+                                          }}
+                                          transition={{
+                                              delay: 0.6 + idx * 0.08,
+                                              type: "spring",
+                                              stiffness: 200,
+                                              damping: 20,
+                                          }}
+                                          whileHover={{
+                                              scale: 1.05,
+                                              backgroundColor: `${selectedSector.color}15`,
+                                              borderColor: selectedSector.color,
+                                              transition: { duration: 0.2 },
+                                          }}
+                                      >
+                                          {/* Glow on hover */}
+                                          <div
+                                              className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                              style={{
+                                                  boxShadow: `inset 0 0 20px ${selectedSector.color}30`,
+                                              }}
+                                          />
+
+                                          <div className="relative z-10 flex items-center gap-3">
+                                              {/* Skill Icon */}
+                                              <motion.div
+                                                  className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-slate-700/50 p-2 relative"
+                                                  whileHover={{
+                                                      scale: 1.1,
+                                                      rotate: 5,
+                                                  }}
+                                                  transition={{
+                                                      type: "spring",
+                                                      stiffness: 400,
+                                                      damping: 10,
+                                                  }}
+                                              >
+                                                  <SkillIcon
+                                                      skill={skill}
+                                                      size={40}
+                                                  />
+                                              </motion.div>
+
+                                              {/* Skill Name */}
+                                              <div className="flex-1">
+                                                  <span className="text-sm font-semibold text-slate-200 group-hover:text-white transition-colors block">
+                                                      {skill.name}
+                                                  </span>
+                                              </div>
+
+                                              {/* Glow Indicator */}
+                                              <motion.div
+                                                  className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 flex-shrink-0"
+                                                  style={{
+                                                      backgroundColor:
+                                                          selectedSector.color,
+                                                  }}
+                                                  whileHover={{ scale: 1.5 }}
+                                              />
+                                          </div>
+
+                                          {/* Animated border on hover */}
+                                          <motion.div
+                                              className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100"
+                                              style={{
+                                                  border: `1px solid ${selectedSector.color}`,
+                                              }}
+                                              initial={false}
+                                          />
+                                      </motion.div>
+                                  ))}
+                              </div>
+                          </div>
+
+                          {/* Footer */}
+                          <motion.div
+                              className="px-8 pb-6 flex items-center justify-between"
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.8 }}
+                          >
+                              <p className="text-xs text-slate-500 font-mono">
+                                  {t.common.pressEscToResume}
+                              </p>
+                          </motion.div>
+                      </motion.div>
                   </motion.div>
-                ))}
-                {sector.skills.length > 5 && (
-                  <div className="w-8 h-8 rounded-lg bg-slate-700/50 flex items-center justify-center text-xs text-slate-400 font-bold">
-                    +{sector.skills.length - 5}
-                  </div>
-                )}
-              </div>
-            </div>
-            
-            {/* Border glow on hover */}
-            <motion.div
-              className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none"
-              style={{
-                boxShadow: `inset 0 0 20px ${sector.color}30`
-              }}
-            />
-          </motion.button>
-        ))}
-      </motion.div>
+              )}
+          </AnimatePresence>
 
-      {/* Styles */}
-      <style jsx>{`
-        .sector-marker-3d {
-          position: relative;
-          width: 75px;
-          height: 75px;
-          background: rgba(15, 23, 42, 0.95);
-          border: 3px solid var(--sector-color);
-          border-radius: 18px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          gap: 6px;
-          cursor: pointer;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          backdrop-filter: blur(12px);
-          overflow: hidden;
-        }
+          {/* Sector Grid */}
+          <motion.div
+              className="mt-8 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+          >
+              {sectors.map((sector, idx) => (
+                  <motion.button
+                      key={sector.id}
+                      className="relative overflow-hidden p-5 rounded-xl bg-slate-800/50 backdrop-blur-sm border border-slate-700 hover:bg-slate-800 hover:border-slate-600 transition-all duration-300 group"
+                      style={{
+                          boxShadow: `0 0 20px ${sector.color}20`,
+                      }}
+                      onClick={() => handleSectorClick(sector)}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.5 + idx * 0.05 }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                  >
+                      {/* Gradient overlay */}
+                      <div
+                          className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
+                          style={{
+                              background: `linear-gradient(135deg, ${sector.color} 0%, transparent 100%)`,
+                          }}
+                      />
 
-        .sector-marker-3d:hover {
-          background: var(--sector-color);
-          transform: scale(1.1) translateY(-5px);
-          box-shadow: 0 10px 40px var(--sector-color);
-        }
+                      {/* Content */}
+                      <div className="relative z-10">
+                          {/* Header */}
+                          <div className="flex items-center gap-3 mb-3">
+                              <div
+                                  className="w-2 h-8 rounded-full flex-shrink-0 shadow-lg"
+                                  style={{
+                                      backgroundColor: sector.color,
+                                      boxShadow: `0 0 10px ${sector.color}`,
+                                  }}
+                              />
+                              <div className="flex-1 text-left">
+                                  <h4 className="text-base font-bold text-slate-200 group-hover:text-white transition-colors">
+                                      {sector.name}
+                                  </h4>
+                                  <p className="text-xs text-slate-400 mt-0.5">
+                                      {sector.skills.length}{" "}
+                                      {t.common.technologies}
+                                  </p>
+                              </div>
+                          </div>
 
-        .marker-glow-3d {
-          position: absolute;
-          inset: -10px;
-          background: radial-gradient(circle, var(--sector-color) 0%, transparent 70%);
-          opacity: 0.5;
-          filter: blur(15px);
-          pointer-events: none;
-          animation: pulse-glow 2s ease-in-out infinite;
-        }
+                          {/* Skill Icons Preview */}
+                          <div className="flex items-center gap-2 flex-wrap">
+                              {sector.skills
+                                  .slice(0, 5)
+                                  .map((skill, skillIdx) => (
+                                      <motion.div
+                                          key={skill.name}
+                                          className="w-8 h-8 rounded-lg bg-slate-700/50 p-1.5 relative flex items-center justify-center"
+                                          initial={{ opacity: 0, scale: 0 }}
+                                          animate={{ opacity: 1, scale: 1 }}
+                                          transition={{
+                                              delay:
+                                                  0.6 +
+                                                  idx * 0.05 +
+                                                  skillIdx * 0.03,
+                                          }}
+                                          whileHover={{
+                                              scale: 1.2,
+                                              zIndex: 10,
+                                          }}
+                                      >
+                                          <SkillIcon skill={skill} size={32} />
+                                      </motion.div>
+                                  ))}
+                              {sector.skills.length > 5 && (
+                                  <div className="w-8 h-8 rounded-lg bg-slate-700/50 flex items-center justify-center text-xs text-slate-400 font-bold">
+                                      +{sector.skills.length - 5}
+                                  </div>
+                              )}
+                          </div>
+                      </div>
 
-        .marker-shine {
-          position: absolute;
-          top: -50%;
-          left: -50%;
-          width: 200%;
-          height: 200%;
-          background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
-          animation: shine 3s infinite;
-          pointer-events: none;
-        }
+                      {/* Border glow on hover */}
+                      <motion.div
+                          className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none"
+                          style={{
+                              boxShadow: `inset 0 0 20px ${sector.color}30`,
+                          }}
+                      />
+                  </motion.button>
+              ))}
+          </motion.div>
 
-        @keyframes shine {
-          0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-          100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
+          {/* Styles */}
+          <style jsx>{`
+              .sector-marker-3d {
+                  position: relative;
+                  width: 75px;
+                  height: 75px;
+                  background: rgba(15, 23, 42, 0.95);
+                  border: 3px solid var(--sector-color);
+                  border-radius: 18px;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 6px;
+                  cursor: pointer;
+                  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                  backdrop-filter: blur(12px);
+                  overflow: hidden;
+              }
 
-        @keyframes pulse-glow {
-          0%, 100% { opacity: 0.5; transform: scale(1); }
-          50% { opacity: 0.8; transform: scale(1.1); }
-        }
+              .sector-marker-3d:hover {
+                  background: var(--sector-color);
+                  transform: scale(1.1) translateY(-5px);
+                  box-shadow: 0 10px 40px var(--sector-color);
+              }
 
-        .marker-icon-3d {
-          width: 48px;
-          height: 48px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-          transition: all 0.3s;
-          filter: drop-shadow(0 0 8px currentColor);
-        }
-        
-        .marker-icon-wrapper {
-          width: 28px;
-          height: 28px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-        }
-        
-        .marker-icon-3d svg,
-        .marker-icon-svg,
-        .marker-icon-wrapper svg {
-          width: 28px !important;
-          height: 28px !important;
-          min-width: 28px !important;
-          min-height: 28px !important;
-          max-width: 28px !important;
-          max-height: 28px !important;
-          flex-shrink: 0;
-          stroke-width: 2.5;
-          display: block;
-          box-sizing: border-box;
-        }
-        
-        .marker-icon-wrapper svg {
-          viewBox: attr(viewBox);
-        }
+              .marker-glow-3d {
+                  position: absolute;
+                  inset: -10px;
+                  background: radial-gradient(
+                      circle,
+                      var(--sector-color) 0%,
+                      transparent 70%
+                  );
+                  opacity: 0.5;
+                  filter: blur(15px);
+                  pointer-events: none;
+                  animation: pulse-glow 2s ease-in-out infinite;
+              }
 
-        .marker-label-3d {
-          font-size: 10px;
-          font-weight: 700;
-          text-align: center;
-          line-height: 1.1;
-          transition: color 0.3s;
-          text-shadow: 0 0 10px currentColor;
-        }
-      `}</style>
-    </section>
+              .marker-shine {
+                  position: absolute;
+                  top: -50%;
+                  left: -50%;
+                  width: 200%;
+                  height: 200%;
+                  background: linear-gradient(
+                      45deg,
+                      transparent 30%,
+                      rgba(255, 255, 255, 0.1) 50%,
+                      transparent 70%
+                  );
+                  animation: shine 3s infinite;
+                  pointer-events: none;
+              }
+
+              @keyframes shine {
+                  0% {
+                      transform: translateX(-100%) translateY(-100%)
+                          rotate(45deg);
+                  }
+                  100% {
+                      transform: translateX(100%) translateY(100%) rotate(45deg);
+                  }
+              }
+
+              @keyframes pulse-glow {
+                  0%,
+                  100% {
+                      opacity: 0.5;
+                      transform: scale(1);
+                  }
+                  50% {
+                      opacity: 0.8;
+                      transform: scale(1.1);
+                  }
+              }
+
+              .marker-icon-3d {
+                  width: 48px;
+                  height: 48px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  flex-shrink: 0;
+                  transition: all 0.3s;
+                  filter: drop-shadow(0 0 8px currentColor);
+              }
+
+              .marker-icon-wrapper {
+                  width: 28px;
+                  height: 28px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  flex-shrink: 0;
+              }
+
+              .marker-icon-3d svg,
+              .marker-icon-svg,
+              .marker-icon-wrapper svg {
+                  width: 28px !important;
+                  height: 28px !important;
+                  min-width: 28px !important;
+                  min-height: 28px !important;
+                  max-width: 28px !important;
+                  max-height: 28px !important;
+                  flex-shrink: 0;
+                  stroke-width: 2.5;
+                  display: block;
+                  box-sizing: border-box;
+              }
+
+              .marker-icon-wrapper svg {
+                  viewbox: attr(viewBox);
+              }
+
+              .marker-label-3d {
+                  font-size: 10px;
+                  font-weight: 700;
+                  text-align: center;
+                  line-height: 1.1;
+                  transition: color 0.3s;
+                  text-shadow: 0 0 10px currentColor;
+              }
+          `}</style>
+      </section>
   );
 }

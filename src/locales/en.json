@@ -38,7 +38,7 @@
     "techCertifications": "Tech Certifications"
   },
   "skills": {
-    "title": "🏎️ Skills Race Track",
+    "title": "Skills Race Track",
     "subtitle": "Inspired by the DevOps Infinity Loop",
     "instructions": "Click sectors • Drag to rotate • Scroll to zoom • Auto-rotates 🏁",
     "sectors": {
@@ -186,6 +186,8 @@
     "urlShortenerDescription": "Serverless architecture with AWS Lambda, API Gateway, DynamoDB, and CloudFront CDN",
     "ecsBlueGreenTitle": "ECS Blue-Green Deployment Strategy",
     "ecsBlueGreenDescription": "Zero-downtime deployment using AWS ECS, ALB, and CodeDeploy with Terraform IaC",
+    "multiRegionEKSTitle": "Multi-Region EKS Architecture with MongoDB Atlas",
+    "multiRegionEKSDescription": "High-availability multi-region setup with EKS in ap-east-1, Lambda in ap-southeast-1, and MongoDB Atlas integration via Private Endpoint and VPC Peering",
     "devopsNoteTitle": "Why Architecture Diagrams Matter in DevOps",
     "devopsNoteDescription": "These diagrams demonstrate my ability to:",
     "devopsNotePoints": {

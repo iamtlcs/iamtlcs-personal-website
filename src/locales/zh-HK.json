@@ -39,7 +39,7 @@
   },
   "skills": {
     "title": "🏎️ 技能賽道",
-    "subtitle": "靈感來自 DevOps 無限循環圖示",
+    "subtitle": "靈感來自 DevOps 無限循環",
     "instructions": "點擊區域 • 拖動旋轉 • 滾動縮放 • 自動旋轉",
     "sectors": {
       "programming": {
@@ -186,6 +186,8 @@
     "urlShortenerDescription": "使用 AWS Lambda、API Gateway、DynamoDB 和 CloudFront CDN 的無服務器架構",
     "ecsBlueGreenTitle": "ECS 藍綠部署策略",
     "ecsBlueGreenDescription": "使用 AWS ECS、ALB 和 CodeDeploy 以及 Terraform IaC 實現零停機部署",
+    "multiRegionEKSTitle": "多區域 EKS 架構與 MongoDB Atlas",
+    "multiRegionEKSDescription": "高可用性多區域設置，在 ap-east-1 使用 EKS，在 ap-southeast-1 使用 Lambda，並通過私有端點和 VPC 對等連接集成 MongoDB Atlas",
     "devopsNoteTitle": "為什麼架構圖在 DevOps 中至關重要",
     "devopsNoteDescription": "這些圖表展示了我的能力：",
     "devopsNotePoints": {
