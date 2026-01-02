@@ -22,26 +22,56 @@ export default function ArchitectureShowcase() {
       chart: sampleArchitectures.fullStack,
       title: t.architecture.fullStackTitle,
       description: t.architecture.fullStackDescription,
+      scale: 2.0,        // Zoom level for this diagram
+      minHeight: 800,    // Container height (manually set to fit scaled content)
+      maxWidth: '100%',
+      fontSize: '16px',
+      nodeSpacing: 60,
+      rankSpacing: 90,
     },
     {
       chart: sampleArchitectures.cicd,
       title: t.architecture.cicdTitle,
       description: t.architecture.cicdDescription,
+      scale: 3.5,
+      minHeight: 400,   // Container height (manually set to fit scaled content)
+      maxWidth: '100%',
+      fontSize: '15px',
+      nodeSpacing: 40,
+      rankSpacing: 70,
     },
     {
       chart: sampleArchitectures.microservices,
       title: t.architecture.microservicesTitle,
       description: t.architecture.microservicesDescription,
+      scale: 1.7,        // Zoom level for this diagram
+      minHeight: 600,    // Container height (manually set to fit scaled content)
+      maxWidth: '100%',
+      fontSize: '15px',
+      nodeSpacing: 50,
+      rankSpacing: 80,
     },
     {
       chart: sampleArchitectures.ecsBlueGreen,
       title: t.architecture.ecsBlueGreenTitle,
       description: t.architecture.ecsBlueGreenDescription,
+      scale: 2.0,        // Zoom level for this diagram
+      minHeight: 800,    // Container height (manually set to fit scaled content)
+      maxWidth: '100%',
+      fontSize: '15px',
+      nodeSpacing: 55,
+      rankSpacing: 85,
     },
     {
       chart: sampleArchitectures.multiRegionEKS,
       title: t.architecture.multiRegionEKSTitle,
       description: t.architecture.multiRegionEKSDescription,
+      scale: 3.0,        // Zoom level for this diagram
+      minHeight: 800,   // Container height (manually set to fit scaled content)
+      maxWidth: '100%',
+      fontSize: '14px',
+      nodeSpacing: 45,
+      rankSpacing: 75,
     },
   ];
 
@@ -52,13 +82,19 @@ export default function ArchitectureShowcase() {
         <HeaderSection title={t.architecture.title} subtitle={t.architecture.subtitle} />
 
         {/* Architecture Diagrams */}
-        <div className="space-y-12">
+        <div className="space-y-4">
           {architectureDiagrams.map((diagram, index) => (
             <div key={index}>
               <MermaidDiagram
                 chart={diagram.chart}
                 title={diagram.title}
                 description={diagram.description}
+                scale={diagram.scale}
+                minHeight={diagram.minHeight}
+                maxWidth={diagram.maxWidth}
+                fontSize={diagram.fontSize}
+                nodeSpacing={diagram.nodeSpacing}
+                rankSpacing={diagram.rankSpacing}
               />
             </div>
           ))}

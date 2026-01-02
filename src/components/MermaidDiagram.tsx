@@ -5,8 +5,8 @@
 // ============================================================================
 
 import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
-import { Expand, Download } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Expand, Download, X } from 'lucide-react';
 import mermaid from 'mermaid';
 
 // ============================================================================
@@ -17,6 +17,12 @@ interface MermaidDiagramProps {
   chart: string;
   title?: string;
   description?: string;
+  scale?: number; // SVG scale multiplier (default: 1.0)
+  minHeight?: number; // Minimum container height in pixels (default: 400)
+  maxWidth?: string; // Maximum width of diagram container (default: '100%')
+  fontSize?: string; // Font size for diagram text (default: '16px')
+  nodeSpacing?: number; // Space between nodes (default: 50)
+  rankSpacing?: number; // Space between ranks/levels (default: 80)
 }
 
 // ============================================================================
@@ -39,13 +45,14 @@ const MERMAID_CONFIG = {
     textColor: '#f1f5f9',
     border1: '#475569',
     border2: '#64748b',
-    fontSize: '18px',
+    fontSize: '16px',
   },
   flowchart: {
     curve: 'basis' as const,
-    padding: 30,
-    nodeSpacing: 80,
-    rankSpacing: 100,
+    padding: 20,
+    nodeSpacing: 50,
+    rankSpacing: 80,
+    useMaxWidth: true,
   },
 };
 
@@ -53,16 +60,38 @@ const MERMAID_CONFIG = {
 // COMPONENT
 // ============================================================================
 
-export default function MermaidDiagram({ chart, title, description }: MermaidDiagramProps) {
+export default function MermaidDiagram({ 
+  chart, 
+  title, 
+  description,
+  scale = 1.0,
+  minHeight = 400,
+  maxWidth = '100%',
+  fontSize = '16px',
+  nodeSpacing = 50,
+  rankSpacing = 80,
+}: MermaidDiagramProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // Initialize Mermaid
+  // Initialize Mermaid with custom config
   useEffect(() => {
     setMounted(true);
-    mermaid.initialize(MERMAID_CONFIG);
-  }, []);
+    const customConfig = {
+      ...MERMAID_CONFIG,
+      themeVariables: {
+        ...MERMAID_CONFIG.themeVariables,
+        fontSize,
+      },
+      flowchart: {
+        ...MERMAID_CONFIG.flowchart,
+        nodeSpacing,
+        rankSpacing,
+      },
+    };
+    mermaid.initialize(customConfig);
+  }, [fontSize, nodeSpacing, rankSpacing]);
 
   // Render diagram when mounted or chart changes
   useEffect(() => {
@@ -100,14 +129,24 @@ export default function MermaidDiagram({ chart, title, description }: MermaidDia
           container.innerHTML = svg;
         }
         
-        // Scale SVG to make it larger (if not in fullscreen)
+        // Scale SVG to fit container nicely (if not in fullscreen)
         if (!isFullscreen && ref.current) {
           const svg = ref.current.querySelector('svg');
           if (svg) {
-            svg.style.transform = 'scale(1.6)';
-            svg.style.transformOrigin = 'center';
+            // Remove any default width/height attributes to make it responsive
+            svg.removeAttribute('height');
             svg.style.width = '100%';
             svg.style.height = 'auto';
+            svg.style.maxWidth = '100%';
+            svg.style.display = 'block';
+            svg.style.margin = '0 auto';
+            svg.style.verticalAlign = 'top';
+            
+            // Apply custom scale if specified
+            if (scale !== 1.0) {
+              svg.style.transform = `scale(${scale})`;
+              svg.style.transformOrigin = 'center';
+            }
           }
         }
       } catch (error) {
@@ -119,7 +158,7 @@ export default function MermaidDiagram({ chart, title, description }: MermaidDia
     };
 
     renderDiagram();
-  }, [mounted, chart, isFullscreen]);
+  }, [mounted, chart, isFullscreen, scale]);
 
   // Download diagram as SVG
   const handleDownload = () => {
@@ -147,18 +186,38 @@ export default function MermaidDiagram({ chart, title, description }: MermaidDia
     setIsFullscreen((prev) => !prev);
   };
 
+  // Handle ESC key to exit fullscreen and prevent body scroll
+  useEffect(() => {
+    if (!isFullscreen) return;
+    
+    // Prevent body scroll when fullscreen
+    document.body.style.overflow = 'hidden';
+    
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsFullscreen(false);
+      }
+    };
+    
+    document.addEventListener('keydown', handleEsc);
+    return () => {
+      document.removeEventListener('keydown', handleEsc);
+      document.body.style.overflow = '';
+    };
+  }, [isFullscreen]);
+
   if (!mounted) return null;
 
   return (
     <motion.div
-      className="relative group"
+      className="relative group mb-16"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
       {/* Title and Description */}
       {(title || description) && (
-        <div className="mb-4">
+        <div className="mb-6">
           {title && (
             <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2 flex items-center gap-2">
               <span className="w-1 h-6 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
@@ -166,7 +225,7 @@ export default function MermaidDiagram({ chart, title, description }: MermaidDia
             </h3>
           )}
           {description && (
-            <p className="text-sm text-slate-600 dark:text-slate-400 ml-3">
+            <p className="text-sm text-slate-700 dark:text-slate-300 ml-3 leading-relaxed break-words">
               {description}
             </p>
           )}
@@ -174,7 +233,13 @@ export default function MermaidDiagram({ chart, title, description }: MermaidDia
       )}
 
       {/* Diagram Container */}
-      <div className="relative rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 p-8 overflow-auto backdrop-blur-sm">
+      <div 
+        className="relative rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 overflow-hidden backdrop-blur-sm mx-auto"
+        style={{ 
+          maxWidth,
+          padding: '1.5rem'
+        }}
+      >
         {/* Action Buttons */}
         <div className="absolute top-4 right-4 z-10 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <motion.button
@@ -202,9 +267,10 @@ export default function MermaidDiagram({ chart, title, description }: MermaidDia
         {/* Mermaid Diagram */}
         <div
           ref={ref}
-          className={`mermaid flex justify-center items-center min-h-[700px] w-full overflow-auto ${
-            isFullscreen ? 'fixed inset-0 z-50 bg-slate-900/95 backdrop-blur-xl p-8' : ''
-          }`}
+          style={{ 
+            minHeight: `${minHeight}px`,
+          }}
+          className="mermaid flex justify-center items-center w-full"
         />
 
         {/* Legend */}
@@ -212,6 +278,44 @@ export default function MermaidDiagram({ chart, title, description }: MermaidDia
           <span>💡 Tip: Hover to see actions • Click and drag to explore</span>
         </div>
       </div>
+
+      {/* Fullscreen Overlay */}
+      <AnimatePresence>
+        {isFullscreen && (
+          <motion.div
+            className="fixed inset-0 z-[9999] bg-slate-900/95 backdrop-blur-xl flex items-center justify-center p-8 overflow-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={toggleFullscreen}
+          >
+            {/* Close Button */}
+            <motion.button
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleFullscreen();
+              }}
+              className="absolute top-8 right-8 p-3 rounded-lg bg-slate-800/90 text-white hover:bg-red-600 transition-colors shadow-lg backdrop-blur-sm z-[10000]"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              title="Exit Fullscreen (ESC)"
+            >
+              <X className="w-5 h-5" />
+            </motion.button>
+            
+            {/* Render diagram in fullscreen */}
+            <div 
+              className="w-full h-full flex items-center justify-center overflow-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div 
+                dangerouslySetInnerHTML={{ __html: ref.current?.innerHTML || '' }}
+                className="max-w-full"
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
