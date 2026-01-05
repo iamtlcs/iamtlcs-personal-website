@@ -133,9 +133,6 @@ export default function MermaidDiagram({
         if (!isFullscreen && ref.current) {
           const svg = ref.current.querySelector('svg');
           if (svg) {
-            // Get original SVG dimensions
-            const svgHeight = svg.getBoundingClientRect().height || parseInt(svg.getAttribute('height') || '400');
-            
             // Remove any default width/height attributes to make it responsive
             svg.removeAttribute('height');
             svg.style.width = '100%';
