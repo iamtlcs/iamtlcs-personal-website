@@ -24,12 +24,12 @@
     "fullStack": "Développeur Full Stack",
     "devOps": "Ingénieur DevOps",
     "aboutMe": "À propos",
-    "aboutParagraph1": "Salut les gars! C'est Simon, et je suis un Ingénieur backend-focused, DevOps, et systèmes avec un fort passion par la création des plateformes robustes, scalables et fiables. Mon parcours dans la technologie a commencé pendant mon temps à {cuhk}, où j'ai obtenu un Bachelor of Science en Statistiques (Août 2020 - Juillet 2024) et développé un profond intérêt pour les systèmes distribués, l'automatisation, et l'architecture cloud.",
+    "aboutParagraph1": "Salut les gars! C'est Simon, et je suis un ingénieur backend-focused, DevOps, et systèmes avec un fort passion par la création des plateformes robustes, scalables et fiables. Mon parcours dans la technologie a commencé pendant mon temps à {cuhk}, où j'ai obtenu un Bachelor of Science en Statistiques (Août 2020 - Juillet 2024) et développé un profond intérêt pour les systèmes distribués, l'automatisation, et l'architecture cloud.",
     "cuhk": "l'Université chinoise de Hong Kong (The CUHK en anglais)",
-    "aboutParagraph2": "Je spécialise dans l'architecture des services backend, la conception d'API et la gestion de l'infrastructure cloud. Ma compétence couvre {techStack}, ainsi que les plateformes cloud comme {cloudPlatforms}. Je aime résoudre des problèmes complexes, automatiser les workflows, et garantir la sécurité et la maintenabilité des systèmes.",
-    "techStack": "Node.js, Python, et systèmes Linux",
+    "aboutParagraph2": "Malgré mes études en statistique, je spécialise dans l'architecture des services backend, la conception d'API et la gestion de l'infrastructure cloud. Ma compétence couvre {techStack}, ainsi que les plateformes cloud comme {cloudPlatforms}. J'aime résoudre des problèmes complexes, automatiser les workflows, et garantir la sécurité et la maintenabilité des systèmes.",
+    "techStack": "Node.js, Python, Go, systèmes Linux et un petit peu de systèmes Windows",
     "cloudPlatforms": "AWS, Google Cloud, et Azure",
-    "aboutParagraph3": "En dehors du programmation, je suis toujours explorer de nouvelles technologies dans DevOps, cloud, et l'ingénierie backend pour garder mes compétences à jour. Vous pouvez trouver plus sur mon parcours professionnel et me contacter sur {linkedIn} et {github}.",
+    "aboutParagraph3": "En dehors du programmation, je toujours explore de nouvelles technologies dans DevOps, cloud, et l'ingénierie backend pour garder mes compétences à jour. Vous pouvez trouver plus sur mon parcours professionnel et me contacter sur {linkedIn} et {github}.",
     "linkedIn": "LinkedIn",
     "github": "GitHub",
     "techCertifications": "Certifications technologiques"
@@ -41,7 +41,7 @@
     "sectors": {
       "programming": {
         "name": "Langages de programmation",
-        "description": "Langages de programmation pour le backend et le Full Stack"
+        "description": "Langages de programmation pour le backend et le full-stack"
       },
       "web": {
         "name": "Développement web",
@@ -122,4 +122,3 @@
     }
   }
 }
-
