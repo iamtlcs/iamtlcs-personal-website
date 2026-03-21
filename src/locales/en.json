@@ -15,9 +15,6 @@
     "home": "Home",
     "skillsTrack": "Skills Track",
     "projects": "Projects",
-    "architecture": "Architecture",
-    "origin": "Origin",
-    "hobbies": "Hobbies",
     "contact": "Contact"
   },
   "home": {
@@ -76,55 +73,6 @@
       }
     }
   },
-  "hongkong": {
-    "title": "My Hong Kong Roots",
-    "subtitle": "Where efficiency meets innovation",
-    "description": "A city that shaped my engineering mindset",
-    "paragraph1": "Growing up in the heart of {hongKong}, I was immersed in a city where efficiency and reliability are essential for daily life. The fast-paced environment and robust urban infrastructure have shaped my mindset toward building systems that are dependable, scalable, and high-performing.",
-    "hongKong": "Hong Kong",
-    "paragraph2": "Navigating complex transport networks and witnessing seamless city operations taught me the value of well-architected backends and resilient infrastructure. These experiences drive my engineering approach—prioritizing efficiency, fault tolerance, and maintainability in every solution I design.",
-    "paragraph3": "The iconic skyline, advanced public systems, and dynamic city life continue to inspire my focus on robust architecture and operational excellence. I strive to bring this spirit of efficiency and reliability into every backend, system, and infrastructure project I develop."
-  },
-  "hobbies": {
-    "title": "My Hobbies & Personality",
-    "subtitle": "Beyond the code, exploring life's passions",
-    "personality": "INTP • Curious • Creative • Always learning",
-    "introParagraph1": "Beyond the code, I'm a curious and creative individual who loves to explore new things. As an {intp}, my personality is characterized by a strong drive for logical analysis and innovative problem-solving. I enjoy delving into complex systems and abstract concepts, which fuels my passion for both coding and my diverse hobbies.",
-    "intp": "INTP",
-    "introParagraph2": "Here are some of the activities that keep me inspired and balanced:",
-    "currentlyListening": "♫ Currently Listening",
-    "spotifyIntegration": "💡 Real-time integration with Spotify API",
-    "hobbies": {
-      "movies": {
-        "name": "Movies",
-        "description": "Exploring the world of cinema, from classics to modern blockbusters."
-      },
-      "football": {
-        "name": "Football",
-        "description": "Playing football and enjoying the camaraderie of team sports."
-      },
-      "reading": {
-        "name": "Reading",
-        "description": "Diving into non-fiction to expand my knowledge."
-      },
-      "algoTrading": {
-        "name": "Algo Trading",
-        "description": "Applying statistical analysis and programming to develop trading algorithms."
-      },
-      "traveling": {
-        "name": "Traveling",
-        "description": "Exploring new cultures and places, with a special fondness for Japan."
-      },
-      "gaming": {
-        "name": "Gaming",
-        "description": "Enjoying video games as a way to relax and challenge my strategic thinking."
-      },
-      "coding": {
-        "name": "Coding",
-        "description": "Building projects and experimenting with new technologies in my free time."
-      }
-    }
-  },
   "contact": {
     "title": "Get In Touch",
     "subtitle": "Let's connect and build something amazing together",
@@ -172,31 +120,6 @@
         "description": "Built a Convolutional Neural Network (CNN) to classify which painting belongs to which artist."
       }
     }
-  },
-  "architecture": {
-    "title": "System Architecture",
-    "subtitle": "Visual representations of complex systems I've designed and implemented. These diagrams showcase my understanding of distributed systems, microservices, and DevOps practices.",
-    "fullStackTitle": "Full-Stack Web Application Architecture",
-    "fullStackDescription": "Production-ready architecture featuring load balancing, caching, and monitoring",
-    "cicdTitle": "CI/CD Pipeline with Kubernetes",
-    "cicdDescription": "Automated deployment pipeline from code commit to production",
-    "microservicesTitle": "Microservices Architecture",
-    "microservicesDescription": "Event-driven microservices with message queue integration",
-    "urlShortenerTitle": "AWS Terraform URL Shortener - Infrastructure Flow",
-    "urlShortenerDescription": "Serverless architecture with AWS Lambda, API Gateway, DynamoDB, and CloudFront CDN",
-    "ecsBlueGreenTitle": "ECS Blue-Green Deployment Strategy",
-    "ecsBlueGreenDescription": "Zero-downtime deployment using AWS ECS, ALB, and CodeDeploy with Terraform IaC",
-    "multiRegionEKSTitle": "Multi-Region EKS Architecture with MongoDB Atlas",
-    "multiRegionEKSDescription": "High-availability multi-region setup with EKS in ap-east-1, Lambda in ap-southeast-1, and MongoDB Atlas integration via Private Endpoint and VPC Peering",
-    "devopsNoteTitle": "Why Architecture Diagrams Matter in DevOps",
-    "devopsNoteDescription": "These diagrams demonstrate my ability to:",
-    "devopsNotePoints": [
-      "Design scalable, production-ready systems",
-      "Understand the entire technology stack, not just individual components",
-      "Document complex architectures for team collaboration",
-      "Plan for high availability, disaster recovery, and monitoring",
-      "Make informed decisions about infrastructure and deployment strategies"
-    ]
   }
 }
 

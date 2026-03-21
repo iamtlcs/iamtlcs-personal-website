@@ -6,15 +6,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Home,
   Briefcase,
-  MapPin,
-  Heart,
   Mail,
   Terminal,
   Github,
   Linkedin,
   FileText,
   Activity,
-  Server,
   Zap,
 } from 'lucide-react';
 
@@ -69,10 +66,6 @@ export default function CommandPalette({ navigate }: CommandPaletteProps) {
       'racetrack': () => navigate('skills'),
       'f1': () => navigate('skills'),
       'projects': () => navigate('projects'),
-      'architecture': () => navigate('architecture'),
-      'hongkong': () => navigate('hongkong'),
-      'origin': () => navigate('hongkong'),
-      'hobbies': () => navigate('hobbies'),
       'contact': () => navigate('contact'),
       'github': () => window.open('https://github.com/iamtlcs', '_blank'),
       'linkedin': () => window.open('https://linkedin.com/in/iamtlcs', '_blank'),
@@ -159,15 +152,6 @@ export default function CommandPalette({ navigate }: CommandPaletteProps) {
                     </CommandItem>
                     <CommandItem icon={Briefcase} onSelect={() => handleCommand('projects')}>
                       goto projects
-                    </CommandItem>
-                    <CommandItem icon={Server} onSelect={() => handleCommand('architecture')}>
-                      goto architecture
-                    </CommandItem>
-                    <CommandItem icon={MapPin} onSelect={() => handleCommand('hongkong')}>
-                      goto origin
-                    </CommandItem>
-                    <CommandItem icon={Heart} onSelect={() => handleCommand('hobbies')}>
-                      goto hobbies
                     </CommandItem>
                     <CommandItem icon={Mail} onSelect={() => handleCommand('contact')}>
                       deploy contact-form

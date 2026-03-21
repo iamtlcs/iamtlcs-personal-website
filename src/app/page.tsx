@@ -6,10 +6,7 @@ import SystemStatusFooter from '@/components/SystemStatusFooter';
 import HomeSection from '@/components/HomeSection';
 import F1RaceTrackSkills from '@/components/F1RaceTrackSkills';
 import ProjectsSection from '@/components/ProjectsSection';
-import HongKongSection from '@/components/HongKongSection';
-import HobbiesSection from '@/components/HobbiesSection';
 import ContactSection from '@/components/ContactSection';
-import ArchitectureShowcase from '@/components/ArchitectureShowcase';
 import ClientHydrationWrapper from '@/components/ClientHydrationWrapper';
 import HydrationErrorBoundary from '@/components/HydrationErrorBoundary';
 import { ThemeProvider } from '@/contexts/ThemeContext';
@@ -55,9 +52,6 @@ export default function Home() {
                   {currentPage === 'home' && <HomeSection navigate={navigate} />}
                   {currentPage === 'skills' && <F1RaceTrackSkills />}
                   {currentPage === 'projects' && <ProjectsSection />}
-                  {currentPage === 'architecture' && <ArchitectureShowcase />}
-                  {currentPage === 'hongkong' && <HongKongSection />}
-                  {currentPage === 'hobbies' && <HobbiesSection />}
                   {currentPage === 'contact' && <ContactSection />}
                 </PageTransition>
               </main>

@@ -23,9 +23,6 @@ const Header = ({ navigate, currentPage, className }: HeaderProps) => {
         { name: t.header.home, id: "home" },
         { name: t.header.skillsTrack, id: "skills" },
         { name: t.header.projects, id: "projects" },
-        { name: t.header.architecture, id: "architecture" },
-        { name: t.header.origin, id: "hongkong" },
-        { name: t.header.hobbies, id: "hobbies" },
         { name: t.header.contact, id: "contact" },
     ];
 
