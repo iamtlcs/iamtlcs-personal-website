@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { checkBotId } from 'botid/server';
 
 /**
  * API endpoint that returns real Vercel deployment information
@@ -6,6 +7,12 @@ import { NextResponse } from 'next/server';
  * @see https://vercel.com/docs/projects/environment-variables/system-environment-variables
  */
 export async function GET() {
+  const verification = await checkBotId();
+
+  if (verification.isBot) {
+    return NextResponse.json({ error: 'Bot detected. Access denied.' }, { status: 403 });
+  }
+
   const deploymentInfo = {
     // Git information
     gitCommitSha: process.env.VERCEL_GIT_COMMIT_SHA?.substring(0, 7), // Short SHA

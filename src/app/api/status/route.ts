@@ -1,6 +1,13 @@
 import { NextResponse } from 'next/server';
+import { checkBotId } from 'botid/server';
 
 export async function GET() {
+  const verification = await checkBotId();
+
+  if (verification.isBot) {
+    return NextResponse.json({ error: 'Bot detected. Access denied.' }, { status: 403 });
+  }
+
   const startTime = Date.now();
   
   // Get real Vercel deployment info
