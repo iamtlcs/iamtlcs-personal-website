@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const inter = Inter({
@@ -8,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://iamtlcs-personal-website.vercel.app'),
+  metadataBase: new URL('https://iamtlcs.vercel.app'),
   title: {
     default: "Simon Cheung Tak Leung - Full Stack & DevOps Engineer",
     template: "%s | Simon Cheung Tak Leung"
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
     "Open Source Contributor",
     "Tech Professional Hong Kong"
   ],
-  authors: [{ name: "Simon Cheung Tak Leung", url: "https://iamtlcs-personal-website.vercel.app" }],
+  authors: [{ name: "Simon Cheung Tak Leung", url: "https://iamtlcs.vercel.app" }],
   creator: "Simon Cheung Tak Leung",
   publisher: "Simon Cheung Tak Leung",
   robots: {
@@ -67,7 +68,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://iamtlcs-personal-website.vercel.app',
+    url: 'https://iamtlcs.vercel.app',
     siteName: 'Simon Cheung Tak Leung - Portfolio',
     title: 'Simon Cheung Tak Leung - Full Stack & DevOps Engineer',
     description: 'Portfolio of Simon Cheung Tak Leung - A passionate Full Stack & DevOps Engineer specializing in React, Node.js, AWS, and cloud-native solutions.',
@@ -82,7 +83,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: 'https://iamtlcs-personal-website.vercel.app',
+    canonical: 'https://iamtlcs.vercel.app',
   },
   category: 'Technology',
   classification: 'Portfolio Website',
@@ -106,15 +107,15 @@ export default function RootLayout({
     "alternateName": "Simon Cheung",
     "jobTitle": ["Full Stack Developer", "DevOps Engineer"],
     "description": "Passionate Full Stack & DevOps Engineer specializing in React, Node.js, AWS, and cloud-native solutions",
-    "url": "https://iamtlcs-personal-website.vercel.app",
-    "image": "https://iamtlcs-personal-website.vercel.app/MyPhoto1.png",
+    "url": "https://iamtlcs.vercel.app",
+    "image": "https://iamtlcs.vercel.app/MyPhoto1.png",
     "sameAs": [
       "https://www.linkedin.com/in/iamtlcs",
       "https://github.com/iamtlcs"
     ],
     "mainEntityOfPage": {
       "@type": "ProfilePage",
-      "@id": "https://iamtlcs-personal-website.vercel.app"
+      "@id": "https://iamtlcs.vercel.app"
     },
     "worksFor": {
       "@type": "Organization",
@@ -164,7 +165,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#1e293b" />
         <meta name="msapplication-TileColor" content="#1e293b" />
         <meta name="google-site-verification" content="your-google-site-verification-code" />
-        <link rel="canonical" href="https://iamtlcs-personal-website.vercel.app" />
+        <link rel="canonical" href="https://iamtlcs.vercel.app" />
         
         {/* LinkedIn specific meta tags */}
         <meta property="profile:first_name" content="Simon" />
@@ -180,6 +181,7 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         {children}
+        <SpeedInsights />
       </body>
     </html>
   );

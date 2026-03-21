@@ -51,7 +51,7 @@ export function middleware(request: NextRequest) {
         "eLearnSecurity Junior Penetration Tester (eJPT)",
       ],
       contact: {
-        website: "https://iamtlcs-personal-website.vercel.app",
+        website: "https://iamtlcs.vercel.app",
         github: "https://github.com/iamtlcs",
         email: "Available on website",
       },
@@ -61,7 +61,7 @@ export function middleware(request: NextRequest) {
         uptime: "99.99%",
       },
       easter_egg: "🎉 You found the hidden endpoint! Curious DevOps minds are the best kind.",
-      tip: "Try: curl https://iamtlcs-personal-website.vercel.app/api/status",
+      tip: "Try: curl https://iamtlcs.vercel.app/api/status",
     };
 
     return new NextResponse(JSON.stringify(resume, null, 2), {

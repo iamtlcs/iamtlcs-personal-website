@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       // disallow: ['/private/', '/admin/'],
     },
-    sitemap: 'https://iamtlcs-personal-website.vercel.app/sitemap.xml',
-    host: 'https://iamtlcs-personal-website.vercel.app',
+    sitemap: 'https://iamtlcs.vercel.app/sitemap.xml',
+    host: 'https://iamtlcs.vercel.app',
   }
 }

@@ -14,7 +14,7 @@ export function generateSEO({
   description = 'Portfolio of Simon Cheung Tak Leung - A passionate Full Stack & DevOps Engineer specializing in React, Node.js, AWS, and cloud-native solutions.',
   keywords = [],
   image = '/MyPhoto1.png',
-  url = 'https://iamtlcs-personal-website.vercel.app',
+  url = 'https://iamtlcs.vercel.app',
   type = 'website'
 }: SEOProps): Metadata {
   const fullTitle = title.includes('Simon Cheung') ? title : `${title} | Simon Cheung Tak Leung`;

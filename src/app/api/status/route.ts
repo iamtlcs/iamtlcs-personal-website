@@ -44,8 +44,8 @@ export async function GET() {
       'PWA Ready',
     ],
     endpoints: {
-      website: 'https://iamtlcs-personal-website.vercel.app',
-      api: 'https://iamtlcs-personal-website.vercel.app/api',
+      website: 'https://iamtlcs.vercel.app',
+      api: 'https://iamtlcs.vercel.app/api',
       github: 'https://github.com/iamtlcs',
     },
     message: '🚀 System running smoothly. All services operational.',
