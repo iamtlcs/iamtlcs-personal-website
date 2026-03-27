@@ -25,7 +25,7 @@ const certifications: Certification[] = [
         name: "AWS Certified Solutions Architect",
         code: "SAA-C03",
         image: "/certs/AWSSAA.png",
-        link: "https://cp.certmetrics.com/amazon/en/public/verify/credential/GG3C2V61VBF4QDCP",
+        link: "https://www.credly.com/badges/32254c30-d8ae-4008-a6bd-73e9cea989c9/public_url",
         credId: "GG3C2V61VBF4QDCP",
         inProgress: false,
     },
@@ -57,9 +57,9 @@ const certifications: Certification[] = [
         name: "Certified Kubernetes Administrator (CKA)",
         code: "CKA",
         image: "/certs/CKA.png",
-        link: "",
-        credId: "",
-        inProgress: true,
+        link: "https://www.credly.com/badges/4a840b01-ebcd-4fc1-92fb-04a748c55f8b/public_url",
+        credId: "LF-1u6yuifv2n",
+        inProgress: false,
     },
 ];
 

@@ -7,23 +7,6 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 const ContactSection = () => {
     const { t } = useLanguage();
-    const [isMounted, setIsMounted] = useState(false);
-
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
-
-    const handleDownloadCV = () => {
-        if (!isMounted) return;
-        // Direct download link for Google Drive (ensure file is shared as "Anyone with the link")
-        const googleDriveDownloadUrl = "https://drive.google.com/uc?export=download&id=1x7Nfu0Xqjq6Sk-h57fwJirOWXWF6FnR4";
-        const link = document.createElement("a");
-        link.href = googleDriveDownloadUrl;
-        link.setAttribute("download", "SIMON_CHEUNG_TAK_LEUNG_CV.pdf");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    };
 
     return (
         <section className="min-h-screen py-16 px-4 relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
@@ -61,15 +44,6 @@ const ContactSection = () => {
                 </p>
                 
                 <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
-                    <motion.button
-                        onClick={handleDownloadCV}
-                        className="flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:from-emerald-500 hover:to-teal-500 transition-all duration-300 shadow-lg hover:shadow-emerald-500/50 border border-emerald-500/50"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        <Download className="w-5 h-5" />
-                        {t.common.downloadCV}
-                    </motion.button>
                     <motion.a
                         href="mailto:simoncheung2002@gmail.com"
                         className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:from-blue-500 hover:to-indigo-500 transition-all duration-300 shadow-lg hover:shadow-blue-500/50 border border-blue-500/50"
