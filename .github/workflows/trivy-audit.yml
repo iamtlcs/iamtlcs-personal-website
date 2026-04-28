@@ -1,3 +1,13 @@
+# Trivy and Actions hardening (supply chain):
+# - Pin every `uses:` to a full commit SHA so tags cannot be repointed maliciously
+#   (relevant to the Mar–Apr 2026 trivy-action / Trivy CI compromise and similar attacks).
+# - trivy-action v0.36.0 pins setup-trivy and actions/cache by digest internally; we also
+#   set `version` so the Trivy CLI is explicit in this workflow.
+# - CodeQL Action v3 is deprecated Dec 2026; upload-sarif uses v4 on Node 24.
+# Re-verify SHAs when bumping: https://github.com/aquasecurity/trivy-action/releases
+# https://github.com/actions/checkout/releases
+# https://github.com/actions/upload-artifact/releases
+# https://github.com/github/codeql-action/releases
 name: Trivy Dependency Audit
 
 on:
@@ -27,12 +37,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
       - name: Run Trivy vulnerability scanner (filesystem)
-        # Pinned to v0.35.0 verified commit SHA (post supply-chain attack remediation)
-        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
+          version: v0.70.0
           scan-type: fs
           scan-ref: .
           scanners: vuln
@@ -43,8 +53,9 @@ jobs:
 
       - name: Upload Trivy results as SARIF
         if: always()
-        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
+          version: v0.70.0
           scan-type: fs
           scan-ref: .
           scanners: vuln
@@ -54,7 +65,7 @@ jobs:
 
       - name: Upload SARIF to GitHub Security tab
         if: always()
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@95e58e9a2cdfd71adc6e0353d5c52f41a045d225 # v4.35.2
         with:
           sarif_file: trivy-results.sarif
 
@@ -68,7 +79,7 @@ jobs:
 
       - name: Upload results artifact
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
           name: trivy-scan-results
           path: |
