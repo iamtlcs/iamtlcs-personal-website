@@ -38,6 +38,9 @@
     "title": "Compétences Race Track",
     "subtitle": "Inspiré par la boucle infinie DevOps",
     "instructions": "Cliquez sur les secteurs • Faites glisser pour tourner • Faites défiler pour zoomer • Auto-tourne",
+    "graphicsLoading": "Préparation du circuit de compétences…",
+    "graphicsUnavailable": "Découvrez mes compétences",
+    "graphicsFallbackDescription": "Le circuit 3D est indisponible dans ce navigateur. Sélectionnez une catégorie ci-dessous pour découvrir mes compétences.",
     "sectors": {
       "programming": {
         "name": "Langages de programmation",

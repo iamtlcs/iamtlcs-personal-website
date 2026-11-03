@@ -38,6 +38,9 @@
     "title": "🏎️ 技能賽道",
     "subtitle": "靈感來自 DevOps 無限循環",
     "instructions": "點擊區域 • 拖動旋轉 • 滾動縮放 • 自動旋轉",
+    "graphicsLoading": "正在準備技能賽道…",
+    "graphicsUnavailable": "探索我的技能",
+    "graphicsFallbackDescription": "此瀏覽器無法顯示 3D 賽道。請選擇下方的類別，了解我的技能。",
     "sectors": {
       "programming": {
         "name": "編程語言",

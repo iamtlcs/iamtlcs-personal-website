@@ -1,8 +1,10 @@
 'use client';
 
-import React, { useState, useRef, useMemo, useEffect } from 'react';
+import React, { useState, useRef, useMemo, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { useWebGLSupport } from '@/hooks/useWebGLSupport';
+import { ErrorBoundary } from 'react-error-boundary';
 import { createPortal } from 'react-dom';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Html, Sparkles, Stars } from '@react-three/drei';
@@ -1363,6 +1365,32 @@ function getDefaultFAIcon(skillName: string): string {
   return iconMap[skillName] || 'fas fa-code';
 }
 
+function SkillsTrackFallback({ loading = false }: { loading?: boolean }) {
+  const { t } = useLanguage();
+  return (
+    <div className="flex h-full flex-col items-center justify-center gap-4 bg-slate-50 dark:bg-slate-900 px-6 text-center" role="status">
+      <Gauge className="h-12 w-12 text-blue-700 dark:text-blue-400" aria-hidden="true" />
+      <p className="text-xl font-bold text-slate-900 dark:text-slate-100">
+        {loading ? t.skills.graphicsLoading : t.skills.graphicsUnavailable}
+      </p>
+      {!loading && <p className="max-w-lg theme-muted">{t.skills.graphicsFallbackDescription}</p>}
+    </div>
+  );
+}
+
+function WebGLContextObserver({ onContextLost }: { onContextLost: () => void }) {
+  const canvas = useThree(state => state.gl.domElement);
+  useEffect(() => {
+    const handleLoss = (event: Event) => {
+      event.preventDefault();
+      onContextLost();
+    };
+    canvas.addEventListener('webglcontextlost', handleLoss);
+    return () => canvas.removeEventListener('webglcontextlost', handleLoss);
+  }, [canvas, onContextLost]);
+  return null;
+}
+
 // ============================================================================
 // MAIN COMPONENT
 // ============================================================================
@@ -1375,6 +1403,10 @@ export default function F1RaceTrackSkills() {
   const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
   const compact = useMediaQuery('(max-width: 767px)');
   const lowPower = compact || reducedMotion;
+  const webGLSupported = useWebGLSupport();
+  const [rendererFailed, setRendererFailed] = useState(false);
+  const showTrack = webGLSupported === true && !rendererFailed;
+  const handleRendererFailure = useCallback(() => setRendererFailed(true), []);
   const trackRef = useRef<HTMLDivElement>(null);
   const [sceneActive, setSceneActive] = useState(true);
 
@@ -1471,7 +1503,7 @@ export default function F1RaceTrackSkills() {
                   {t.skills.subtitle}
               </p>
               <p className="text-sm theme-muted font-mono">
-                  {t.skills.instructions}
+                  {webGLSupported === false || rendererFailed ? t.skills.graphicsFallbackDescription : t.skills.instructions}
               </p>
           </motion.div>
 
@@ -1488,7 +1520,9 @@ export default function F1RaceTrackSkills() {
                       "0 0 60px rgba(59, 130, 246, 0.3), inset 0 0 60px rgba(0, 0, 0, 0.5)",
               }}
           >
+              {showTrack ? <ErrorBoundary fallback={<SkillsTrackFallback />} onError={handleRendererFailure}>
               <Canvas
+                  fallback={<SkillsTrackFallback />}
                   camera={{
                       position: CAMERA_CONFIG.POSITION,
                       fov: CAMERA_CONFIG.FOV,
@@ -1496,12 +1530,21 @@ export default function F1RaceTrackSkills() {
                   dpr={lowPower ? 1 : [1, 1.5]}
                   shadows={!lowPower}
                   frameloop={!sceneActive || selectedSector ? 'never' : reducedMotion ? 'demand' : 'always'}
-                  gl={{
-                      antialias: !lowPower,
-                      toneMapping: THREE.ACESFilmicToneMapping,
-                      toneMappingExposure: 1.3,
+                  gl={(defaults) => {
+                    // Check the real canvas too: a successful probe does not
+                    // guarantee a later context allocation will succeed.
+                    const canvas = defaults.canvas as HTMLCanvasElement;
+                    const options = { alpha: true, antialias: !lowPower, powerPreference: 'default' as const };
+                    const context = canvas.getContext('webgl2', options) as WebGL2RenderingContext | null;
+                    if (!context) throw new Error('3D graphics are unavailable.');
+                    return new THREE.WebGLRenderer({ ...defaults, ...options, context });
+                  }}
+                  onCreated={({ gl }) => {
+                    gl.toneMapping = THREE.ACESFilmicToneMapping;
+                    gl.toneMappingExposure = 1.3;
                   }}
               >
+                  <WebGLContextObserver onContextLost={handleRendererFailure} />
                   <color attach="background" args={["#0a0a1a"]} />
                   <Scene3D
                       isPaused={isPaused || reducedMotion}
@@ -1511,6 +1554,7 @@ export default function F1RaceTrackSkills() {
                       lowPower={lowPower}
                   />
               </Canvas>
+              </ErrorBoundary> : <SkillsTrackFallback loading={webGLSupported === null && !rendererFailed} />}
           </motion.div>
 
           {/* Sector Details Modal - Enhanced UI/UX */}

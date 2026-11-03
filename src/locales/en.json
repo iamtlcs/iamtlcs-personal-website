@@ -38,6 +38,9 @@
     "title": "Skills Race Track",
     "subtitle": "Inspired by the DevOps Infinity Loop",
     "instructions": "Click sectors • Drag to rotate • Scroll to zoom • Auto-rotates 🏁",
+    "graphicsLoading": "Preparing the skills track…",
+    "graphicsUnavailable": "Explore my skills",
+    "graphicsFallbackDescription": "The 3D track is unavailable in this browser. Select a category below to explore my skills.",
     "sectors": {
       "programming": {
         "name": "Programming Languages",
