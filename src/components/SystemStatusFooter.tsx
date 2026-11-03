@@ -1,12 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import type { DeploymentInfo } from '@/lib/deployment';
 import { motion } from 'framer-motion';
 import {
   Activity,
   MapPin,
   GitBranch,
-  Zap,
   Server,
   Heart,
   Github,
@@ -14,113 +13,18 @@ import {
   Mail,
 } from 'lucide-react';
 
-// Helper function to format relative time
-function getTimeAgo(timestamp: string): string {
-  const now = new Date();
-  const past = new Date(timestamp);
-  const diffInSeconds = Math.floor((now.getTime() - past.getTime()) / 1000);
-
-  if (diffInSeconds < 60) return 'just now';
-  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
-  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
-  if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}d ago`;
-  return past.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-}
-
-export default function SystemStatusFooter() {
-  const [currentYear, setCurrentYear] = useState(2024);
-  const [latency, setLatency] = useState(0);
-  const [mounted, setMounted] = useState(false);
-  const [deploymentInfo, setDeploymentInfo] = useState({
-    buildHash: 'loading...',
-    region: 'fetching...',
-    environment: 'production',
-    commitMessage: '',
-    commitAuthor: '',
-    deploymentTime: '',
-    gitProvider: 'github',
-    repoOwner: '',
-    repoSlug: '',
-    branch: 'main',
-  });
-  const [uptime, setUptime] = useState('99.99%');
-
-  useEffect(() => {
-    setMounted(true);
-    setCurrentYear(new Date().getFullYear());
-
-    // Fetch real deployment info from our API
-    const fetchDeploymentInfo = async () => {
-      try {
-        const response = await fetch('/api/deployment-info');
-        const data = await response.json();
-        setDeploymentInfo({
-          buildHash: data.gitCommitSha || data.buildId || 'unknown',
-          region: data.regionName || 'Hong Kong (ap-east-1)',
-          environment: data.environment || 'production',
-          commitMessage: data.gitCommitMessage || '',
-          commitAuthor: data.gitCommitAuthor || '',
-          deploymentTime: data.timestamp || new Date().toISOString(),
-          gitProvider: data.gitProvider || 'github',
-          repoOwner: data.gitRepoOwner || 'iamtlcs',
-          repoSlug: data.gitRepoSlug || 'iamtlcs-personal-website',
-          branch: data.gitBranch || 'main',
-        });
-      } catch (error) {
-        console.error('Failed to fetch deployment info:', error);
-        // Fallback to mock data if API fails
-        setDeploymentInfo({
-          buildHash: Math.random().toString(36).substring(2, 9),
-          region: 'Hong Kong (ap-east-1)',
-          environment: 'production',
-          commitMessage: 'Latest updates',
-          commitAuthor: 'Simon Cheung',
-          deploymentTime: new Date().toISOString(),
-          gitProvider: 'github',
-          repoOwner: 'iamtlcs',
-          repoSlug: 'iamtlcs-personal-website',
-          branch: 'main',
-        });
-      }
-    };
-
-    fetchDeploymentInfo();
-
-    // Real latency calculation using Navigation Timing API
-    const calculateLatency = () => {
-      if (window.performance && window.performance.timing) {
-        const perfData = window.performance.timing;
-        const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
-        setLatency(pageLoadTime > 0 ? Math.round(pageLoadTime / 10) : Math.round(Math.random() * 50 + 10));
-      } else {
-        // Fallback: measure fetch time
-        const startTime = performance.now();
-        fetch('/api/status', { method: 'HEAD' })
-          .then(() => {
-            const endTime = performance.now();
-            setLatency(Math.round(endTime - startTime));
-          })
-          .catch(() => setLatency(Math.round(Math.random() * 50 + 20)));
-      }
-    };
-
-    calculateLatency();
-
-    // Calculate realistic uptime based on deployment time
-    const calculateUptime = () => {
-      // In production, you'd fetch this from monitoring service
-      // For now, calculate based on page load stability
-      const random = (Math.random() * 0.05 + 99.95).toFixed(2);
-      setUptime(`${random}%`);
-    };
-    calculateUptime();
-    const interval = setInterval(calculateUptime, 30000); // Update every 30 seconds
-
-    return () => clearInterval(interval);
-  }, []);
-
-  if (!mounted) return null;
-
+export default function SystemStatusFooter({ deployment, year }: { deployment: DeploymentInfo; year: number }) {
+  const currentYear = year;
+  const deploymentInfo = {
+    buildHash: deployment.gitCommitSha || 'local',
+    region: deployment.delivery,
+    commitMessage: deployment.gitCommitMessage,
+    commitAuthor: deployment.gitCommitAuthor,
+    gitProvider: deployment.gitProvider,
+    repoOwner: deployment.gitRepoOwner,
+    repoSlug: deployment.gitRepoSlug,
+    branch: deployment.gitBranch,
+  };
   return (
     <footer className="relative mt-16 border-t border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl">
       {/* System Status Bar */}
@@ -132,29 +36,21 @@ export default function SystemStatusFooter() {
             <StatusItem
               icon={Activity}
               label="System"
-              value="Operational"
+              value="Online"
               color="text-green-700 dark:text-green-400"
               pulse
             />
-            
+
             {/* Location */}
             <StatusItem
               icon={MapPin}
-              label="Region"
+              label="Delivery"
               value={deploymentInfo.region}
               color="text-blue-700 dark:text-blue-400"
             />
-            
-            {/* Latency */}
-            <StatusItem
-              icon={Zap}
-              label="Latency"
-              value={`${latency}ms`}
-              color="text-amber-700 dark:text-amber-400"
-            />
-            
+
             {/* Build - Make it clickable */}
-            {deploymentInfo.buildHash !== 'loading...' && 
+            {deploymentInfo.buildHash !== 'local' &&
              deploymentInfo.buildHash !== 'unknown' ? (
               <a
                 href={`https://${deploymentInfo.gitProvider}.com/${deploymentInfo.repoOwner}/${deploymentInfo.repoSlug}/commit/${deploymentInfo.buildHash}`}
@@ -178,24 +74,17 @@ export default function SystemStatusFooter() {
                 color="text-purple-700 dark:text-purple-400"
               />
             )}
-            
+
             {/* Deployment */}
             <StatusItem
               icon={Server}
               label="Deployment"
-              value="Vercel Edge"
+              value={deployment.platform}
               color="text-cyan-700 dark:text-cyan-400"
             />
           </div>
 
-          {/* Uptime Badge */}
-          <motion.div
-            className="px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400 flex items-center gap-2"
-            whileHover={{ scale: 1.05 }}
-          >
-            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            <span>Uptime: {uptime}</span>
-          </motion.div>
+
         </div>
       </div>
 
@@ -249,7 +138,7 @@ export default function SystemStatusFooter() {
             {deploymentInfo.commitMessage && (
               <motion.div
                 className="w-full max-w-2xl mx-auto p-4 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-blue-900/30 border border-blue-200 dark:border-blue-800"
-                initial={{ opacity: 0, y: 10 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
@@ -277,16 +166,9 @@ export default function SystemStatusFooter() {
                         </span>
                       </div>
                     )}
-                    
-                    {deploymentInfo.deploymentTime && (
-                      <div className="flex items-center gap-1" title={new Date(deploymentInfo.deploymentTime).toLocaleString()}>
-                        <span>📅</span>
-                        <span>{getTimeAgo(deploymentInfo.deploymentTime)}</span>
-                      </div>
-                    )}
 
                     {/* GitHub Link */}
-                    {deploymentInfo.buildHash !== 'loading...' && 
+                    {deploymentInfo.buildHash !== 'local' &&
                      deploymentInfo.buildHash !== 'unknown' && (
                       <motion.a
                         href={`https://${deploymentInfo.gitProvider}.com/${deploymentInfo.repoOwner}/${deploymentInfo.repoSlug}/commit/${deploymentInfo.buildHash}`}
@@ -304,11 +186,11 @@ export default function SystemStatusFooter() {
                 </div>
               </motion.div>
             )}
-            
+
             {/* Built with */}
             <motion.p
               className="text-sm text-slate-500 dark:text-slate-400 flex items-center justify-center gap-1 flex-wrap"
-              initial={{ opacity: 0 }}
+              initial={false}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
             >
@@ -335,7 +217,7 @@ export default function SystemStatusFooter() {
 
             {/* DevOps Flavor Text */}
             <p className="text-xs text-slate-600 dark:text-slate-400 font-mono">
-              🚀 Deployed on Vercel Edge Network • 🔒 TLS 1.3 • ⚡ HTTP/3 Enabled
+              {deployment.platform} • {deployment.delivery}
             </p>
           </div>
         </div>

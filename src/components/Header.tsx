@@ -90,7 +90,7 @@ const Header = ({ navigate, currentPage, className }: HeaderProps) => {
                     ? 'bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-2xl border-b border-white/20 dark:border-slate-700/50' 
                     : 'bg-gradient-to-r from-slate-700/90 via-blue-600/90 to-indigo-700/90 dark:from-slate-900/80 dark:via-slate-800/80 dark:to-blue-900/80 backdrop-blur-lg'
             }`}
-            initial={{ y: -100 }}
+            initial={false}
             animate={{ y: 0 }}
             transition={{ duration: 0.5 }}
             role="banner"
@@ -113,9 +113,9 @@ const Header = ({ navigate, currentPage, className }: HeaderProps) => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                 >
-                    <Sparkles className="w-6 h-6 text-blue-400 dark:text-blue-300" />
+                    <Sparkles className="hidden sm:block w-6 h-6 text-blue-400 dark:text-blue-300" />
                     <span className="hidden xl:inline">Simon Cheung Tak Leung</span>
-                    <span className="xl:hidden">SCTL</span>
+                    <span className="xl:hidden">iamtlcs</span>
                 </motion.button>
                 
                 <div className="flex items-center gap-2 sm:gap-3 lg:order-last">
@@ -166,7 +166,7 @@ const Header = ({ navigate, currentPage, className }: HeaderProps) => {
                     {navItems.map((item, index) => (
                         <motion.li
                             key={item.id}
-                            initial={{ opacity: 0, y: -20 }}
+                            initial={false}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.05 }}
                         >

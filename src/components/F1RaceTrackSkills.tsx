@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useMemo, useEffect } from 'react';
 import Image from 'next/image';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { createPortal } from 'react-dom';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Html, Sparkles, Stars } from '@react-three/drei';
@@ -117,9 +118,9 @@ function getSectors(t: any): Sector[] {
       icon: Server,
       color: '#10b981',
       skills: [
-        { name: 'React.js', icon: '/skills/web/React.png', faIcon: 'fab fa-react' },
+        { name: 'React.js', icon: 'fab:react', faIcon: 'fab fa-react' },
         { name: 'Next.js', icon: '/skills/web/NextJs.png', faIcon: 'fas fa-arrow-right' },
-        { name: 'Express.js', icon: '/skills/web/Express.png', faIcon: 'fas fa-server' },
+        { name: 'Express.js', icon: 'fas:server', faIcon: 'fas fa-server' },
         { name: 'Tailwind CSS', icon: '/skills/web/TailwindCSS.png', faIcon: 'fas fa-wind' },
       ],
       description: t.skills.sectors.web.description
@@ -191,7 +192,7 @@ function getSectors(t: any): Sector[] {
       icon: Brain,
       color: '#a855f7',
       skills: [
-        { name: 'LLM APIs', icon: '/skills/ai/LLM.png', faIcon: 'fas fa-robot' },
+        { name: 'LLM APIs', icon: 'fas:robot', faIcon: 'fas fa-robot' },
         { name: 'Hugging Face', icon: '/skills/ai/HuggingFace.png', faIcon: 'fas fa-hands-helping' },
         { name: 'PyTorch', icon: '/skills/data/PyTorch.png', faIcon: 'fab fa-python' },
         { name: 'TensorFlow', icon: '/skills/data/TensorFlow.png', faIcon: 'fas fa-brain' },
@@ -211,10 +212,10 @@ function getSectors(t: any): Sector[] {
       icon: Lock,
       color: '#ef4444',
       skills: [
-        { name: 'Penetration Testing', icon: '/skills/security/Pentest.png', faIcon: 'fas fa-user-secret' },
-        { name: 'SIEM', icon: '/skills/security/SIEM.png', faIcon: 'fas fa-shield-alt' },
-        { name: 'Incident Response', icon: '/skills/security/IncidentResponse.png', faIcon: 'fas fa-exclamation-triangle' },
-        { name: 'Digital Forensics', icon: '/skills/security/Forensics.png', faIcon: 'fas fa-search' },
+        { name: 'Penetration Testing', icon: 'fas:user-secret', faIcon: 'fas fa-user-secret' },
+        { name: 'SIEM', icon: 'fas:shield-alt', faIcon: 'fas fa-shield-alt' },
+        { name: 'Incident Response', icon: 'fas:exclamation-triangle', faIcon: 'fas fa-exclamation-triangle' },
+        { name: 'Digital Forensics', icon: 'fas:search', faIcon: 'fas fa-search' },
       ],
       description: t.skills.sectors.security.description
     },
@@ -1151,9 +1152,10 @@ interface Scene3DProps {
   selectedSector: Sector | null;
   onSectorClick: (sector: Sector) => void;
   sectors: Sector[];
+  lowPower: boolean;
 }
 
-function Scene3D({ isPaused, selectedSector, onSectorClick, sectors }: Scene3DProps) {
+function Scene3D({ isPaused, selectedSector, onSectorClick, sectors, lowPower }: Scene3DProps) {
   return (
     <>
       {/* Lighting */}
@@ -1161,9 +1163,9 @@ function Scene3D({ isPaused, selectedSector, onSectorClick, sectors }: Scene3DPr
       <directionalLight
         position={LIGHTING_CONFIG.DIRECTIONAL_POSITION}
         intensity={LIGHTING_CONFIG.DIRECTIONAL_INTENSITY}
-        castShadow
-        shadow-mapSize-width={1024}
-        shadow-mapSize-height={1024}
+        castShadow={!lowPower}
+        shadow-mapSize-width={lowPower ? 512 : 1024}
+        shadow-mapSize-height={lowPower ? 512 : 1024}
         shadow-camera-far={50}
         shadow-camera-left={-20}
         shadow-camera-right={20}
@@ -1202,7 +1204,7 @@ function Scene3D({ isPaused, selectedSector, onSectorClick, sectors }: Scene3DPr
 
       {/* Atmospheric Effects */}
       <Sparkles
-        count={80}
+        count={lowPower ? 20 : 80}
         scale={25}
         size={2.5}
         speed={0.3}
@@ -1214,7 +1216,7 @@ function Scene3D({ isPaused, selectedSector, onSectorClick, sectors }: Scene3DPr
       <Stars 
         radius={100} 
         depth={50} 
-        count={3000} 
+        count={lowPower ? 500 : 3000}
         factor={4} 
         saturation={0} 
         fade 
@@ -1236,20 +1238,7 @@ interface SkillIconProps {
 
 function SkillIcon({ skill, size = 40, className = "" }: SkillIconProps) {
   const [imageError, setImageError] = React.useState(false);
-  const [isFontAwesome, setIsFontAwesome] = React.useState(false);
-
-  // Check if icon is a Font Awesome class (starts with fab:, fas:, far:, etc.)
-  // Only set this if it's NOT an image path
-  React.useEffect(() => {
-    if (!skill.icon.startsWith('/')) {
-      if (skill.icon.startsWith('fab:') || skill.icon.startsWith('fas:') || 
-          skill.icon.startsWith('far:') || skill.icon.startsWith('fal:') ||
-          skill.icon.startsWith('fab fa-') || skill.icon.startsWith('fas fa-') ||
-          skill.icon.startsWith('far fa-') || skill.icon.startsWith('fal fa-')) {
-        setIsFontAwesome(true);
-      }
-    }
-  }, [skill.icon]);
+  const isFontAwesome = /^(fab|fas|far|fal)(:| fa-)/.test(skill.icon);
 
   // Container style for consistent sizing
   const containerStyle: React.CSSProperties = {
@@ -1380,6 +1369,37 @@ export default function F1RaceTrackSkills() {
   const sectors = useMemo(() => getSectors(t), [t]);
   const [selectedSector, setSelectedSector] = useState<Sector | null>(null);
   const [isPaused, setIsPaused] = useState(false);
+  const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
+  const compact = useMediaQuery('(max-width: 767px)');
+  const lowPower = compact || reducedMotion;
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [sceneActive, setSceneActive] = useState(true);
+
+  useEffect(() => {
+    // Font Awesome is only used by skill fallbacks; never block the homepage on it.
+    if (document.getElementById('skill-icon-font')) return;
+    const stylesheet = document.createElement('link');
+    stylesheet.id = 'skill-icon-font';
+    stylesheet.rel = 'stylesheet';
+    stylesheet.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css';
+    document.head.appendChild(stylesheet);
+  }, []);
+
+  useEffect(() => {
+    let inView = true;
+    const update = () => setSceneActive(inView && !document.hidden);
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      update();
+    });
+    if (trackRef.current) observer.observe(trackRef.current);
+    document.addEventListener('visibilitychange', update);
+    update();
+    return () => {
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', update);
+    };
+  }, []);
 
   const handleSectorClick = (sector: Sector) => {
     setSelectedSector(sector);
@@ -1453,6 +1473,7 @@ export default function F1RaceTrackSkills() {
           </motion.div>
 
           <motion.div
+              ref={trackRef}
               className="relative w-full h-[360px] sm:h-[480px] lg:h-[650px] rounded-2xl overflow-hidden shadow-2xl border-2 border-slate-600"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -1469,19 +1490,22 @@ export default function F1RaceTrackSkills() {
                       position: CAMERA_CONFIG.POSITION,
                       fov: CAMERA_CONFIG.FOV,
                   }}
-                  shadows
+                  dpr={lowPower ? 1 : [1, 1.5]}
+                  shadows={!lowPower}
+                  frameloop={!sceneActive || selectedSector ? 'never' : reducedMotion ? 'demand' : 'always'}
                   gl={{
-                      antialias: true,
+                      antialias: !lowPower,
                       toneMapping: THREE.ACESFilmicToneMapping,
                       toneMappingExposure: 1.3,
                   }}
               >
                   <color attach="background" args={["#0a0a1a"]} />
                   <Scene3D
-                      isPaused={isPaused}
+                      isPaused={isPaused || reducedMotion}
                       selectedSector={selectedSector}
                       onSectorClick={handleSectorClick}
                       sectors={sectors}
+                      lowPower={lowPower}
                   />
               </Canvas>
           </motion.div>

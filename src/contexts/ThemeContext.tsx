@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback, useMemo, ReactNode } from 'react';
 
 type Theme = 'light' | 'dark';
 
@@ -12,42 +12,40 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('dark');
+  const [theme, setTheme] = useState<Theme>('light');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // The head script applies the saved/system theme before the first paint.
+    setTheme(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
     setMounted(true);
-    // Check localStorage for saved theme preference
-    let savedTheme: string | null = null;
-    try { savedTheme = localStorage.getItem('theme'); } catch { /* Storage may be disabled. */ }
-    if (savedTheme === 'light' || savedTheme === 'dark') {
-      setTheme(savedTheme);
-    } else {
-      // Check system preference
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      setTheme(prefersDark ? 'dark' : 'light');
-    }
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const followSystem = () => {
+      let saved: string | null = null;
+      try { saved = localStorage.getItem('theme'); } catch { /* Optional preference storage. */ }
+      if (saved !== 'light' && saved !== 'dark') setTheme(media.matches ? 'dark' : 'light');
+    };
+    media.addEventListener('change', followSystem);
+    return () => media.removeEventListener('change', followSystem);
   }, []);
 
   useEffect(() => {
     if (!mounted) return;
     
-    // Update document class and save preference
+    // Keep browser controls and Tailwind colors aligned with the selected theme.
     document.documentElement.classList.toggle('dark', theme === 'dark');
-    try { localStorage.setItem('theme', theme); } catch { /* Theme still works without storage. */ }
+    document.documentElement.style.colorScheme = theme;
   }, [theme, mounted]);
 
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
-
-  // Prevent flash of unstyled content
-  if (!mounted) {
-    return null;
-  }
+  const toggleTheme = useCallback(() => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+    try { localStorage.setItem('theme', nextTheme); } catch { /* Optional preference storage. */ }
+  }, [theme]);
+  const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme]);
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );

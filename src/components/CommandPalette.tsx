@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { Command } from 'cmdk';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -17,48 +17,13 @@ import {
 
 interface CommandPaletteProps {
   navigate: (page: string) => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
-export default function CommandPalette({ navigate }: CommandPaletteProps) {
-  const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  const [logs, setLogs] = useState<string[]>([]);
-
-  useEffect(() => {
-    setMounted(true);
-    
-    // Simulate loading logs
-    const sampleLogs = [
-      '[2024-12-29 10:23:45] ✅ Deployment successful - Build #7f3a21',
-      '[2024-12-29 09:15:32] 🔄 Updating dependencies...',
-      '[2024-12-29 08:42:18] 📊 Analytics: 147 visitors today',
-      '[2024-12-29 07:30:05] 🔒 SSL certificate renewed',
-      '[2024-12-29 06:12:44] ⚡ CDN cache cleared',
-      '[2024-12-28 23:45:22] 🚀 Vercel Edge Network: OK',
-      '[2024-12-28 22:10:15] 💾 Database backup completed',
-      '[2024-12-28 20:33:08] 🔐 Security scan: No vulnerabilities',
-    ];
-    setLogs(sampleLogs);
-  }, []);
-
-  // Toggle command palette with Cmd+K / Ctrl+K
-  useEffect(() => {
-    if (!mounted) return;
-
-    const down = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
-      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        setOpen((open) => !open);
-      }
-    };
-
-    document.addEventListener('keydown', down);
-    return () => document.removeEventListener('keydown', down);
-  }, [mounted]);
-
+export default function CommandPalette({ navigate, open, onOpenChange }: CommandPaletteProps) {
   const handleCommand = useCallback((command: string) => {
-    setOpen(false);
+    onOpenChange(false);
     
     const commands: { [key: string]: () => void } = {
       'home': () => navigate('home'),
@@ -71,49 +36,27 @@ export default function CommandPalette({ navigate }: CommandPaletteProps) {
       'github': () => window.open('https://github.com/iamtlcs', '_blank'),
       'linkedin': () => window.open('https://linkedin.com/in/iamtlcs', '_blank'),
       'logs': () => {
-        console.table(logs);
-        alert('Server logs printed to console (F12)');
+        console.table(performance.getEntriesByType('navigation').map(entry => entry.toJSON()));
+        alert('Browser navigation timings printed to console (F12)');
       },
       'status': () => {
-        const status = {
-          system: 'Operational 🟢',
-          uptime: '99.99%',
-          latency: `${Math.random() * 50 + 10 | 0}ms`,
-          deployment: 'Vercel Edge Network',
-          region: 'Hong Kong (ap-east-1)',
-        };
-        console.table(status);
-        alert('System status printed to console (F12)');
+        void fetch('/api/status').then(response => {
+          if (!response.ok) throw new Error('Status unavailable');
+          return response.json();
+        }).then(status => {
+          console.table(status);
+          alert('System status printed to console (F12)');
+        }).catch(() => alert('Status is currently unavailable.'));
       },
     };
 
     if (commands[command]) {
       commands[command]();
     }
-  }, [navigate, logs]);
-
-  if (!mounted) return null;
+  }, [navigate, onOpenChange]);
 
   return (
     <>
-      {/* Keyboard Hint */}
-      <motion.button
-        aria-label="Open command palette"
-        onClick={() => setOpen(true)}
-        className="fixed bottom-3 right-3 sm:bottom-6 sm:right-6 z-40 px-4 py-2 bg-slate-900/90 dark:bg-slate-800/90 text-white rounded-lg shadow-lg backdrop-blur-xl border border-slate-700 hover:bg-slate-800 dark:hover:bg-slate-700 transition-all duration-300 min-h-11 min-w-11 flex items-center justify-center gap-2 group"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1 }}
-        whileHover={{ scale: 1.05 }}
-      >
-        <Terminal className="w-4 h-4" />
-        <span className="hidden sm:inline text-sm font-mono">DevOps Console</span>
-        {/* Show ⌘K for Mac, Ctrl+K for Windows/Linux */}
-        <kbd className="hidden sm:inline px-2 py-0.5 text-xs bg-slate-700 dark:bg-slate-600 rounded border border-slate-600 dark:border-slate-500">
-          {typeof window !== "undefined" && navigator.platform.toLowerCase().indexOf('mac') >= 0 ? '⌘ K' : 'Ctrl K'}
-        </kbd>
-      </motion.button>
-
       {/* Command Palette Modal */}
       <AnimatePresence>
         {open && (
@@ -122,7 +65,7 @@ export default function CommandPalette({ navigate }: CommandPaletteProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setOpen(false)}
+            onClick={() => onOpenChange(false)}
           >
             <motion.div
               className="w-full min-w-0 max-w-2xl"
@@ -135,7 +78,9 @@ export default function CommandPalette({ navigate }: CommandPaletteProps) {
                 <div className="flex items-center border-b border-slate-700 px-4">
                   <Terminal className="w-5 h-5 text-blue-400 mr-3" />
                   <Command.Input
-                    placeholder="Type a command or search... (e.g., 'goto projects', 'cat server-logs')"
+                    autoFocus
+                    aria-label="Search commands"
+                    placeholder="Type a command or search... (e.g., 'goto projects', 'show navigation-timings')"
                     className="w-full py-4 text-slate-900 dark:text-slate-100 bg-transparent outline-none placeholder-slate-500 font-mono"
                   />
                 </div>
@@ -162,7 +107,7 @@ export default function CommandPalette({ navigate }: CommandPaletteProps) {
 
                   <Command.Group heading="System" className="text-slate-400 text-xs font-mono px-2 py-2 mt-2">
                     <CommandItem icon={FileText} onSelect={() => handleCommand('logs')}>
-                      cat server-logs
+                      show navigation-timings
                     </CommandItem>
                     <CommandItem icon={Activity} onSelect={() => handleCommand('status')}>
                       systemctl status

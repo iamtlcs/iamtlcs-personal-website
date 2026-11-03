@@ -1,5 +1,4 @@
 import type { NextConfig } from "next";
-import { withBotId } from 'botid/next/config';
 
 const nextConfig: NextConfig = {
   images: {
@@ -18,7 +17,6 @@ const nextConfig: NextConfig = {
   reactStrictMode: false,
   compress: true,
   poweredByHeader: false,
-  generateEtags: false,
   trailingSlash: false,
   async headers() {
     return [
@@ -39,7 +37,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
+            value: 'strict-origin-when-cross-origin',
           },
           {
             key: 'Permissions-Policy',
@@ -50,13 +48,26 @@ const nextConfig: NextConfig = {
             value: 'DevOps-Engineer',
           },
           {
-            key: 'X-Location',
-            value: 'Hong Kong (ap-east-1)',
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
+              "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com",
+              "img-src 'self' data: https: blob:",
+              "font-src 'self' data: https://cdnjs.cloudflare.com",
+              "connect-src 'self' https:",
+              "media-src 'self' https:",
+              "object-src 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+              "frame-ancestors 'none'",
+            ].join('; '),
           },
+          { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains; preload' },
         ],
       },
     ];
   },
 };
 
-export default withBotId(nextConfig);
+export default nextConfig;

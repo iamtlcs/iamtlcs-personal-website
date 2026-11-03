@@ -25,7 +25,7 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
             <div className="w-full min-w-0 lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left space-y-8">
                 <motion.h1 
                     className="text-4xl sm:text-5xl xl:text-6xl 2xl:text-7xl break-words font-extrabold text-slate-800 dark:text-white leading-tight drop-shadow-2xl"
-                    initial={{ opacity: 0, x: -50 }}
+                    initial={false}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.6 }}
                 >
@@ -36,7 +36,7 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
                 </motion.h1>
                 <motion.p 
                     className="text-xl sm:text-2xl xl:text-3xl text-slate-700 dark:text-slate-200 font-medium drop-shadow-lg max-w-xl"
-                    initial={{ opacity: 0, x: -50 }}
+                    initial={false}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
                 >
@@ -49,7 +49,7 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
                 </motion.p>
                 <motion.div 
                     className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-4 w-full"
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={false}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.4 }}
                 >
@@ -75,7 +75,7 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
                     </motion.button>
                 </motion.div>
             </div>
-            <div className="w-full min-w-0 lg:w-1/2 flex flex-col items-center justify-center relative animate-slideInFromRight">
+            <div className="w-full min-w-0 lg:w-1/2 flex flex-col items-center justify-center relative">
                 <div className="relative flex flex-col items-center">
                     <CoinFlipPhoto />
                     <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex gap-2">
@@ -90,7 +90,7 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
         {/* About Section - Now Integrated */}
         <motion.section 
             className="py-10 sm:py-16 px-4 sm:px-6 bg-gradient-to-br from-white/80 via-slate-50/80 to-gray-100/80 dark:from-slate-900/80 dark:via-slate-800/80 dark:to-blue-950/80 rounded-3xl shadow-2xl border border-slate-300 dark:border-slate-700 backdrop-blur-sm"
-            initial={{ opacity: 0, y: 30 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
         >
@@ -164,7 +164,7 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
                                 key={cert.name}
                                 className="group relative rounded-2xl shadow-lg bg-gradient-to-br from-gray-50 via-orange-50 to-red-50 dark:from-slate-800 dark:via-orange-900/20 dark:to-red-900/20 border border-orange-200 dark:border-orange-800 flex flex-col items-center p-6 min-h-[240px]"
                                 whileHover={{ scale: 1.02 }}
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={false}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.8 + certifications.indexOf(cert) * 0.1 }}
                             >
@@ -195,7 +195,7 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
                                 rel="noopener noreferrer"
                                 className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl bg-gradient-to-br from-white via-slate-50 to-blue-50 dark:from-slate-800 dark:via-slate-700 dark:to-blue-900/30 border border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600 flex flex-col items-center p-6 min-h-[240px]"
                                 whileHover={{ scale: 1.05, y: -5 }}
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={false}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.8 + certifications.indexOf(cert) * 0.1 }}
                             >
@@ -228,11 +228,12 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
 function CoinFlipPhoto() {
     const { t } = useLanguage();
     const [flipped, setFlipped] = useState(false);
+    const [hasFlipped, setHasFlipped] = useState(false);
 
     return (
         <div
             className="relative w-48 h-48 sm:w-64 sm:h-64 xl:w-80 xl:h-80 [perspective:1200px] cursor-pointer select-none group"
-            onClick={() => setFlipped((f) => !f)}
+            onClick={() => { setHasFlipped(true); setFlipped((f) => !f); }}
         >
             <AnimatePresence initial={false}>
                 <motion.div
@@ -261,21 +262,23 @@ function CoinFlipPhoto() {
                             width={320}
                             height={320}
                             className="rounded-full w-48 h-48 sm:w-64 sm:h-64 xl:w-80 xl:h-80 object-cover border-[10px] border-blue-400 shadow-xl group-hover:shadow-blue-300/60"
-                            priority
+                            preload
+                            sizes="(min-width: 1280px) 320px, (min-width: 640px) 256px, 192px"
                             style={{ filter: "brightness(1.08) contrast(1.1)" }}
                         />
                     </div>
                     {/* Back */}
                     <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] flex items-center justify-center">
-                        <Image
+                        {hasFlipped && <Image
                             src="/MyPhoto2.png"
                             alt="Simon Cheung Tak Leung Back"
                             width={320}
                             height={320}
                             className="rounded-full w-48 h-48 sm:w-64 sm:h-64 xl:w-80 xl:h-80 object-cover border-[10px] border-blue-400 shadow-xl group-hover:shadow-blue-300/60"
-                            priority
+                            loading="lazy"
+                            sizes="(min-width: 1280px) 320px, (min-width: 640px) 256px, 192px"
                             style={{ filter: "brightness(1.08) contrast(1.1)" }}
-                        />
+                        />}
                     </div>
                 </motion.div>
             </AnimatePresence>

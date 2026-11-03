@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback, useMemo, ReactNode } from 'react';
 import enTranslations from '@/locales/en.json';
 import zhHKTranslations from '@/locales/zh-HK.json';
 import frTranslations from '@/locales/fr.json';
@@ -30,8 +30,9 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     setMounted(true);
     // Check localStorage for saved language preference
-    const savedLanguage = localStorage.getItem('language') as Language;
-    if (savedLanguage && translations[savedLanguage]) {
+    let savedLanguage: string | null = null;
+    try { savedLanguage = localStorage.getItem('language'); } catch { /* Optional preference storage. */ }
+    if (savedLanguage === 'en' || savedLanguage === 'zh-HK' || savedLanguage === 'fr') {
       setLanguageState(savedLanguage);
     } else {
       // Check browser language
@@ -50,22 +51,18 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     if (!mounted) return;
     
     // Save preference
-    localStorage.setItem('language', language);
+    try { localStorage.setItem('language', language); } catch { /* Optional preference storage. */ }
     // Update HTML lang attribute
     document.documentElement.lang = language;
   }, [language, mounted]);
 
-  const setLanguage = (lang: Language) => {
+  const setLanguage = useCallback((lang: Language) => {
     setLanguageState(lang);
-  };
-
-  // Prevent flash of unstyled content
-  if (!mounted) {
-    return null;
-  }
+  }, []);
+  const value = useMemo(() => ({ language, setLanguage, t: translations[language] }), [language, setLanguage]);
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t: translations[language] }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   );
