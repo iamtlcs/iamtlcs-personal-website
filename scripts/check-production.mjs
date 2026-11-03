@@ -32,7 +32,14 @@ for (const [path, ttl] of [['/api/status', 60], ['/api/deployment-info', 300]]) 
   assert.ok((await api.json()).timestamp, `${path} is not valid metadata`);
 }
 await get('/certs/AWSSAA.png');
-console.log('PASS: public metadata APIs, cache policy, and static image');
+const manifest = await (await get('/manifest.webmanifest')).json();
+for (const icon of manifest.icons) {
+  const image = await get(icon.src);
+  assert.match(image.headers.get('content-type') || '', /^image\//, `Invalid manifest icon: ${icon.src}`);
+}
+const favicon = await get('/favicon.ico');
+assert.match(favicon.headers.get('content-type') || '', /^image\//);
+console.log('PASS: public metadata APIs, cache policy, static image, and manifest icons');
 
 const scriptPaths = [...html.matchAll(/<script\b[^>]*\bsrc="([^"]+)"/g)]
   .map(match => match[1]).filter(path => path.startsWith('/_next/'));

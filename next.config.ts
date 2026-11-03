@@ -18,6 +18,13 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
   trailingSlash: false,
+  async rewrites() {
+    return [
+      { source: '/favicon.ico', destination: '/icon' },
+      { source: '/icon.png', destination: '/icon' },
+      { source: '/apple-icon.png', destination: '/apple-icon' },
+    ];
+  },
   async headers() {
     return [
       {
