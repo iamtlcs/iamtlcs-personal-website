@@ -38,13 +38,9 @@
     "title": "Compétences Race Track",
     "subtitle": "Inspiré par la boucle infinie DevOps",
     "instructions": "Cliquez sur les secteurs • Faites glisser pour tourner • Faites défiler pour zoomer • Auto-tourne",
-    "viewMode": "Vue du circuit",
-    "twoDInstructions": "Sélectionnez un repère numéroté ou une catégorie pour découvrir ses technologies.",
-    "threeDUnavailable": "La 3D est indisponible dans ce navigateur. Toutes les compétences sont accessibles en 2D.",
-    "twoDTrackLabel": "Circuit de compétences interactif en 2D",
     "graphicsLoading": "Préparation du circuit de compétences…",
-    "graphicsUnavailable": "Découvrez mes compétences",
-    "graphicsFallbackDescription": "Le circuit 3D est indisponible dans ce navigateur. Sélectionnez une catégorie ci-dessous pour découvrir mes compétences.",
+    "graphicsUnavailable": "Activez l’accélération graphique pour la 3D",
+    "graphicsFallbackDescription": "Pour afficher le circuit 3D dans Chrome, ouvrez Paramètres → Système, activez « Utiliser l’accélération graphique si disponible », puis cliquez sur Relancer et rechargez cette page. Toutes les compétences restent accessibles dans les catégories ci-dessous.",
     "sectors": {
       "programming": {
         "name": "Langages de programmation",

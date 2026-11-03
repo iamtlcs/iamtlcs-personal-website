@@ -314,9 +314,3 @@ body {
 .primary-action:hover {
   background-image: linear-gradient(to right, #1e40af, #3730a3);
 }
-
-.track-view-button[aria-pressed='true'] {
-  background: var(--control-selected-background);
-  color: var(--control-selected-foreground);
-  border-color: var(--control-hover-border);
-}
