@@ -133,7 +133,7 @@ export default function SystemStatusFooter() {
               icon={Activity}
               label="System"
               value="Operational"
-              color="text-green-500"
+              color="text-green-700 dark:text-green-400"
               pulse
             />
             
@@ -142,7 +142,7 @@ export default function SystemStatusFooter() {
               icon={MapPin}
               label="Region"
               value={deploymentInfo.region}
-              color="text-blue-500"
+              color="text-blue-700 dark:text-blue-400"
             />
             
             {/* Latency */}
@@ -150,7 +150,7 @@ export default function SystemStatusFooter() {
               icon={Zap}
               label="Latency"
               value={`${latency}ms`}
-              color="text-yellow-500"
+              color="text-amber-700 dark:text-amber-400"
             />
             
             {/* Build - Make it clickable */}
@@ -167,7 +167,7 @@ export default function SystemStatusFooter() {
                   icon={GitBranch}
                   label="Build"
                   value={`${deploymentInfo.buildHash} (${deploymentInfo.branch})`}
-                  color="text-purple-500"
+                  color="text-purple-700 dark:text-purple-400"
                 />
               </a>
             ) : (
@@ -175,7 +175,7 @@ export default function SystemStatusFooter() {
                 icon={GitBranch}
                 label="Build"
                 value={`${deploymentInfo.buildHash} (${deploymentInfo.branch})`}
-                color="text-purple-500"
+                color="text-purple-700 dark:text-purple-400"
               />
             )}
             
@@ -184,7 +184,7 @@ export default function SystemStatusFooter() {
               icon={Server}
               label="Deployment"
               value="Vercel Edge"
-              color="text-cyan-500"
+              color="text-cyan-700 dark:text-cyan-400"
             />
           </div>
 
@@ -248,7 +248,7 @@ export default function SystemStatusFooter() {
             {/* Deployment Info Box */}
             {deploymentInfo.commitMessage && (
               <motion.div
-                className="max-w-2xl mx-auto p-4 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-blue-900/30 border border-blue-200 dark:border-blue-800"
+                className="w-full max-w-2xl mx-auto p-4 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-blue-900/30 border border-blue-200 dark:border-blue-800"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
@@ -307,7 +307,7 @@ export default function SystemStatusFooter() {
             
             {/* Built with */}
             <motion.p
-              className="text-sm text-slate-500 dark:text-slate-500 flex items-center justify-center gap-1 flex-wrap"
+              className="text-sm text-slate-500 dark:text-slate-400 flex items-center justify-center gap-1 flex-wrap"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
@@ -334,7 +334,7 @@ export default function SystemStatusFooter() {
             </motion.p>
 
             {/* DevOps Flavor Text */}
-            <p className="text-xs text-slate-400 dark:text-slate-600 font-mono">
+            <p className="text-xs text-slate-600 dark:text-slate-400 font-mono">
               🚀 Deployed on Vercel Edge Network • 🔒 TLS 1.3 • ⚡ HTTP/3 Enabled
             </p>
           </div>
@@ -354,10 +354,10 @@ interface StatusItemProps {
 
 function StatusItem({ icon: Icon, label, value, color = 'text-slate-500', pulse = false }: StatusItemProps) {
   return (
-    <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+    <div className="flex min-w-0 items-center gap-2 text-slate-600 dark:text-slate-400">
       <Icon className={`w-3.5 h-3.5 ${color} ${pulse ? 'animate-pulse' : ''}`} />
-      <span className="text-slate-500 dark:text-slate-500">{label}:</span>
-      <span className={`font-semibold ${color}`}>{value}</span>
+      <span className="text-slate-500 dark:text-slate-400">{label}:</span>
+      <span className={`min-w-0 break-all font-semibold ${color}`}>{value}</span>
     </div>
   );
 }

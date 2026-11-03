@@ -10,7 +10,7 @@ export default function ThemeToggle() {
   return (
     <motion.button
       onClick={toggleTheme}
-      className="relative w-14 h-14 rounded-full bg-gradient-to-br from-slate-200/20 to-blue-200/20 dark:from-slate-800/40 dark:to-blue-900/40 backdrop-blur-xl border border-white/20 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group overflow-hidden"
+      className="relative w-11 h-11 shrink-0 rounded-full bg-gradient-to-br from-white to-blue-50 dark:from-slate-800/40 dark:to-blue-900/40 backdrop-blur-xl border border-slate-300 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group overflow-hidden"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
@@ -41,7 +41,7 @@ export default function ThemeToggle() {
         transition={{ duration: 0.3, ease: 'easeInOut' }}
         className="absolute"
       >
-        <Sun className="w-6 h-6 text-yellow-500 drop-shadow-lg" />
+        <Sun className="w-6 h-6 text-amber-700 drop-shadow-lg" />
       </motion.div>
 
       {/* Glow effect */}

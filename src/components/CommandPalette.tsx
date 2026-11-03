@@ -46,6 +46,7 @@ export default function CommandPalette({ navigate }: CommandPaletteProps) {
     if (!mounted) return;
 
     const down = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         setOpen((open) => !open);
@@ -97,17 +98,18 @@ export default function CommandPalette({ navigate }: CommandPaletteProps) {
     <>
       {/* Keyboard Hint */}
       <motion.button
+        aria-label="Open command palette"
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-40 px-4 py-2 bg-slate-900/90 dark:bg-slate-800/90 text-white rounded-lg shadow-lg backdrop-blur-xl border border-slate-700 hover:bg-slate-800 dark:hover:bg-slate-700 transition-all duration-300 flex items-center gap-2 group"
+        className="fixed bottom-3 right-3 sm:bottom-6 sm:right-6 z-40 px-4 py-2 bg-slate-900/90 dark:bg-slate-800/90 text-white rounded-lg shadow-lg backdrop-blur-xl border border-slate-700 hover:bg-slate-800 dark:hover:bg-slate-700 transition-all duration-300 min-h-11 min-w-11 flex items-center justify-center gap-2 group"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1 }}
         whileHover={{ scale: 1.05 }}
       >
         <Terminal className="w-4 h-4" />
-        <span className="text-sm font-mono">DevOps Console</span>
+        <span className="hidden sm:inline text-sm font-mono">DevOps Console</span>
         {/* Show ⌘K for Mac, Ctrl+K for Windows/Linux */}
-        <kbd className="px-2 py-0.5 text-xs bg-slate-700 dark:bg-slate-600 rounded border border-slate-600 dark:border-slate-500">
+        <kbd className="hidden sm:inline px-2 py-0.5 text-xs bg-slate-700 dark:bg-slate-600 rounded border border-slate-600 dark:border-slate-500">
           {typeof window !== "undefined" && navigator.platform.toLowerCase().indexOf('mac') >= 0 ? '⌘ K' : 'Ctrl K'}
         </kbd>
       </motion.button>
@@ -116,30 +118,30 @@ export default function CommandPalette({ navigate }: CommandPaletteProps) {
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-start justify-center pt-[20vh] bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-start justify-center px-3 pt-[8dvh] sm:pt-[15dvh] bg-black/60 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setOpen(false)}
           >
             <motion.div
-              className="w-full max-w-2xl mx-4"
+              className="w-full min-w-0 max-w-2xl"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <Command className="rounded-xl border border-slate-700 bg-slate-900/95 backdrop-blur-xl shadow-2xl overflow-hidden">
+              <Command className="rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 backdrop-blur-xl shadow-2xl overflow-hidden">
                 <div className="flex items-center border-b border-slate-700 px-4">
                   <Terminal className="w-5 h-5 text-blue-400 mr-3" />
                   <Command.Input
                     placeholder="Type a command or search... (e.g., 'goto projects', 'cat server-logs')"
-                    className="w-full py-4 text-slate-100 bg-transparent outline-none placeholder-slate-500 font-mono"
+                    className="w-full py-4 text-slate-900 dark:text-slate-100 bg-transparent outline-none placeholder-slate-500 font-mono"
                   />
                 </div>
                 
-                <Command.List className="max-h-[400px] overflow-y-auto p-2">
-                  <Command.Empty className="py-6 text-center text-slate-500 text-sm font-mono">
+                <Command.List className="max-h-[55dvh] overflow-y-auto p-2">
+                  <Command.Empty className="py-6 text-center text-slate-600 dark:text-slate-400 text-sm font-mono">
                     No results found. Try &apos;help&apos; for available commands.
                   </Command.Empty>
 
@@ -177,7 +179,7 @@ export default function CommandPalette({ navigate }: CommandPaletteProps) {
                   </Command.Group>
 
                   <Command.Group heading="Info" className="text-slate-400 text-xs font-mono px-2 py-2 mt-2">
-                    <div className="px-3 py-2 text-xs text-slate-500 font-mono">
+                    <div className="px-3 py-2 text-xs text-slate-600 dark:text-slate-400 font-mono">
                       💡 Pro tip: Use arrow keys to navigate, Enter to execute
                     </div>
                   </Command.Group>
@@ -201,10 +203,10 @@ function CommandItem({ icon: Icon, children, onSelect }: CommandItemProps) {
   return (
     <Command.Item
       onSelect={onSelect}
-      className="flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer text-slate-300 hover:bg-blue-600 hover:text-white transition-colors duration-150 font-mono text-sm group"
+      className="flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer text-slate-700 dark:text-slate-200 hover:bg-blue-600 hover:text-white transition-colors duration-150 font-mono text-sm group"
     >
       <Icon className="w-4 h-4 text-slate-400 group-hover:text-white" />
-      <span className="flex-1">{children}</span>
+      <span className="min-w-0 flex-1 break-words">{children}</span>
       <Zap className="w-3 h-3 opacity-0 group-hover:opacity-100 text-yellow-400" />
     </Command.Item>
   );

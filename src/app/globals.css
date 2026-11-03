@@ -1,13 +1,25 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --surface: #ffffff;
+  --surface-muted: #f1f5f9;
+  --border: #cbd5e1;
+  --text-muted: #475569;
+  color-scheme: light;
 }
 
 .dark {
   --background: #0f172a;
   --foreground: #f1f5f9;
+  --surface: #0f172a;
+  --surface-muted: #1e293b;
+  --border: #475569;
+  --text-muted: #cbd5e1;
+  color-scheme: dark;
 }
 
 * {
@@ -15,7 +27,7 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-inter), sans-serif;
   background: var(--background);
   color: var(--foreground);
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -156,7 +168,7 @@ body {
 
 /* CMDK Styles */
 [cmdk-root] {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-inter), sans-serif;
 }
 
 [cmdk-group-heading] {
@@ -165,20 +177,20 @@ body {
   font-weight: 600;
   letter-spacing: 0.05em;
   padding: 0.5rem 0.75rem;
-  color: rgb(148, 163, 184);
+  color: var(--text-muted);
 }
 
 [cmdk-item] {
   content-visibility: auto;
   cursor: pointer;
-  height: 48px;
+  min-height: 48px;
   border-radius: 8px;
   font-size: 14px;
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 0 16px;
-  color: rgb(226, 232, 240);
+  color: var(--foreground);
   user-select: none;
   will-change: background, color;
   transition: all 150ms ease;
@@ -202,18 +214,51 @@ body {
   background: transparent;
   width: 100%;
   padding: 16px;
-  color: rgb(226, 232, 240);
+  color: var(--foreground);
 }
 
 [cmdk-input]::placeholder {
-  color: rgb(100, 116, 139);
+  color: var(--text-muted);
 }
 
 [cmdk-list] {
   height: min(400px, var(--cmdk-list-height));
-  max-height: 400px;
+  max-height: min(400px, 55dvh);
   overflow: auto;
   overscroll-behavior: contain;
   transition: 100ms ease;
   transition-property: height;
+}
+
+/* Shared surfaces keep all content pages aligned with the selected theme. */
+.content-section {
+  background: var(--surface);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+}
+.theme-card {
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: 0 8px 30px rgb(15 23 42 / 0.08);
+}
+.theme-muted { color: var(--text-muted); }
+.theme-chip {
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+.dark ::-webkit-scrollbar-track { background: #0f172a; }
+:where(button, a, input):focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 4px;
+}
+.dark :where(button, a, input):focus-visible { outline-color: #93c5fd; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

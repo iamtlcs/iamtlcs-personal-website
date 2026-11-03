@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useMemo, useEffect } from 'react';
 import Image from 'next/image';
+import { createPortal } from 'react-dom';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Html, Sparkles, Stars } from '@react-three/drei';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -1390,6 +1391,36 @@ export default function F1RaceTrackSkills() {
     setIsPaused(false);
   };
 
+  useEffect(() => {
+    if (!selectedSector) return;
+    const previousOverflow = document.body.style.overflow;
+    const previousFocus = document.activeElement as HTMLElement | null;
+    document.body.style.overflow = 'hidden';
+    const closeButton = document.querySelector<HTMLButtonElement>('[aria-label="Close skill details"]');
+    closeButton?.focus();
+    const trapFocus = (event: KeyboardEvent) => {
+      if (event.key !== 'Tab') return;
+      const dialog = document.querySelector('[aria-labelledby="skill-dialog-title"]');
+      const controls = dialog?.querySelectorAll<HTMLElement>('button, a[href], input, select, textarea, [tabindex="0"]');
+      if (!controls?.length) return;
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener('keydown', trapFocus);
+    return () => {
+      document.removeEventListener('keydown', trapFocus);
+      document.body.style.overflow = previousOverflow;
+      previousFocus?.focus();
+    };
+  }, [selectedSector]);
+
   // Add keyboard support for ESC key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -1403,26 +1434,26 @@ export default function F1RaceTrackSkills() {
   }, [selectedSector]);
 
   return (
-      <section className="min-h-screen py-16 px-4 relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
+      <section className="content-section min-h-[70dvh] py-10 sm:py-16 px-4 sm:px-6 relative">
           <motion.div
               className="text-center mb-8 relative z-10"
               initial={{ opacity: 0, y: -30 }}
               animate={{ opacity: 1, y: 0 }}
           >
-              <h2 className="text-5xl md:text-6xl font-extrabold mb-4 bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500 bg-clip-text text-transparent drop-shadow-lg flex items-center justify-center gap-3">
-                  <Gauge className="w-12 h-12 text-yellow-400" />
+              <h2 className="text-3xl sm:text-4xl lg:text-6xl font-extrabold mb-4 bg-gradient-to-r from-red-700 via-amber-700 to-blue-700 dark:from-red-400 dark:via-yellow-400 dark:to-blue-400 bg-clip-text text-transparent drop-shadow-lg flex items-center justify-center gap-3">
+                  <Gauge className="w-8 h-8 sm:w-12 sm:h-12 shrink-0 text-yellow-400" />
                   {t.skills.title}
               </h2>
-              <p className="text-xl text-slate-300 mb-2 font-semibold">
+              <p className="text-base sm:text-xl theme-muted mb-2 font-semibold">
                   {t.skills.subtitle}
               </p>
-              <p className="text-sm text-slate-400 font-mono">
+              <p className="text-sm theme-muted font-mono">
                   {t.skills.instructions}
               </p>
           </motion.div>
 
           <motion.div
-              className="relative w-full h-[650px] rounded-2xl overflow-hidden shadow-2xl border-2 border-slate-600"
+              className="relative w-full h-[360px] sm:h-[480px] lg:h-[650px] rounded-2xl overflow-hidden shadow-2xl border-2 border-slate-600"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
@@ -1456,7 +1487,7 @@ export default function F1RaceTrackSkills() {
           </motion.div>
 
           {/* Sector Details Modal - Enhanced UI/UX */}
-          <AnimatePresence mode="wait">
+          {typeof document !== 'undefined' && createPortal(<AnimatePresence mode="wait">
               {selectedSector && (
                   <motion.div
                       className="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -1486,10 +1517,13 @@ export default function F1RaceTrackSkills() {
                       />
 
                       <motion.div
-                          className="relative max-w-3xl w-full rounded-3xl overflow-hidden shadow-2xl"
+                          role="dialog"
+                          aria-modal="true"
+                          aria-labelledby="skill-dialog-title"
+                          className="relative max-w-3xl w-full max-h-[calc(100dvh-2rem)] rounded-3xl overflow-y-auto overscroll-contain shadow-2xl"
                           style={{
                               background:
-                                  "linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%)",
+                                  "var(--surface)",
                               border: `2px solid ${selectedSector.color}`,
                               boxShadow: `0 0 80px ${selectedSector.color}60, inset 0 0 80px rgba(0,0,0,0.3)`,
                           }}
@@ -1510,7 +1544,7 @@ export default function F1RaceTrackSkills() {
                       >
                           {/* Header with gradient background */}
                           <div
-                              className="relative p-8 overflow-hidden"
+                              className="relative p-5 sm:p-8 overflow-hidden"
                               style={{
                                   background: `linear-gradient(135deg, ${selectedSector.color}20 0%, transparent 100%)`,
                               }}
@@ -1542,12 +1576,13 @@ export default function F1RaceTrackSkills() {
 
                               <button
                                   onClick={handleClose}
-                                  className="absolute top-4 right-4 p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 backdrop-blur-sm transition-all hover:scale-110 hover:rotate-90 duration-300 group"
+                                  aria-label="Close skill details"
+                                  className="absolute top-4 right-4 z-20 min-h-11 min-w-11 p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 backdrop-blur-sm transition-all hover:scale-110 hover:rotate-90 duration-300 group"
                               >
                                   <X className="w-5 h-5 text-slate-300 group-hover:text-white" />
                               </button>
 
-                              <div className="flex items-center gap-6 relative z-10">
+                              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 relative z-10">
                                   <motion.div
                                       className="w-20 h-20 flex-shrink-0 rounded-2xl flex items-center justify-center relative"
                                       style={{
@@ -1584,7 +1619,8 @@ export default function F1RaceTrackSkills() {
 
                                   <div className="flex-1">
                                       <motion.h3
-                                          className="text-4xl font-black text-white mb-2 tracking-tight"
+                                          id="skill-dialog-title"
+                                          className="text-2xl sm:text-4xl break-words font-black text-slate-900 dark:text-white mb-2 tracking-tight"
                                           initial={{ opacity: 0, x: -20 }}
                                           animate={{ opacity: 1, x: 0 }}
                                           transition={{ delay: 0.3 }}
@@ -1592,7 +1628,7 @@ export default function F1RaceTrackSkills() {
                                           {selectedSector.name}
                                       </motion.h3>
                                       <motion.p
-                                          className="text-slate-300 text-base font-medium"
+                                          className="theme-muted text-base font-medium"
                                           initial={{ opacity: 0, x: -20 }}
                                           animate={{ opacity: 1, x: 0 }}
                                           transition={{ delay: 0.4 }}
@@ -1604,9 +1640,9 @@ export default function F1RaceTrackSkills() {
                           </div>
 
                           {/* Skills section with cards */}
-                          <div className="p-8 pt-6">
+                          <div className="p-5 sm:p-8 pt-6">
                               <motion.h4
-                                  className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2"
+                                  className="text-sm font-bold theme-muted uppercase tracking-wider mb-4 flex items-center gap-2"
                                   initial={{ opacity: 0 }}
                                   animate={{ opacity: 1 }}
                                   transition={{ delay: 0.5 }}
@@ -1620,15 +1656,15 @@ export default function F1RaceTrackSkills() {
                                   {t.common.coreTechnologies}
                               </motion.h4>
 
-                              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                                   {selectedSector.skills.map((skill, idx) => (
                                       <motion.div
                                           key={skill.name}
                                           className="group relative p-4 rounded-xl backdrop-blur-sm transition-all duration-300 cursor-pointer"
                                           style={{
                                               backgroundColor:
-                                                  "rgba(30, 41, 59, 0.5)",
-                                              border: `1px solid rgba(148, 163, 184, 0.1)`,
+                                                  "var(--surface-muted)",
+                                              border: "1px solid var(--border)",
                                           }}
                                           initial={{
                                               opacity: 0,
@@ -1683,7 +1719,7 @@ export default function F1RaceTrackSkills() {
 
                                               {/* Skill Name */}
                                               <div className="flex-1">
-                                                  <span className="text-sm font-semibold text-slate-200 group-hover:text-white transition-colors block">
+                                                  <span className="text-sm font-semibold text-slate-800 dark:text-slate-200 group-hover:text-blue-700 dark:group-hover:text-white transition-colors block">
                                                       {skill.name}
                                                   </span>
                                               </div>
@@ -1714,19 +1750,19 @@ export default function F1RaceTrackSkills() {
 
                           {/* Footer */}
                           <motion.div
-                              className="px-8 pb-6 flex items-center justify-between"
+                              className="px-5 sm:px-8 pb-6 flex items-center justify-between"
                               initial={{ opacity: 0, y: 20 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ delay: 0.8 }}
                           >
-                              <p className="text-xs text-slate-500 font-mono">
+                              <p className="text-xs text-slate-600 dark:text-slate-400 font-mono">
                                   {t.common.pressEscToResume}
                               </p>
                           </motion.div>
                       </motion.div>
                   </motion.div>
               )}
-          </AnimatePresence>
+          </AnimatePresence>, document.body)}
 
           {/* Sector Grid */}
           <motion.div
@@ -1738,7 +1774,7 @@ export default function F1RaceTrackSkills() {
               {sectors.map((sector, idx) => (
                   <motion.button
                       key={sector.id}
-                      className="relative overflow-hidden p-5 rounded-xl bg-slate-800/50 backdrop-blur-sm border border-slate-700 hover:bg-slate-800 hover:border-slate-600 transition-all duration-300 group"
+                      className="relative overflow-hidden p-5 rounded-xl bg-slate-50 dark:bg-slate-800/50 backdrop-blur-sm border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600 transition-all duration-300 group"
                       style={{
                           boxShadow: `0 0 20px ${sector.color}20`,
                       }}
@@ -1769,10 +1805,10 @@ export default function F1RaceTrackSkills() {
                                   }}
                               />
                               <div className="flex-1 text-left">
-                                  <h4 className="text-base font-bold text-slate-200 group-hover:text-white transition-colors">
+                                  <h4 className="text-base font-bold text-slate-800 dark:text-slate-200 group-hover:text-blue-700 dark:group-hover:text-white transition-colors">
                                       {sector.name}
                                   </h4>
-                                  <p className="text-xs text-slate-400 mt-0.5">
+                                  <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
                                       {sector.skills.length}{" "}
                                       {t.common.technologies}
                                   </p>

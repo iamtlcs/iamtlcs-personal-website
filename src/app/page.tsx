@@ -37,7 +37,7 @@ export default function Home() {
       <ClientHydrationWrapper>
         <LanguageProvider>
           <ThemeProvider>
-          <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-blue-950 font-inter text-gray-900 dark:text-gray-100 transition-colors duration-300 relative overflow-hidden">
+          <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-blue-950 font-inter text-gray-900 dark:text-gray-100 transition-colors duration-300 relative overflow-x-clip">
             {/* Animated Background */}
             <AnimatedBackground />
             
@@ -47,7 +47,7 @@ export default function Home() {
             {/* Content */}
             <div className="relative z-10">
               <Header navigate={navigate} currentPage={currentPage} />
-              <main className="container mx-auto p-4 md:p-8 flex-1">
+              <main className="container mx-auto min-w-0 p-3 sm:p-4 lg:p-8 flex-1">
                 <PageTransition pageKey={currentPage}>
                   {currentPage === 'home' && <HomeSection navigate={navigate} />}
                   {currentPage === 'skills' && <F1RaceTrackSkills />}

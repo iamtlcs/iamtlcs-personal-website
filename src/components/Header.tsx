@@ -5,6 +5,7 @@ import { Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageSwitcher from "./LanguageSwitcher";
+import ThemeToggle from "./ThemeToggle";
 
 interface HeaderProps {
     navigate: (page: string) => void;
@@ -17,7 +18,7 @@ const Header = ({ navigate, currentPage, className }: HeaderProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-    const menuRef = useRef<HTMLUListElement>(null);
+    const menuRef = useRef<HTMLElement>(null);
 
     const navItems = [
         { name: t.header.home, id: "home" },
@@ -28,6 +29,20 @@ const Header = ({ navigate, currentPage, className }: HeaderProps) => {
 
     useEffect(() => {
         setIsMounted(true);
+    }, []);
+
+    useEffect(() => {
+        const desktop = window.matchMedia('(min-width: 1024px)');
+        const closeOnDesktop = () => { if (desktop.matches) setIsOpen(false); };
+        const closeOnEscape = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') setIsOpen(false);
+        };
+        desktop.addEventListener('change', closeOnDesktop);
+        document.addEventListener('keydown', closeOnEscape);
+        return () => {
+            desktop.removeEventListener('change', closeOnDesktop);
+            document.removeEventListener('keydown', closeOnEscape);
+        };
     }, []);
 
     // Scroll detection for glassmorphism effect
@@ -82,12 +97,13 @@ const Header = ({ navigate, currentPage, className }: HeaderProps) => {
             aria-label="Main site header"
         >
             <nav 
-                className="container mx-auto flex justify-between items-center relative px-6 py-4"
+                ref={menuRef}
+                className="container mx-auto flex justify-between gap-3 items-center relative px-4 sm:px-6 py-3 sm:py-4"
                 role="navigation"
                 aria-label="Main navigation"
             >
                 <motion.button
-                    className={`text-2xl font-bold transition-all duration-300 cursor-pointer bg-transparent border-none flex items-center gap-2 ${
+                    className={`text-lg xl:text-2xl font-bold transition-all duration-300 cursor-pointer bg-transparent border-none flex items-center gap-2 ${
                         scrolled 
                             ? 'text-slate-800 dark:text-white' 
                             : 'text-white'
@@ -98,18 +114,19 @@ const Header = ({ navigate, currentPage, className }: HeaderProps) => {
                     whileTap={{ scale: 0.98 }}
                 >
                     <Sparkles className="w-6 h-6 text-blue-400 dark:text-blue-300" />
-                    <span className="hidden sm:inline">Simon Cheung Tak Leung</span>
-                    <span className="sm:hidden">SCTL</span>
+                    <span className="hidden xl:inline">Simon Cheung Tak Leung</span>
+                    <span className="xl:hidden">SCTL</span>
                 </motion.button>
                 
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 sm:gap-3 lg:order-last">
                     {/* Language Switcher */}
                     <LanguageSwitcher />
+                    <ThemeToggle />
                     
                     {/* Mobile Menu Button */}
                     <motion.button
                         onClick={() => setIsOpen((open) => !open)}
-                        className={`md:hidden rounded-xl p-2 focus:outline-none ${
+                        className={`lg:hidden rounded-xl p-2 focus:outline-none ${
                             scrolled 
                                 ? 'text-slate-800 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800' 
                                 : 'text-white hover:bg-white/10'
@@ -145,7 +162,7 @@ const Header = ({ navigate, currentPage, className }: HeaderProps) => {
                     </motion.button>
                 </div>
                 {/* Desktop Navigation */}
-                <ul className="hidden md:flex md:items-center md:space-x-2">
+                <ul className="hidden lg:flex lg:items-center lg:space-x-1">
                     {navItems.map((item, index) => (
                         <motion.li
                             key={item.id}
@@ -159,7 +176,7 @@ const Header = ({ navigate, currentPage, className }: HeaderProps) => {
                                     currentPage === item.id
                                         ? scrolled
                                             ? 'text-white bg-gradient-to-r from-blue-600 to-indigo-600 shadow-lg'
-                                            : 'text-blue-300 bg-white/20 backdrop-blur-sm'
+                                            : 'text-white bg-white/20 backdrop-blur-sm'
                                         : scrolled
                                             ? 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
                                             : 'text-white hover:bg-white/10'
@@ -183,9 +200,8 @@ const Header = ({ navigate, currentPage, className }: HeaderProps) => {
 
                 {/* Mobile Navigation */}
                 <motion.ul
-                    ref={menuRef}
                     id="mobile-navigation"
-                    className={`md:hidden absolute top-full left-0 right-0 mt-2 mx-4 rounded-2xl backdrop-blur-xl shadow-2xl overflow-hidden ${
+                    className={`lg:hidden absolute top-full left-0 right-0 mt-2 mx-4 rounded-2xl backdrop-blur-xl shadow-2xl overflow-hidden ${
                         isOpen ? "block" : "hidden"
                     } bg-white/90 dark:bg-slate-900/90 border border-white/20 dark:border-slate-700/50`}
                     initial={false}

@@ -19,43 +19,43 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
         <div className="space-y-12">
         {/* Hero Section */}
         <section 
-            className="flex flex-col-reverse rounded-2xl shadow-2xl md:flex-row items-center justify-center min-h-[calc(100vh-160px)] py-16 px-8 md:px-16 gap-12 bg-gradient-to-br from-white/80 via-blue-50/80 to-indigo-100/80 dark:from-slate-900/80 dark:via-slate-800/80 dark:to-blue-950/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/50"
+            className="flex flex-col-reverse rounded-2xl shadow-2xl lg:flex-row items-center justify-center min-h-[calc(100dvh-160px)] py-10 sm:py-16 px-5 sm:px-8 lg:px-12 gap-16 bg-gradient-to-br from-white/80 via-blue-50/80 to-indigo-100/80 dark:from-slate-900/80 dark:via-slate-800/80 dark:to-blue-950/80 backdrop-blur-sm border border-white/20 dark:border-slate-700/50"
             aria-label="Hero section - Introduction"
         >
-            <div className="md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left space-y-8">
+            <div className="w-full min-w-0 lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left space-y-8">
                 <motion.h1 
-                    className="text-5xl md:text-7xl font-extrabold text-slate-800 dark:text-white leading-tight drop-shadow-2xl"
+                    className="text-4xl sm:text-5xl xl:text-6xl 2xl:text-7xl break-words font-extrabold text-slate-800 dark:text-white leading-tight drop-shadow-2xl"
                     initial={{ opacity: 0, x: -50 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.6 }}
                 >
                     {t.home.greeting}{" "}
-                    <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-indigo-600 dark:from-blue-400 dark:via-cyan-400 dark:to-indigo-400 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-blue-600 via-cyan-700 to-indigo-600 dark:from-blue-400 dark:via-cyan-400 dark:to-indigo-400 bg-clip-text text-transparent">
                         {t.home.name}
                     </span>
                 </motion.h1>
                 <motion.p 
-                    className="text-2xl md:text-3xl text-slate-700 dark:text-slate-200 font-medium drop-shadow-lg max-w-xl"
+                    className="text-xl sm:text-2xl xl:text-3xl text-slate-700 dark:text-slate-200 font-medium drop-shadow-lg max-w-xl"
                     initial={{ opacity: 0, x: -50 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
                 >
                     {interpolate(t.home.title, { 
                         fullStack: <span key="fs" className="text-blue-600 dark:text-blue-400 font-bold">{t.home.fullStack}</span>,
-                        devOps: <span key="do" className="text-cyan-600 dark:text-cyan-400 font-bold">{t.home.devOps}</span>
+                        devOps: <span key="do" className="text-cyan-700 dark:text-cyan-400 font-bold">{t.home.devOps}</span>
                     }).map((part, i) => (
                         <React.Fragment key={i}>{part}</React.Fragment>
                     ))}
                 </motion.p>
                 <motion.div 
-                    className="flex flex-col sm:flex-row gap-4 w-full"
+                    className="flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-4 w-full"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.4 }}
                 >
                     <motion.button
                         onClick={() => navigate("projects")}
-                        className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-700 dark:from-blue-500 dark:to-indigo-600 text-white px-8 py-3 rounded-full text-lg font-semibold shadow-xl hover:shadow-2xl hover:shadow-blue-500/40 transition-shadow duration-300 flex items-center justify-center gap-2"
+                        className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-700 dark:from-blue-500 dark:to-indigo-600 text-white px-5 py-3 rounded-full text-base sm:text-lg font-semibold shadow-xl hover:shadow-2xl hover:shadow-blue-500/40 transition-shadow duration-300 flex items-center justify-center gap-2"
                         aria-label="View my projects and portfolio"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -65,7 +65,7 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
                     </motion.button>
                     <motion.button
                         onClick={() => navigate("contact")}
-                        className="flex-1 bg-white dark:bg-slate-800 text-slate-700 dark:text-white border-2 border-slate-300 dark:border-slate-600 px-8 py-3 rounded-full text-lg font-semibold shadow-xl hover:bg-slate-100 dark:hover:bg-slate-700 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 flex items-center justify-center gap-2"
+                        className="flex-1 bg-white dark:bg-slate-800 text-slate-700 dark:text-white border-2 border-slate-300 dark:border-slate-600 px-5 py-3 rounded-full text-base sm:text-lg font-semibold shadow-xl hover:bg-slate-100 dark:hover:bg-slate-700 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 flex items-center justify-center gap-2"
                         aria-label="Get in touch with me"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -75,7 +75,7 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
                     </motion.button>
                 </motion.div>
             </div>
-            <div className="md:w-1/2 flex flex-col items-center justify-center relative animate-slideInFromRight">
+            <div className="w-full min-w-0 lg:w-1/2 flex flex-col items-center justify-center relative animate-slideInFromRight">
                 <div className="relative flex flex-col items-center">
                     <CoinFlipPhoto />
                     <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex gap-2">
@@ -89,17 +89,17 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
 
         {/* About Section - Now Integrated */}
         <motion.section 
-            className="py-16 px-6 bg-gradient-to-br from-white/80 via-slate-50/80 to-gray-100/80 dark:from-slate-900/80 dark:via-slate-800/80 dark:to-blue-950/80 rounded-3xl shadow-2xl border border-slate-300 dark:border-slate-700 backdrop-blur-sm"
+            className="py-10 sm:py-16 px-4 sm:px-6 bg-gradient-to-br from-white/80 via-slate-50/80 to-gray-100/80 dark:from-slate-900/80 dark:via-slate-800/80 dark:to-blue-950/80 rounded-3xl shadow-2xl border border-slate-300 dark:border-slate-700 backdrop-blur-sm"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
         >
-            <h2 className="flex items-center justify-center gap-4 text-4xl md:text-5xl font-extrabold text-center bg-gradient-to-r from-slate-700 via-blue-600 to-indigo-600 dark:from-blue-400 dark:via-cyan-400 dark:to-indigo-400 bg-clip-text text-transparent mb-12 drop-shadow-lg tracking-tight">
+            <h2 className="flex items-center justify-center gap-4 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-center bg-gradient-to-r from-slate-700 via-blue-600 to-indigo-600 dark:from-blue-400 dark:via-cyan-400 dark:to-indigo-400 bg-clip-text text-transparent mb-12 drop-shadow-lg tracking-tight">
                 {t.home.aboutMe}
                 <Sparkles className="w-10 h-10 text-blue-500 dark:text-blue-400 drop-shadow-md" />
             </h2>
             
-            <div className="max-w-3xl mx-auto text-lg leading-relaxed text-slate-800 dark:text-slate-200 space-y-6">
+            <div className="max-w-3xl mx-auto text-base sm:text-lg leading-relaxed text-slate-800 dark:text-slate-200 space-y-6">
                 <p>
                     {interpolate(t.home.aboutParagraph1, {
                         cuhk: <a
@@ -155,7 +155,7 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
                     <span>{t.home.techCertifications}</span>
                     <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
                 </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-6xl mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
                     {certifications.map((cert) => {
                         const isInProgress = cert.inProgress;
                         
@@ -177,7 +177,7 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
                                         alt={cert.name}
                                         width={112}
                                         height={112}
-                                        className="w-full h-full p-2 object-contain bg-white dark:bg-slate-700 rounded-xl shadow-lg grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-500"
+                                        className="w-full h-full p-2 object-contain bg-white rounded-xl shadow-lg grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-500"
                                     />
                                 </div>
                                 <span className="block text-xs font-mono font-semibold mt-1 text-orange-700 dark:text-orange-400 bg-orange-100 dark:bg-orange-900/30 border border-orange-200 dark:border-orange-700 rounded px-2 py-1 mb-2">
@@ -205,7 +205,7 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
                                         alt={cert.name}
                                         width={112}
                                         height={112}
-                                        className="w-full h-full p-2 object-contain bg-white dark:bg-slate-700 rounded-xl shadow-lg group-hover:scale-105 transition-transform duration-500"
+                                        className="w-full h-full p-2 object-contain bg-white rounded-xl shadow-lg group-hover:scale-105 transition-transform duration-500"
                                     />
                                 </div>
                                 <span className="block text-xs font-mono font-semibold mt-1 text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded px-2 py-1 mb-2">
@@ -231,7 +231,7 @@ function CoinFlipPhoto() {
 
     return (
         <div
-            className="relative w-64 h-64 md:w-80 md:h-80 [perspective:1200px] cursor-pointer select-none group"
+            className="relative w-48 h-48 sm:w-64 sm:h-64 xl:w-80 xl:h-80 [perspective:1200px] cursor-pointer select-none group"
             onClick={() => setFlipped((f) => !f)}
         >
             <AnimatePresence initial={false}>
@@ -260,7 +260,7 @@ function CoinFlipPhoto() {
                             alt="Simon Cheung Tak Leung Front"
                             width={320}
                             height={320}
-                            className="rounded-full w-64 h-64 md:w-80 md:h-80 object-cover border-[10px] border-blue-400 shadow-xl group-hover:shadow-blue-300/60"
+                            className="rounded-full w-48 h-48 sm:w-64 sm:h-64 xl:w-80 xl:h-80 object-cover border-[10px] border-blue-400 shadow-xl group-hover:shadow-blue-300/60"
                             priority
                             style={{ filter: "brightness(1.08) contrast(1.1)" }}
                         />
@@ -272,7 +272,7 @@ function CoinFlipPhoto() {
                             alt="Simon Cheung Tak Leung Back"
                             width={320}
                             height={320}
-                            className="rounded-full w-64 h-64 md:w-80 md:h-80 object-cover border-[10px] border-blue-400 shadow-xl group-hover:shadow-blue-300/60"
+                            className="rounded-full w-48 h-48 sm:w-64 sm:h-64 xl:w-80 xl:h-80 object-cover border-[10px] border-blue-400 shadow-xl group-hover:shadow-blue-300/60"
                             priority
                             style={{ filter: "brightness(1.08) contrast(1.1)" }}
                         />

@@ -117,33 +117,29 @@ const ProjectsSection = () => {
     ];
 
     return (
-        <section className="min-h-screen py-16 px-4 relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
+        <section className="content-section min-h-[70dvh] py-10 sm:py-16 px-4 sm:px-6 relative">
             <motion.div 
                 className="text-center mb-12 relative z-10"
                 initial={{ opacity: 0, y: -30 }}
                 animate={{ opacity: 1, y: 0 }}
             >
-                <h2 className="text-5xl md:text-6xl font-extrabold mb-4 bg-gradient-to-r from-blue-500 via-cyan-500 to-indigo-500 bg-clip-text text-transparent drop-shadow-lg flex items-center justify-center gap-3">
-                    <Rocket className="w-12 h-12 text-blue-400" />
+                <h2 className="text-3xl sm:text-4xl lg:text-6xl font-extrabold mb-4 bg-gradient-to-r from-blue-700 via-cyan-700 to-indigo-700 dark:from-blue-400 dark:via-cyan-400 dark:to-indigo-400 bg-clip-text text-transparent drop-shadow-lg flex items-center justify-center gap-3">
+                    <Rocket className="w-8 h-8 sm:w-12 sm:h-12 shrink-0 text-blue-400" />
                     {t.projects.title}
                 </h2>
-                <p className="text-xl text-slate-300 mb-2 font-semibold">
+                <p className="text-base sm:text-xl theme-muted mb-2 font-semibold">
                     {t.projects.subtitle}
                 </p>
-                <p className="text-sm text-slate-400 font-mono">
+                <p className="text-sm theme-muted font-mono">
                     {t.projects.description}
                 </p>
             </motion.div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 max-w-7xl mx-auto">
                 {projects.map((project, index) => (
                     <motion.div
                         key={index}
-                        className="group relative rounded-2xl overflow-hidden backdrop-blur-sm border border-slate-700/50 hover:border-blue-500/50 transition-all duration-300"
-                        style={{
-                            background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%)',
-                            boxShadow: '0 0 30px rgba(59, 130, 246, 0.1), inset 0 0 30px rgba(0, 0, 0, 0.3)'
-                        }}
+                        className="theme-card group min-w-0 relative rounded-2xl overflow-hidden border hover:border-blue-500/50 transition-all duration-300"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1 }}
@@ -162,16 +158,17 @@ const ProjectsSection = () => {
                                 alt={project.title}
                                 width={600}
                                 height={400}
+                                sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"
                                 className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
                         </div>
                         
                         <div className="p-6 relative z-10">
-                            <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
+                            <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors">
                                 {project.title}
                             </h3>
-                            <p className="text-slate-300 mb-4 text-sm leading-relaxed">
+                            <p className="theme-muted mb-4 text-sm leading-relaxed">
                                 {project.description}
                             </p>
                             
@@ -179,7 +176,7 @@ const ProjectsSection = () => {
                                 {project.technologies.map((tech, techIndex) => (
                                     <span
                                         key={techIndex}
-                                        className="bg-slate-800/50 text-slate-300 text-xs px-3 py-1 rounded-full font-medium border border-slate-700/50 backdrop-blur-sm"
+                                        className="theme-chip text-xs px-3 py-1 rounded-full font-medium border border-slate-700/50 backdrop-blur-sm"
                                     >
                                         {tech}
                                     </span>
@@ -205,7 +202,7 @@ const ProjectsSection = () => {
                                         href={project.githubLink}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-2 bg-slate-800/80 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-700 transition-all duration-300 border border-slate-700/50"
+                                        className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-300 border border-slate-700/50"
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
                                     >
@@ -220,7 +217,7 @@ const ProjectsSection = () => {
                                     </motion.a>
                                 )}
                                 {project.isSecret && (
-                                    <span className="flex items-center gap-2 bg-slate-800/50 text-slate-500 px-4 py-2 rounded-lg text-sm font-semibold cursor-not-allowed border border-slate-700/50">
+                                    <span className="flex items-center gap-2 theme-chip px-4 py-2 rounded-lg text-sm font-semibold cursor-not-allowed border border-slate-700/50">
                                         <Lock className="w-4 h-4" />
                                         {t.projects.confidential}
                                     </span>

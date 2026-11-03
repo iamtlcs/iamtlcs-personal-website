@@ -1,45 +1,40 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, Download, Github, Linkedin, MessageCircle } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Mail, Github, Linkedin, MessageCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const ContactSection = () => {
     const { t } = useLanguage();
 
     return (
-        <section className="min-h-screen py-16 px-4 relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
+        <section className="content-section min-h-[70dvh] py-10 sm:py-16 px-4 sm:px-6 relative">
             <motion.div 
                 className="text-center mb-12 relative z-10"
                 initial={{ opacity: 0, y: -30 }}
                 animate={{ opacity: 1, y: 0 }}
             >
                 <div className="flex items-center justify-center gap-3 mb-4">
-                    <h2 className="text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 bg-clip-text text-transparent drop-shadow-lg">
+                    <h2 className="text-3xl sm:text-4xl lg:text-6xl font-extrabold bg-gradient-to-r from-emerald-700 via-teal-700 to-cyan-700 dark:from-emerald-400 dark:via-teal-400 dark:to-cyan-400 bg-clip-text text-transparent drop-shadow-lg">
                         {t.contact.title}
                     </h2>
-                    <Mail className="w-12 h-12 text-emerald-400" />
+                    <Mail className="w-8 h-8 sm:w-12 sm:h-12 shrink-0 text-emerald-400" />
                 </div>
-                <p className="text-xl text-slate-300 mb-2 font-semibold">
+                <p className="text-base sm:text-xl theme-muted mb-2 font-semibold">
                     {t.contact.subtitle}
                 </p>
-                <p className="text-sm text-slate-400 font-mono">
+                <p className="text-sm theme-muted font-mono">
                     {t.contact.description}
                 </p>
             </motion.div>
 
             <motion.div 
-                className="max-w-3xl mx-auto text-center rounded-2xl backdrop-blur-sm p-8 border border-slate-700/50 mb-12"
-                style={{
-                    background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%)',
-                    boxShadow: '0 0 40px rgba(16, 185, 129, 0.1), inset 0 0 40px rgba(0, 0, 0, 0.3)'
-                }}
+                className="theme-card max-w-3xl mx-auto text-center rounded-2xl p-5 sm:p-8 border mb-12"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
             >
-                <p className="text-lg leading-relaxed text-slate-300 mb-8">
+                <p className="text-base sm:text-lg leading-relaxed theme-muted mb-8">
                     {t.contact.message}
                 </p>
                 
@@ -62,44 +57,38 @@ const ContactSection = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
             >
-                <h3 className="text-2xl font-semibold text-slate-200 mb-6 text-center">
+                <h3 className="text-2xl font-semibold text-slate-900 dark:text-slate-100 mb-6 text-center">
                     {t.common.connectWithMe}
                 </h3>
                 <div className="flex justify-center gap-6">
                     <motion.a
+                        aria-label="GitHub"
                         href="https://github.com/iamtlcs"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-4 rounded-xl bg-slate-800/50 text-slate-300 hover:text-white border border-slate-700/50 backdrop-blur-sm transition-all duration-300"
-                        style={{
-                            boxShadow: '0 0 20px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.2)'
-                        }}
+                        className="p-4 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white border border-slate-300 dark:border-slate-600 backdrop-blur-sm transition-all duration-300"
                         whileHover={{ scale: 1.1, y: -5 }}
                         whileTap={{ scale: 0.95 }}
                     >
                         <Github className="w-8 h-8" />
                     </motion.a>
                     <motion.a
+                        aria-label="LinkedIn"
                         href="https://www.linkedin.com/in/iamtlcs"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-4 rounded-xl bg-slate-800/50 text-slate-300 hover:text-blue-400 border border-slate-700/50 backdrop-blur-sm transition-all duration-300"
-                        style={{
-                            boxShadow: '0 0 20px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.2)'
-                        }}
+                        className="p-4 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-blue-700 dark:hover:text-blue-300 border border-slate-300 dark:border-slate-600 backdrop-blur-sm transition-all duration-300"
                         whileHover={{ scale: 1.1, y: -5 }}
                         whileTap={{ scale: 0.95 }}
                     >
                         <Linkedin className="w-8 h-8" />
                     </motion.a>
                     <motion.a
+                        aria-label="Discord"
                         href="https://discord.com/users/tahithchongluton"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-4 rounded-xl bg-slate-800/50 text-slate-300 hover:text-indigo-400 border border-slate-700/50 backdrop-blur-sm transition-all duration-300"
-                        style={{
-                            boxShadow: '0 0 20px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.2)'
-                        }}
+                        className="p-4 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:text-indigo-700 dark:hover:text-indigo-300 border border-slate-300 dark:border-slate-600 backdrop-blur-sm transition-all duration-300"
                         whileHover={{ scale: 1.1, y: -5 }}
                         whileTap={{ scale: 0.95 }}
                     >
