@@ -46,9 +46,11 @@ imports. The command palette loads on click or Cmd/Ctrl+K. Font Awesome is loade
 only when Skills opens. The hidden rear portrait loads after the first flip.
 Decorative particles stop for reduced motion and hidden tabs. The 3D canvas also
 stops offscreen or behind its details dialog and uses cheaper mobile settings.
-When WebGL 2 is unavailable or a context is lost, Skills shows a localized
-fallback while keeping the category cards and detail dialogs available. A local
-error boundary contains renderer initialization failures.
+Skills automatically opens the 3D track when WebGL 2 is available and an
+interactive SVG 2D track otherwise. Visitors can also select 2D manually; 3D is
+disabled when unavailable. Both views share the same categories and dialogs.
+The Three.js renderer is a separate dynamic import, so the 2D view does not
+download it. Context loss or renderer initialization failure switches to 2D.
 
 The footer receives public Vercel Git metadata at build time, so page loads do
 not invoke a metadata function. It does not fabricate latency, uptime, deployment
