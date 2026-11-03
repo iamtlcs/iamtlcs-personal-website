@@ -4,7 +4,7 @@ import React, { useState, useRef, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { createPortal } from 'react-dom';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Html, Sparkles, Stars } from '@react-three/drei';
 import { motion, AnimatePresence } from 'framer-motion';
 import * as THREE from 'three';
@@ -1156,6 +1156,9 @@ interface Scene3DProps {
 }
 
 function Scene3D({ isPaused, selectedSector, onSectorClick, sectors, lowPower }: Scene3DProps) {
+  // Drei Html creates its own DOM root. Mount it only after Fiber connects its
+  // events, so the initial target cannot change and race the old root's cleanup.
+  const eventsConnected = useThree(state => Boolean(state.events.connected));
   return (
     <>
       {/* Lighting */}
@@ -1181,7 +1184,7 @@ function Scene3D({ isPaused, selectedSector, onSectorClick, sectors, lowPower }:
       <RacingCar isPaused={isPaused} trailingOffset={0.9} color="#00aaff" />
 
       {/* Sector Markers - Hide when modal is open */}
-      {!selectedSector && sectors.map((sector) => (
+      {eventsConnected && !selectedSector && sectors.map((sector) => (
         <SectorMarker
           key={sector.id}
           sector={sector}
