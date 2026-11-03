@@ -27,7 +27,7 @@
     "aboutParagraph1": "What's up guys! This is Simon, and I'm a backend-focused, DevOps, and Systems Engineer with a strong passion for building robust, scalable, and reliable platforms. My journey into technology began during my time at {cuhk}, where I earned a Bachelor of Science in Statistics (August 2020 - July 2024) and developed a deep interest in distributed systems, automation, and cloud architecture.",
     "cuhk": "The Chinese University of Hong Kong",
     "aboutParagraph2": "I specialize in architecting backend services, designing APIs, and managing cloud infrastructure. My expertise covers {techStack}, as well as cloud platforms like {cloudPlatforms}. I enjoy solving complex problems, automating workflows, and ensuring systems are secure and maintainable.",
-    "techStack": "Node.js, Python, and Linux systems",
+    "techStack": "Node.js, Python, Linux and Windows systems",
     "cloudPlatforms": "AWS and Azure",
     "aboutParagraph3": "Outside of coding, I'm always exploring new technologies in DevOps, cloud, and backend engineering to keep my skills sharp. You can find more about my professional journey and connect with me on {linkedIn} and {github}.",
     "linkedIn": "LinkedIn",
