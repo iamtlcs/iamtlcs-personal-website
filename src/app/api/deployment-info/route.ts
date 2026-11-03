@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getDeploymentInfo } from '@/lib/deployment';
 
-export const preferredRegion = 'hkg1';
-
 // Public metadata: intentionally cacheable and independent of visitor identity.
 export function GET() {
   return NextResponse.json({

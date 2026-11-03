@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server';
 
-export const preferredRegion = 'hkg1';
-
 // A lightweight liveness endpoint, not an uptime or dependency-monitoring service.
 export function GET() {
   return NextResponse.json({
