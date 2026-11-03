@@ -41,7 +41,7 @@ const ContactSection = () => {
                 <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
                     <motion.a
                         href="mailto:simoncheung2002@gmail.com"
-                        className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:from-blue-500 hover:to-indigo-500 transition-all duration-300 shadow-lg hover:shadow-blue-500/50 border border-blue-500/50"
+                        className="flex items-center justify-center gap-2 primary-action px-8 py-3 rounded-lg text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-blue-500/50 border"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                     >

@@ -9,6 +9,14 @@
   --surface-muted: #f1f5f9;
   --border: #cbd5e1;
   --text-muted: #475569;
+  --control-background: #ffffff;
+  --control-foreground: #1e293b;
+  --control-border: #64748b;
+  --control-hover-background: #e2e8f0;
+  --control-hover-foreground: #1e3a8a;
+  --control-hover-border: #1d4ed8;
+  --control-selected-background: #dbeafe;
+  --control-selected-foreground: #1e40af;
   color-scheme: light;
 }
 
@@ -19,6 +27,14 @@
   --surface-muted: #1e293b;
   --border: #475569;
   --text-muted: #cbd5e1;
+  --control-background: #1e293b;
+  --control-foreground: #f1f5f9;
+  --control-border: #64748b;
+  --control-hover-background: #334155;
+  --control-hover-foreground: #ffffff;
+  --control-hover-border: #93c5fd;
+  --control-selected-background: #1e3a8a;
+  --control-selected-foreground: #dbeafe;
   color-scheme: dark;
 }
 
@@ -261,4 +277,40 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Use one sRGB palette for each control, including native button rendering. */
+.theme-control {
+  appearance: none;
+  background: var(--control-background);
+  color: var(--control-foreground);
+  border-color: var(--control-border);
+}
+.theme-control:hover {
+  background: var(--control-hover-background);
+  color: var(--control-hover-foreground);
+  border-color: var(--control-hover-border);
+}
+.language-menu {
+  background-color: var(--surface);
+  color: var(--foreground);
+  border-color: var(--control-border);
+}
+.language-option {
+  appearance: none;
+  background-color: transparent;
+  color: var(--control-foreground);
+}
+.language-option:hover { background-color: var(--control-hover-background); }
+.language-option[aria-pressed='true'] {
+  background-color: var(--control-selected-background);
+  color: var(--control-selected-foreground);
+}
+.primary-action {
+  color: #ffffff;
+  background-image: linear-gradient(to right, #1d4ed8, #4338ca);
+  border-color: #4338ca;
+}
+.primary-action:hover {
+  background-image: linear-gradient(to right, #1e40af, #3730a3);
 }

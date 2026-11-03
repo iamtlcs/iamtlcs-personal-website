@@ -55,7 +55,7 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
                 >
                     <motion.button
                         onClick={() => navigate("projects")}
-                        className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-700 dark:from-blue-500 dark:to-indigo-600 text-white px-5 py-3 rounded-full text-base sm:text-lg font-semibold shadow-xl hover:shadow-2xl hover:shadow-blue-500/40 transition-shadow duration-300 flex items-center justify-center gap-2"
+                        className="primary-action flex-1 px-5 py-3 rounded-full text-base sm:text-lg font-semibold shadow-xl hover:shadow-2xl hover:shadow-blue-500/40 transition-shadow duration-300 flex items-center justify-center gap-2"
                         aria-label="View my projects and portfolio"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -65,7 +65,7 @@ const HomeSection = ({ navigate }: HomeSectionProps) => {
                     </motion.button>
                     <motion.button
                         onClick={() => navigate("contact")}
-                        className="flex-1 bg-white dark:bg-slate-800 text-slate-700 dark:text-white border-2 border-slate-300 dark:border-slate-600 px-5 py-3 rounded-full text-base sm:text-lg font-semibold shadow-xl hover:bg-slate-100 dark:hover:bg-slate-700 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 flex items-center justify-center gap-2"
+                        className="theme-control flex-1 border-2 px-5 py-3 rounded-full text-base sm:text-lg font-semibold shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
                         aria-label="Get in touch with me"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}

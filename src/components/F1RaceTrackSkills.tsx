@@ -1502,9 +1502,9 @@ export default function F1RaceTrackSkills() {
               <p className="text-base sm:text-xl theme-muted mb-2 font-semibold">
                   {t.skills.subtitle}
               </p>
-              <p className="text-sm theme-muted font-mono">
-                  {webGLSupported === false || rendererFailed ? t.skills.graphicsFallbackDescription : t.skills.instructions}
-              </p>
+              {showTrack && <p className="text-sm theme-muted font-mono">
+                  {t.skills.instructions}
+              </p>}
           </motion.div>
 
           <motion.div
