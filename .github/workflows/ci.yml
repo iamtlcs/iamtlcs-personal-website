@@ -1,0 +1,47 @@
+name: Production Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=moderate
+
+      - name: Build production application
+        run: npm run build
+
+      - name: Check production runtime
+        shell: bash
+        run: |
+          npm start > /tmp/portfolio-next.log 2>&1 &
+          portfolio_server_pid=$!
+          trap 'kill "$portfolio_server_pid" 2>/dev/null || true; cat /tmp/portfolio-next.log' EXIT
+          for attempt in {1..30}; do
+            if curl --silent --fail --user-agent 'Mozilla/5.0' http://localhost:3000/ > /dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          npm run check:production

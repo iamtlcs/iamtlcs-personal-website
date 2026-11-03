@@ -16,11 +16,13 @@ on:
     paths:
       - 'package.json'
       - 'package-lock.json'
+      - '.github/workflows/trivy-audit.yml'
   pull_request:
     branches: [main]
     paths:
       - 'package.json'
       - 'package-lock.json'
+      - '.github/workflows/trivy-audit.yml'
   schedule:
     # Run weekly on Mondays at 08:00 UTC
     - cron: '0 8 * * 1'
@@ -42,9 +44,10 @@ jobs:
       - name: Run Trivy vulnerability scanner (filesystem)
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
-          version: v0.70.0
+          version: v0.76.1
           scan-type: fs
           scan-ref: .
+          skip-dirs: node_modules,.next,.git,trivy-scan-results
           scanners: vuln
           severity: CRITICAL,HIGH,MEDIUM
           format: table
@@ -55,9 +58,10 @@ jobs:
         if: always()
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
-          version: v0.70.0
+          version: v0.76.1
           scan-type: fs
           scan-ref: .
+          skip-dirs: node_modules,.next,.git,trivy-scan-results
           scanners: vuln
           severity: CRITICAL,HIGH,MEDIUM
           format: sarif

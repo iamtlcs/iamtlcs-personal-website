@@ -55,7 +55,7 @@ timestamps, or monitoring results. Redeploy to refresh displayed Git metadata.
   with a 600-second stale-while-revalidate window.
 - `/api/status` is a public liveness response, cached for 60 seconds with a
   300-second stale-while-revalidate window. It is not a real-time dependency check.
-- Both functions prefer `hkg1` (Hong Kong). Their responses report the actual
+- Both functions use `hkg1` (Hong Kong), configured in `vercel.json`. Their responses report the actual
   `VERCEL_REGION`, or `null` locally, rather than inventing a region.
 - BotID is intentionally absent from these public, cacheable responses. Protect
   future private or sensitive endpoints separately and do not publicly cache them.
@@ -87,7 +87,7 @@ These account settings cannot be activated by the repository:
 
 ### Local production verification
 
-Use Node.js 24 or newer, then `npm ci`, `npm run build`, and `npm start`.
+Use Node.js 26.13.0 (`nvm use` reads `.nvmrc`), then `npm ci`, `npm run build`, and `npm start`.
 A production runtime smoke check is required in addition to the build: verify
 HTML with a browser user agent and the JSON resume with curl. With JavaScript
 disabled, the homepage heading, biography, certifications, and footer should
@@ -99,3 +99,31 @@ With the production server running, `npm run check:production` verifies runtime
 responses, server HTML, cache policy, and that the initial scripts exclude the 3D
 renderer. To check another URL, pass it explicitly, for example
 `npm run check:production -- http://127.0.0.1:3001`.
+
+
+## Dependency security and Node.js
+
+The project targets Node.js 26.x on Vercel and pins 26.13.0 locally and in CI
+using `.nvmrc` and `.node-version`. Install dependencies with `npm ci`; commit
+`package-lock.json` alongside dependency changes. The production CI job installs
+Node from `.nvmrc`, audits production dependencies, builds, and runs the HTTP
+smoke checks. GitHub Actions' own Node runtime is separate from the application
+runtime selected by setup-node.
+
+The November 2026 Trivy remediation upgrades Next.js/eslint-config-next to
+16.4.4 and refreshes Sharp, PostCSS, nanoid, fflate, source-map-js, and
+baseline-browser-mapping. PostCSS has an explicit patched minimum. Modern
+minimatch consumers use 11.0.4 or newer through a scoped override.
+
+Run `npm audit --omit=dev` and the Trivy workflow to check production packages.
+The full development audit still reports GHSA-g3hv-75wg-m249 through ESLint's
+legacy minimatch 3.1.5 dependency. That version has neither `optimizationLevel`
+nor `firstPhasePreProcess`, the code identified by the advisory. It cannot be
+replaced with minimatch 11 without breaking legacy consumers' callable CommonJS
+API. No advisory has been suppressed; keep this visible until upstream packages
+migrate or the affected-version range is corrected. See the
+[upstream advisory](https://github.com/advisories/GHSA-g3hv-75wg-m249).
+
+Scan reports supplied for investigation remain local and are excluded from Git.
+The Trivy workflow scans the lockfile and skips generated build/dependency
+folders and the local report directory.
