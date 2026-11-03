@@ -12,7 +12,7 @@ type Certification = {
 
 const certifications: Certification[] = [
     {
-        name: "AWS Certified Solutions Architect",
+        name: "AWS Certified Solutions Architect Associate",
         code: "SAA-C03",
         image: "/certs/AWSSAA.png",
         link: "https://cp.certmetrics.com/amazon/en/public/verify/credential/GG3C2V61VBF4QDCP",
@@ -39,7 +39,7 @@ const certifications: Certification[] = [
         name: "Security Blue Team: Blue Team Level 1 (BTL1)",
         code: "BTL1",
         image: "/certs/BTL1.png",
-        link: "https://www.credly.com/badges/0859bf60-47d8-4b93-b08a-7ce821253765/public_url",
+        link: "https://www.credly.com/badges/0859bf60-47d8-4b93-b08a-7ce821253765/",
         credId: "0859bf60-47d8-4b93-b08a-7ce821253765",
         inProgress: false,
     },
@@ -47,9 +47,17 @@ const certifications: Certification[] = [
         name: "Certified Kubernetes Administrator (CKA)",
         code: "CKA",
         image: "/certs/CKA.png",
-        link: "",
+        link: "https://www.credly.com/badges/4a840b01-ebcd-4fc1-92fb-04a748c55f8b/",
         credId: "",
-        inProgress: true,
+        inProgress: false,
+    },
+    {
+        name: "AWS Certified Solutions Architect Professional",
+        code: "SAP-C02",
+        image: "/certs/AWSSAP.png",
+        link: "https://www.credly.com/badges/a6db0c89-c9aa-470a-a9f4-75e3e9cc4a3c/",
+        credId: "ff8b5f25d4f64f9a9144b36df4196138",
+        inProgress: false,
     },
 ];
 
