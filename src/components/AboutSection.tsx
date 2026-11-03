@@ -1,65 +1,6 @@
+import { certifications } from "@/lib/certifications";
 import { Sparkles } from "lucide-react";
 import Image from "next/image";
-
-type Certification = {
-    name: string;
-    code: string;
-    image: string;
-    link: string;
-    credId: string;
-    inProgress: boolean;
-};
-
-const certifications: Certification[] = [
-    {
-        name: "AWS Certified Solutions Architect Associate",
-        code: "SAA-C03",
-        image: "/certs/AWSSAA.png",
-        link: "https://cp.certmetrics.com/amazon/en/public/verify/credential/GG3C2V61VBF4QDCP",
-        credId: "GG3C2V61VBF4QDCP",
-        inProgress: false,
-    },
-    {
-        name: "Microsoft Certified: Azure Administrator Associate",
-        code: "AZ-104",
-        image: "/certs/AZ104.png",
-        link: "https://learn.microsoft.com/api/credentials/share/en-us/SimonCheung-9261/86D0AC7A6C063680?sharingId=E3128B750A7AE2C1",
-        credId: "86D0AC7A6C063680",
-        inProgress: false,
-    },
-    {
-        name: "eLearnSecurity Junior Penetration Tester",
-        code: "eJPT",
-        image: "/certs/eJPT.png",
-        link: "https://certs.ine.com/1614ea62-93cf-478d-aad8-103fcb032584#acc.CWKE7QsS",
-        credId: "157743669",
-        inProgress: false,
-    },
-    {
-        name: "Security Blue Team: Blue Team Level 1 (BTL1)",
-        code: "BTL1",
-        image: "/certs/BTL1.png",
-        link: "https://www.credly.com/badges/0859bf60-47d8-4b93-b08a-7ce821253765/",
-        credId: "0859bf60-47d8-4b93-b08a-7ce821253765",
-        inProgress: false,
-    },
-    {
-        name: "Certified Kubernetes Administrator (CKA)",
-        code: "CKA",
-        image: "/certs/CKA.png",
-        link: "https://www.credly.com/badges/4a840b01-ebcd-4fc1-92fb-04a748c55f8b/",
-        credId: "",
-        inProgress: false,
-    },
-    {
-        name: "AWS Certified Solutions Architect Professional",
-        code: "SAP-C02",
-        image: "/certs/AWSSAP.png",
-        link: "https://www.credly.com/badges/a6db0c89-c9aa-470a-a9f4-75e3e9cc4a3c/",
-        credId: "ff8b5f25d4f64f9a9144b36df4196138",
-        inProgress: false,
-    },
-];
 
 const AboutSection = () => {
     return (
