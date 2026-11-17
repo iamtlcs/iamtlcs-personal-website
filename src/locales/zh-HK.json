@@ -1,13 +1,13 @@
 {
   "common": {
-    "viewWork": "查看我的作品",
-    "getInTouch": "聯繫我",
+    "viewWork": "我的作品集",
+    "getInTouch": "聯絡我",
     "clickMe": "點擊我！",
     "comingSoon": "即將完成",
     "technologies": "項技術",
     "downloadCV": "下載履歷",
     "emailMe": "發送郵件",
-    "connectWithMe": "與我聯繫：",
+    "connectWithMe": "與我聯絡：",
     "pressEscToResume": "按 ESC 或點擊外部以繼續",
     "coreTechnologies": "核心技術"
   },
@@ -15,21 +15,21 @@
     "home": "首頁",
     "skillsTrack": "技能賽道",
     "projects": "個人項目",
-    "contact": "聯繫"
+    "contact": "聯絡"
   },
   "home": {
     "greeting": "你好，我是",
     "name": "Simon Cheung",
-    "title": "一位 {fullStack} 和 {devOps} 工程師，致力於構建可擴展且動態的網絡體驗。",
+    "title": "一位 {fullStack} 和 {devOps} 工程師，致力於構建強大、可擴展且可靠的平台。",
     "fullStack": "Full Stack",
     "devOps": "DevOps",
     "aboutMe": "關於我",
-    "aboutParagraph1": "大家好！我是 Simon，一位專注於後端、DevOps 和系統工程的工程師，對構建強大、可擴展且可靠的平台充滿熱情。我的技術之旅始於我在 {cuhk} 的時光，在那裡我獲得了統計學理學士學位（2020年8月 - 2024年7月），畢業後對分佈式系統、自動化和雲架構產生了濃厚興趣。",
+    "aboutParagraph1": "大家好！我是 Simon，一位專注於後端、系統工程 和 DevOps的工程師，對構建強大、可擴展且可靠的平台充滿熱情。我的IT學習始於我在 {cuhk} 的時光，並獲得統計學理學士學位（2020年8月 - 2024年7月），畢業後對分佈式系統、自動化和雲端架構產生濃厚興趣。",
     "cuhk": "香港中文大學",
-    "aboutParagraph2": "我專注於架構後端服務、設計 API 和管理雲基礎設施。我的專業知識涵蓋 {techStack}，以及 {cloudPlatforms} 等雲平台。我喜歡解決複雜問題、自動化工作流程，並確保系統安全、可擴展、可靠且易於維護。",
+    "aboutParagraph2": "我專注於架構後端服務、設計 API 和管理雲端基礎設施。我的專業知識涵蓋 {techStack}，以及 {cloudPlatforms} 等雲端平台。我喜歡解決複雜問題、自動化工作流程，並確保系統安全、可擴展、可靠且易於維護。",
     "techStack": "Node.js、Python、Go、Linux 和 Windows 系統",
     "cloudPlatforms": "AWS、Google Cloud 和 Azure",
-    "aboutParagraph3": "除了編程，我一直探索 DevOps、雲和後端工程的新技術，跟緊行業最新趨勢。您可以在 {linkedIn} 和 {github} 上了解更多關於我的專業歷程並與我聯繫。",
+    "aboutParagraph3": "編程之外，我一直探索 DevOps、雲端工程和後端工程的新技術，跟緊行業最新趨勢。您可以在 {linkedIn} 和 {github} 上了解更多我的專業歷程並與我聯絡。",
     "linkedIn": "LinkedIn",
     "github": "GitHub",
     "techCertifications": "技術認證"
@@ -40,7 +40,7 @@
     "instructions": "點擊區域 • 拖動旋轉 • 滾動縮放 • 自動旋轉",
     "graphicsLoading": "正在準備技能賽道…",
     "graphicsUnavailable": "啟用圖像加速以查看 3D 賽道",
-    "graphicsFallbackDescription": "如要在 Chrome 查看 3D 賽道，請開啟「設定」→「系統」，啟用「可用時使用圖像加速」，然後按「重新啟動」並重新載入此頁面。你仍可透過下方的類別瀏覽所有技能。",
+    "graphicsFallbackDescription": "如要在 Chrome 查看 3D 賽道，請開啟「設定」→「系統」，啟用「可用時使用圖像加速」，然後按「重新啟動」並重新載入此頁面。你仍可在下方瀏覽所有技能。",
     "sectors": {
       "programming": {
         "name": "編程語言",
@@ -51,8 +51,8 @@
         "description": "現代網頁框架和前端技術"
       },
       "cloud": {
-        "name": "雲平台",
-        "description": "多雲基礎設施和服務"
+        "name": "雲端平台",
+        "description": "多種雲端基礎設施和服務"
       },
       "devops": {
         "name": "DevOps 與基礎設施",
@@ -77,10 +77,10 @@
     }
   },
   "contact": {
-    "title": "聯繫我",
-    "subtitle": "讓我們聯繫並一起創造精彩的事物",
-    "description": "始終對新機會和合作持開放態度",
-    "message": "我始終對新機會和合作持開放態度。如果您有任何問題、想討論項目或只是想打個招呼，歡迎隨時聯繫我！"
+    "title": "聯絡我",
+    "subtitle": "讓我們聯絡並一起創造既新奇又美妙的事物",
+    "description": "隨時歡迎新機會和合作",
+    "message": "我有興趣參與不同新機會和合作。如有任何問題、想討論項目或只是想打個招呼，歡迎隨時聯絡我！"
   },
   "projects": {
     "title": "我的項目",
@@ -92,7 +92,7 @@
     "items": {
       "thisWebsite": {
         "title": "本網站",
-        "description": "使用 Next.js、React 和 Tailwind CSS 構建的個人網站。以現代、響應式設計展示我的項目、經驗和技能。"
+        "description": "使用 Next.js、React 和 Tailwind CSS 構建的個人網站。bq代、響應式設計展示我的項目、經驗和技能。"
       },
       "urlShortener": {
         "title": "AWS Terraform IaC 網址縮短器",
@@ -104,7 +104,7 @@
       },
       "shell": {
         "title": "製作自己的 Shell",
-        "description": "回到基礎！用 C 語言實現的簡單 Shell。我經常使用 Shell，如 bash、zsh、ps 等。但我想知道它的工作原理，所以我製作了自己的 Shell。我將此視為讓我走出舒適圈的一步。"
+        "description": "回到基礎！用 C 語言實現的簡單 Shell。我經常使用 Shell，如 bash、zsh、ps 等。但我想知道它的工作原理，所以我製作了自己的 Shell。讓我走出舒適圈的一步。"
       },
       "stateMachine": {
         "title": "狀態機並發控制數據處理單元",
